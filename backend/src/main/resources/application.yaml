@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: techradar
+  datasource:
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  liquibase:
+    change-log: classpath:/db/changelog/db-changelog-master.xml
+logging:
+  level:
+    root: info
