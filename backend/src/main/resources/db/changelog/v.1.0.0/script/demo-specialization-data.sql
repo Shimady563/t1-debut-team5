@@ -1,13 +1,13 @@
 -- Администратор системы - специальная роль для администраторов и не подразумевается для выбора
 INSERT INTO specialization (id, name)
-VALUES (1, 'Backend-разработчик'),
-       (2, 'Frontend-разработчик'),
-       (3, 'Frontend-разработчик'),
-       (4, 'Мобильный разработчик'),
-       (5, 'DevOps-инженер'),
-       (6, 'QA-инженер'),
-       (7, 'Инженер по автоматизации тестирования'),
-       (8, 'Системный аналитик'),
-       (9, 'Администратор системы');
+VALUES (nextval('specialization_id_seq'), 'Backend-разработчик'),
+       (nextval('specialization_id_seq'), 'Frontend-разработчик'),
+       (nextval('specialization_id_seq'), 'Frontend-разработчик'),
+       (nextval('specialization_id_seq'), 'Мобильный разработчик'),
+       (nextval('specialization_id_seq'), 'DevOps-инженер'),
+       (nextval('specialization_id_seq'), 'QA-инженер'),
+       (nextval('specialization_id_seq'), 'Инженер по автоматизации тестирования'),
+       (nextval('specialization_id_seq'), 'Системный аналитик'),
+       (nextval('specialization_id_seq'), 'Администратор системы');
 
 

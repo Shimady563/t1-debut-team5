@@ -1,12 +1,12 @@
 INSERT INTO technology (id, name, moved, level, type)
 VALUES
-    (1, 'Java', 'NOT_MOVED', 'ADOPT', 'LANGUAGES'),
-    (2, 'JavaScript', 'UP', 'TRIAL', 'LANGUAGES'),
-    (3, 'PostgreSQL', 'UP', 'ADOPT', 'DATABASES'),
-    (4, 'Docker', 'NOT_MOVED', 'ASSESS', 'PLATFORMS'),
-    (5, 'AWS', 'UP', 'TRIAL', 'PLATFORMS'),
-    (6, 'Kubernetes', 'UP', 'ASSESS', 'PLATFORMS'),
-    (7, 'MongoDB', 'DOWN', 'HOLD', 'DATABASES'),
-    (8, 'Spring Boot', 'NOT_MOVED', 'ADOPT', 'LANGUAGES'),
-    (9, 'React', 'UP', 'TRIAL', 'LANGUAGES'),
-    (10, 'REST', 'NOT_MOVED', 'ASSESS', 'TOOLS');
+    (nextval('technology_id_seq'), 'Java', 'NOT_MOVED', 'ADOPT', 'LANGUAGES'),
+    (nextval('technology_id_seq'), 'JavaScript', 'UP', 'TRIAL', 'LANGUAGES'),
+    (nextval('technology_id_seq'), 'PostgreSQL', 'UP', 'ADOPT', 'DATABASES'),
+    (nextval('technology_id_seq'), 'Docker', 'NOT_MOVED', 'ASSESS', 'PLATFORMS'),
+    (nextval('technology_id_seq'), 'AWS', 'UP', 'TRIAL', 'PLATFORMS'),
+    (nextval('technology_id_seq'), 'Kubernetes', 'UP', 'ASSESS', 'PLATFORMS'),
+    (nextval('technology_id_seq'), 'MongoDB', 'DOWN', 'HOLD', 'DATABASES'),
+    (nextval('technology_id_seq'), 'Spring Boot', 'NOT_MOVED', 'ADOPT', 'LANGUAGES'),
+    (nextval('technology_id_seq'), 'React', 'UP', 'TRIAL', 'LANGUAGES'),
+    (nextval('technology_id_seq'), 'REST', 'NOT_MOVED', 'ASSESS', 'TOOLS');
