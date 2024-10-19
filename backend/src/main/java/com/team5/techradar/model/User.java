@@ -13,15 +13,15 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "techradar_user")
+@Table(name = "tech_radar_user")
 public class User implements UserDetails {
     @Id
     @SequenceGenerator(
-            name = "techradar_user_id_seq",
-            sequenceName = "techradar_user_id_seq",
+            name = "tech_radar_user_id_seq",
+            sequenceName = "tech_radar_user_id_seq",
             allocationSize = 1
     )
-    @GeneratedValue(generator = "techradar_user_id_seq")
+    @GeneratedValue(generator = "tech_radar_user_id_seq")
     private Long id;
 
     @Column(name = "email", unique = true)

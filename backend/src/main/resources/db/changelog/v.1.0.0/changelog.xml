@@ -9,6 +9,10 @@
 
     <include file="2024-10-19-create-table-user.xml" relativeToChangelogFile="true"/>
     <include file="2024-10-19-create-table-technology.xml" relativeToChangelogFile="true"/>
+    <include file="2024-10-19-create-table-user-technology.xml" relativeToChangelogFile="true"/>
+
+    <include file="2024-10-19-populate-specialization-table.xml" relativeToChangelogFile="true"/>
+    <include file="2024-10-19-populate-technology-table.xml" relativeToChangelogFile="true"/>
     <include file="2024-10-19-populate-user-table.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

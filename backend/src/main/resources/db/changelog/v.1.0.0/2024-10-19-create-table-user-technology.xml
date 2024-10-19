@@ -2,23 +2,30 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
-    <!-- migration to create table for many to many relationship between user and technology -->
+    <!-- миграция для создания many to many таблицы для пользователей и технологий -->
     <changeSet id="2024-10-19-crete-table-user-technology" author="Shimady">
-
-        <createSequence sequenceName="user_technology_id_seq"/>
         <createTable tableName="user_technology">
-            <column name="id" type="bigserial" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
             </column>
-            <column name="user_id" type="varchar">
-                <constraints foreignKeyName="user_technology_tech_radar_user_fkey"
-                             references="tech_radar_user(id)"/>
-            </column>
-            <column name="technology_id" type="varchar">
-                <constraints foreignKeyName="user_technology_technology_fkey"
-                             references="technology(id)"/>
+            <column name="technology_id" type="bigint">
+                <constraints nullable="false"/>
             </column>
         </createTable>
+
+        <addForeignKeyConstraint baseTableName="user_technology"
+                                 baseColumnNames="technology_id"
+                                 constraintName="user_technology_technology_fkey"
+                                 referencedTableName="technology"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="user_technology"
+                                 baseColumnNames="user_id"
+                                 constraintName="user_technology_tech_radar_user_fkey"
+                                 referencedTableName="tech_radar_user"
+                                 referencedColumnNames="id"/>
+
+        <addPrimaryKey tableName="user_technology" columnNames="technology_id, user_id"/>
     </changeSet>
 
 </databaseChangeLog>
