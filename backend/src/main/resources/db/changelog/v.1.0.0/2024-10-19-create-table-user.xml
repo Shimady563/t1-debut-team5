@@ -19,6 +19,11 @@
             <column name="role" type="varchar">
                 <constraints nullable="false"/>
             </column>
+            <column name="specialization_id" type="bigint">
+                <constraints foreignKeyName="tech_radar_user_specialization_fkey"
+                             references="specialization(id)"
+                             nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
