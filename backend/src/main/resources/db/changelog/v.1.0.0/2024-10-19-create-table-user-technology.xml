@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+    <!-- migration to create table for many to many relationship between user and technology -->
+    <changeSet id="2024-10-19-crete-table-user-technology" author="Shimady">
+
+        <createSequence sequenceName="user_technology_id_seq"/>
+        <createTable tableName="user_technology">
+            <column name="id" type="bigserial" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="varchar">
+                <constraints foreignKeyName="user_technology_tech_radar_user_fkey"
+                             references="tech_radar_user(id)"/>
+            </column>
+            <column name="technology_id" type="varchar">
+                <constraints foreignKeyName="user_technology_technology_fkey"
+                             references="technology(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

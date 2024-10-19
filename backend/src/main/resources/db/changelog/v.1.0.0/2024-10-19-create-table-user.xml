@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="2024-10-19-crete-table-user" author="Shimady">
+        <createSequence sequenceName="tech_radar_user_id_seq"/>
+
+        <createTable tableName="tech_radar_user">
+            <column name="id" type="bigserial" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="email" type="varchar">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2024-10-19-add-role-check-constraint" author="Shimady">
+        <sql>
+            alter table tech_radar_user
+            add constraint tech_radar_user_role_check
+            check (role in ('ADMIN', 'USER'));
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

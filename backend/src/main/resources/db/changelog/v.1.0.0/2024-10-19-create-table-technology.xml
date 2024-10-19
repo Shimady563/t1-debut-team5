@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="2024-10-19-crete-table-technology" author="Shimady">
+        <createSequence sequenceName="technology_id_seq"/>
+
+        <createTable tableName="technology">
+            <column name="id" type="bigserial" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="moved" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="level" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2024-10-19-add-moved-check-constraint" author="Shimady">
+        <sql>
+            alter table technology
+            add constraint technology_moved_check
+            check (moved in ('DOWN', 'NOT_MOVED', 'UP'));
+        </sql>
+    </changeSet>
+
+    <changeSet id="2024-10-19-add-level-check-constraint" author="Shimady">
+        <sql>
+            alter table technology
+            add constraint technology_level_check
+            check (level in ('ADOPT', 'TRIAL', 'ASSESS', 'HOLD'));
+        </sql>
+    </changeSet>
+
+    <changeSet id="2024-10-19-add-type-check-constraint" author="Shimady">
+        <sql>
+            alter table technology
+            add constraint technology_type_check
+            check (type in ('PLATFORMS', 'LANGUAGES', 'DATABASES', 'TOOLS'));
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
