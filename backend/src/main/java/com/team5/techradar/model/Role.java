@@ -7,13 +7,13 @@ import org.springframework.security.core.GrantedAuthority;
 @Getter
 @RequiredArgsConstructor
 public enum Role implements GrantedAuthority {
-    ROLE_USER("User"),
-    ROLE_ADMIN("Admin");
+    USER("User"),
+    ADMIN("Admin");
 
     private final String value;
 
     @Override
     public String getAuthority() {
-        return value;
+        return name();
     }
 }
