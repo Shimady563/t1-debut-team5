@@ -13,6 +13,7 @@ export default defineConfig({
       '@modules': path.resolve(__dirname, './src/modules'),
       '@styles': path.resolve(__dirname, './src/styles'),
       '@App': path.resolve(__dirname, './src/App'),
+      '@libs': path.resolve(__dirname, './src/libs'),
     },
   },
   plugins: [react()],

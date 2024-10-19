@@ -11,7 +11,8 @@
       "@pages/*": ["src/pages/*"],
       "@modules/*": ["src/modules/*"],
       "@styles/*": ["src/styles/*"],
-      "@App/*": ["src/App/*"]
+      "@App/*": ["src/App/*"],
+      "@libs/*": ["src/libs/*"]
     },
 
     "target": "es6",
