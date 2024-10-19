@@ -42,6 +42,10 @@ public class User implements UserDetails {
     )
     private List<Technology> technologies = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "specialization_id")
+    private Specialization specialization;
+
     public void addTechnology(Technology technology) {
         technologies.add(technology);
     }
