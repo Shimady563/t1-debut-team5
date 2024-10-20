@@ -66,9 +66,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(AUTH_WHITELIST_PATHS).permitAll();
-                    auth.requestMatchers("/users/me").hasAnyRole("USER", "ADMIN");
+                    auth.requestMatchers("/users/**").hasAnyRole("USER", "ADMIN");
+                    auth.requestMatchers("/specializations/**").hasRole("ADMIN");
                     //auth.requestMatchers("").hasRole("USER");
-                    //auth.requestMatchers("").hasRole("ADMIN");
                     auth.anyRequest().authenticated();
                 })
                 .formLogin(form -> {
