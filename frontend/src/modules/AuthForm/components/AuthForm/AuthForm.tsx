@@ -16,11 +16,16 @@ const AuthForm = () => {
 
   const handleLoginSubmit = async (email: string, password: string) => {
     try {
-      const response = await axios('YOUR_API_ENDPOINT', {
+      const response = await axios('http://localhost:8080/api/v1/users/login', {
+          headers: {
+              'Content-Type': 'multipart/form-data',
+         },
         method: 'POST',
-        data: { email, password },
+        data: { username: email, password },
         withCredentials: true,
       });
+
+      console.log(response);
 
       console.log('Ответ от сервера:', response.data);
     } catch (error) {

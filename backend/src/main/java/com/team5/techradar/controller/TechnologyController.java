@@ -3,16 +3,14 @@ package com.team5.techradar.controller;
 import com.team5.techradar.model.dto.TechnologyResponse;
 import com.team5.techradar.service.TechnologyService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/technologies")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173")
 public class TechnologyController {
 
     private final TechnologyService technologyService;

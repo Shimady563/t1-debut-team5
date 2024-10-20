@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux';
 import { setTechnologies } from '@/store/TechnologiesStore';
 import { useTechnologies } from '@/store/TechnologiesStore';
 import TechnologiesList from '@/components/TechnologiesList/TechnologiesList';
+import axios from 'axios';
 
 const padding = 0;
 
@@ -38,11 +39,14 @@ const Radar = () => {
 
   const getMoments = async () => {
     try {
-      const response: Response = await axios(``, {
+      const response = await axios(`http://localhost:8080/api/v1/technologies/active?active=true`, {
         method: 'GET',
+        withCredentials: 'true'
       });
-      setElements(response);
-      dispatch(setTechnologies(response));
+      setElements(response.data);
+      dispatch(setTechnologies(response.data));
+
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
