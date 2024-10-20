@@ -1,0 +1,39 @@
+@import '../../styles/variables.scss';
+
+.button {
+  font-family: 'Inter', sans-serif;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0.5em 1em;
+  border-radius: 0.5em;
+
+  background-color: $brand-color;
+  color: #fff;
+
+  transition: background-color 0.1s linear;
+
+  &.big {
+    font-size: 24px;
+  }
+
+  &.medium {
+    font-size: 16px;
+  }
+
+  &.small {
+    font-size: 12px;
+  }
+
+  &:hover {
+    background-color: $brand-color-hover;
+  }
+
+  &__text {
+    margin: 0 auto;
+  }
+}
