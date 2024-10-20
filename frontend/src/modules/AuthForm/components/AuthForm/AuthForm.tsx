@@ -1,8 +1,7 @@
 import Button from '@/ui/Button/Button';
-import React, { useRef } from 'react';
-import { useForm, useController } from 'react-hook-form';
+import { useRef } from 'react';
+import { useForm } from 'react-hook-form';
 import './AuthForm.scss';
-import Input from '@/ui/Input/Input';
 
 const AuthForm = () => {
   const authFormRef = useRef<HTMLFormElement>(null);
@@ -67,6 +66,7 @@ const AuthForm = () => {
               },
             })}
             placeholder="Введите пароль"
+            type="password"
           />
           {errors?.authPassword && touchedFields.authPassword && (
             <div className="auth-form__form_input_message">

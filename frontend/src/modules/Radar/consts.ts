@@ -1,145 +1,39 @@
 import { TTechnologiesList } from '../../types';
 
-export const mockTechnologies: TTechnologiesList = {
-  data: [
-    {
-      id: 1,
-      name: 'Redis',
-      ring: 0,
-      moved: 0,
-      quadrant: 1,
-    },
-    {
-      id: 2,
-      name: 'Redis',
-      ring: 1,
-      moved: 0,
-      quadrant: 2,
-    },
-    {
-      id: 3,
-      name: 'Redis',
-      ring: 0,
-      moved: 0,
-      quadrant: 3,
-    },
-    {
-      id: 4,
-      name: 'Redis',
-      ring: 2,
-      moved: 0,
-      quadrant: 4,
-    },
-    {
-      id: 5,
-      name: 'Redis',
-      ring: 0,
-      moved: 0,
-      quadrant: 1,
-    },
-    {
-      id: 6,
-      name: 'Redis',
-      ring: 1,
-      moved: 0,
-      quadrant: 2,
-    },
-    {
-      id: 7,
-      name: 'Redis',
-      ring: 3,
-      moved: 0,
-      quadrant: 3,
-    },
-    {
-      id: 8,
-      name: 'Redis',
-      ring: 0,
-      moved: 0,
-      quadrant: 4,
-    },
-    {
-      id: 9,
-      name: 'Redis',
-      ring: 1,
-      moved: 0,
-      quadrant: 1,
-    },
-    {
-      id: 10,
-      name: 'Redis',
-      ring: 2,
-      moved: 0,
-      quadrant: 2,
-    },
-    {
-      id: 11,
-      name: 'Redis',
-      ring: 0,
-      moved: 0,
-      quadrant: 4,
-    },
-    {
-      id: 12,
-      name: 'Redis',
-      ring: 1,
-      moved: 0,
-      quadrant: 1,
-    },
-    {
-      id: 13,
-      name: 'Redis',
-      ring: 2,
-      moved: 0,
-      quadrant: 2,
-    },
-  ],
-};
-export const mockRings = [
+export const mockLevels = [
   { label: 'Adopt', slug: 'adopt' },
   { label: 'Trial', slug: 'trial' },
   { label: 'Assess', slug: 'assess' },
   { label: 'Hold', slug: 'hold' },
 ];
+
+// {
+//   label: 'Microsoft Azure Machine Learning',
+//   segment: 1,
+//   ring: 'hold',
+// },
+
 export const mockElements = [
-  { label: 'Amazon SageMaker', segment: 1, ring: 'assess' },
+  { id: 1, name: 'Amazon1', moved: 0, type: 1, level: 'assess' },
+  { id: 2, name: 'DataRobot', moved: 0, type: 2, level: 'hold' },
+  { id: 3, name: 'Amazon3', moved: 0, type: 3, level: 'trial' },
+  { id: 4, name: 'Edge AI', moved: 0, type: 4, level: 'assess' },
+  { id: 5, name: 'Amazon5', moved: 0, type: 1, level: 'hold' },
+  { id: 6, name: 'Data labeling tools', moved: 0, type: 2, level: 'adopt' },
+  { id: 7, name: 'Amazon7', moved: 0, type: 3, level: 'assess' },
+  { id: 8, name: 'Federated Learning', moved: 0, type: 4, level: 'adopt' },
+  { id: 9, name: 'Amazon9', moved: 0, type: 1, level: 'trial' },
   {
-    label: 'Microsoft Azure Machine Learning',
-    segment: 1,
-    ring: 'hold',
+    id: 10,
+    name: 'Feature engineering methods',
+    moved: 0,
+    type: 2,
+    level: 'assess',
   },
-  { label: 'IBM Watson', segment: 1, ring: 'trial' },
-  { label: 'DataRobot', segment: 1, ring: 'adopt' },
-  {
-    label: 'Data labeling tools',
-    segment: 2,
-    ring: 'assess',
-  },
-
-  {
-    label: 'Feature engineering methods',
-    segment: 2,
-    ring: 'adopt',
-  },
-  {
-    label: 'Data quality assurance',
-    segment: 2,
-    ring: 'hold',
-  },
-
-  { label: 'Data lakes', segment: 2, ring: 'trial' },
-  { label: 'TensorFlow', segment: 3, ring: 'trial' },
-  { label: 'PyTorch', segment: 3, ring: 'hold' },
-  { label: 'Keras', segment: 3, ring: 'assess' },
-  { label: 'Apache MXNet', segment: 3, ring: 'adopt' },
-
-  { label: 'Edge Computing', segment: 4, ring: 'adopt' },
-
-  { label: 'Federated Learning', segment: 4, ring: 'hold' },
-  { label: 'Edge AI', segment: 4, ring: 'trial' },
-  { label: 'Swarm Intelligence', segment: 4, ring: 'assess' },
+  { id: 11, name: 'TensorFlow', moved: 0, type: 3, level: 'hold' },
 ];
-export const mockSegments = [
+
+export const mockTypes = [
   {
     id: 1,
     label: 'Platform & Infrastructure',
@@ -150,6 +44,7 @@ export const mockSegments = [
   { id: 3, label: 'Languages & Frameworks', slug: 3, color: '#7dc' },
   { id: 4, label: 'Techniques & Tools', slug: 4, color: '#caf' },
 ];
+
 export const mockOptions = {
   totalAngle: Math.PI * 2,
   minPlotRadius: 120,

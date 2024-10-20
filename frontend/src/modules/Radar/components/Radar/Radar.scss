@@ -1,3 +1,7 @@
+.radar {
+  display: flex;
+}
+
 .radar-container {
   width: 620px;
   height: 620px;
@@ -38,4 +42,8 @@
 
 .radar__ring {
   transition: r 0.5s;
+}
+
+.list {
+  margin-left: 150px;
 }

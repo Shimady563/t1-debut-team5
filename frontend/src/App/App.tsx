@@ -1,14 +1,25 @@
 import Button from '@/ui/Button/Button';
 import './App.scss';
 import Radar from '@/modules/Radar/components/Radar/Radar';
-import Input from '@/ui/Input/Input';
-import AuthForm from '@/modules/AuthForm/components/AuthForm/AuthForm';
-import AuthPage from '@/pages/AuthPage/components/AuthPage/AuthPage';
 
+import AuthPage from '@/pages/AuthPage/components/AuthPage/AuthPage';
+import RegistrationPage from '@/pages/RegistrationPage/components/RegistrationPage/RegistrationPage';
+import PrivateRoute from '@/utils/PrivateRoute';
+import Header from '@/components/Header/Header';
+import { Route, BrowserRouter, Routes } from 'react-router-dom';
+import MainPage from '@/pages/MainPage/MainPage';
 const App = () => {
   return (
     <>
-      <AuthPage />
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route element={<PrivateRoute />}></Route>
+          <Route element={<MainPage />} path="/" />
+          <Route element={<AuthPage />} path="/login" />
+          <Route element={<RegistrationPage />} path="/reg" />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 };

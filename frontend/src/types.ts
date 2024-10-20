@@ -1,11 +1,17 @@
-export type TTechnologie = {
+export type TTechnology = {
   id: number;
   name: string; // Название технологии
-  ring: number; // Номер области на радаре
+  level: number; // Номер области на радаре
   moved: number; // Тенденция (1 - поднялась, -1 - опустилась)
-  quadrant: number; // Номер сегмента
+  type: number; // Номер сегмента
 };
 
 export type TTechnologiesList = {
-  data: TTechnologie[];
+  data: TTechnology[];
+};
+
+export type TUser = {
+  id: number;
+  email: string;
+  isAdmin: boolean;
 };

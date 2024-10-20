@@ -1,9 +1,9 @@
 // @ts-nocheck
 class CustomRadar {
-  constructor(options, { elements, rings, segments }) {
-    this.rings = rings;
+  constructor(options, { elements, levels, types }) {
+    this.levels = levels;
     this.elements = Array.isArray(elements) ? elements : [elements];
-    this.segments = Array.isArray(segments) ? segments : [segments];
+    this.types = Array.isArray(types) ? types : [types];
 
     // Extend options
     const defaultOptions = {
@@ -20,28 +20,28 @@ class CustomRadar {
     this.metaData = this.getMetaData();
 
     // Calculate Axes placement
-    this.segmentAxes = this.getSegmentAxes();
-    this.ringAxes = this.getRingAxes();
+    this.typeAxes = this.getTypeAxes();
+    this.levelAxes = this.getlevelAxes();
 
     // Calculate dot placement
     this.dots = this.getDots();
   }
 
-  getSegmentLabelPathBase() {
+  getTypeLabelPathBase() {
     const startCoord = this.polarToCartesian(this.maxPlotRadius, 0);
     const endCoord = this.polarToCartesian(
       this.maxPlotRadius,
-      this.options.totalAngle / this.segments.length
+      this.options.totalAngle / this.types.length
     );
-    return this.getSegmentLabelPathD(startCoord, endCoord);
+    return this.getTypeLabelPathD(startCoord, endCoord);
   }
 
-  getSegmentAxes() {
-    console.log('class segs', this.segments);
-    return this.segments?.map((seg, idx) => {
-      const i = (idx * this.options.totalAngle) / this.segments.length;
+  getTypeAxes() {
+    console.log('class segs', this.types);
+    return this.types?.map((seg, idx) => {
+      const i = (idx * this.options.totalAngle) / this.types.length;
       const upperCoord = this.polarToCartesian(this.maxPlotRadius, i);
-      const j = ((idx + 1) * this.options.totalAngle) / this.segments.length;
+      const j = ((idx + 1) * this.options.totalAngle) / this.types.length;
       const upperCoordJ = this.polarToCartesian(this.maxPlotRadius, j);
       return {
         ...seg,
@@ -52,30 +52,30 @@ class CustomRadar {
           y1: this.options.baseDimension / 2,
           x2: upperCoord.x,
           y2: upperCoord.y,
-          labelPath: this.getSegmentLabelPathD(upperCoord, upperCoordJ),
+          labelPath: this.getTypeLabelPathD(upperCoord, upperCoordJ),
         },
       };
     });
   }
 
-  getSegmentLabelPathD(startCoord, endCoord) {
+  getTypeLabelPathD(startCoord, endCoord) {
     return `M ${endCoord.x},${endCoord.y} A${this.maxPlotRadius},${this.maxPlotRadius} 0 0,1 ${startCoord.x},${startCoord.y}`;
   }
 
-  getRingAxes() {
-    console.log('rings', this.rings);
-    return this.rings.map((ring, idx) => {
+  getlevelAxes() {
+    console.log('levels', this.levels);
+    return this.levels.map((level, idx) => {
       // start
       const i =
         this.options.minPlotRadius +
         (idx * (this.maxPlotRadius - this.options.minPlotRadius)) /
-          this.rings.length;
+          this.levels.length;
       const j =
         this.options.minPlotRadius +
         ((idx + 1) * (this.maxPlotRadius - this.options.minPlotRadius)) /
-          this.rings.length;
+          this.levels.length;
       return {
-        ...ring,
+        ...level,
         i,
         j,
       };
@@ -83,27 +83,26 @@ class CustomRadar {
   }
 
   getMetaData() {
-    const segmentCounts = {};
-    const ringCounts = {};
+    const typeCounts = {};
+    const levelCounts = {};
     const countMatrix = {};
     console.log('get md elems', this.elements);
     if (!this.elements || !Array.isArray(this.elements)) {
-      return { segmentCounts, ringCounts, countMatrix };
+      return { typeCounts, levelCounts, countMatrix };
     }
 
     this.elements.forEach((element) => {
-      if (typeof element.segment === 'number') {
-        segmentCounts[element.segment] =
-          (segmentCounts[element.segment] || 0) + 1;
+      if (typeof element.type === 'number') {
+        typeCounts[element.type] = (typeCounts[element.type] || 0) + 1;
       }
-      if (typeof element.ring === 'number') {
-        ringCounts[element.ring] = (ringCounts[element.ring] || 0) + 1;
+      if (typeof element.level === 'number') {
+        levelCounts[element.level] = (levelCounts[element.level] || 0) + 1;
       }
-      const slice = `${element.segment || 0}.${element.ring || 0}`;
+      const slice = `${element.type || 0}.${element.level || 0}`;
       countMatrix[slice] = (countMatrix[slice] || 0) + 1;
     });
 
-    return { segmentCounts, ringCounts, countMatrix };
+    return { typeCounts, levelCounts, countMatrix };
   }
 
   getDots() {
@@ -114,47 +113,47 @@ class CustomRadar {
     }
 
     return this.elements.map((el) => {
-      const ring = this.ringAxes.filter((r) => r.slug === el.ring)[0];
-      const segment = this.segmentAxes.filter((s) => s.slug === el.segment)[0];
-      const slice = `${el.segment}.${el.ring}`;
+      const level = this.levelAxes.filter((r) => r.slug === el.level)[0];
+      const type = this.typeAxes.filter((s) => s.slug === el.type)[0];
+      const slice = `${el.type}.${el.level}`;
       idx[slice] = idx[slice] ? idx[slice] + 1 : 1;
       const radialCoord = this.layoutDot(
-        ring,
-        segment,
+        level,
+        type,
         idx[slice],
         this.metaData.countMatrix[slice]
       );
 
       const coords = this.polarToCartesian(radialCoord.r, radialCoord.angle);
-      return { ...el, ...coords, r: 5, color: segment.color };
+      return { ...el, ...coords, r: 5, color: type.color };
     });
   }
 
   /**
    *
-   * @param {Ring} ring Ring Entry
-   * @param {Segment} segment Segment Entry
+   * @param {level} level level Entry
+   * @param {type}type Entry
    * @param {Number} idx Dot's index in the slice / cell
    * @param {Number} total Total dots in the slice / cell
    * @returns
    */
-  layoutDot(ring, segment, idx, total) {
-    const elemPerRow = Math.floor(ring.i / 30) + 2;
+  layoutDot(level, type, idx, total) {
+    const elemPerRow = Math.floor(level.i / 30) + 2;
     // relIdx -> relative index
     // rel index repeats from 1 for every row after max per row reaches
     const relIdx = ((idx - 1) % elemPerRow) + 1;
-    const relIdxRing = Math.ceil(idx / elemPerRow);
+    const relIdxlevel = Math.ceil(idx / elemPerRow);
 
     // Number of rows in the cell (Slice)
-    const ringRows = Math.ceil(total / elemPerRow);
+    const levelRows = Math.ceil(total / elemPerRow);
 
     // relTotal total per row  == elemPerRow or total if total below max elemPerRow
     const relTotal = Math.min(total + 1, elemPerRow + 1);
 
     // Origin------Bound.i------idx1--------idx2--------Bound.j [Section formula]
     return {
-      r: ((ring.j - ring.i) * relIdxRing) / (ringRows + 1) + ring.i,
-      angle: ((segment.j - segment.i) * relIdx) / relTotal + segment.i,
+      r: ((level.j - level.i) * relIdxlevel) / (levelRows + 1) + level.i,
+      angle: ((type.j - type.i) * relIdx) / relTotal + type.i,
     };
   }
 

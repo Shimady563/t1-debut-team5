@@ -2,43 +2,49 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
   mockTechnologies,
-  mockRings,
+  mockLevels,
   mockElements,
-  mockSegments,
+  mockTypes,
   mockOptions,
 } from '@modules/Radar/consts';
 import CustomRadar from '@/libs/CustomRadarLib/CustomRadar';
 import { TweenMax } from 'gsap';
 import './Radar.scss';
+import { useDispatch } from 'react-redux';
+import { setTechnologies } from '@/store/TechnologiesStore';
+import { useTechnologies } from '@/store/TechnologiesStore';
+import TechnologiesList from '@/components/TechnologiesList/TechnologiesList';
 
 const padding = 0;
 
 const Radar = () => {
-  let svgRef = useRef(null);
-
   const [options, setOptions] = useState(mockOptions);
-  const [elements, setElements] = useState(mockElements);
-  const [segments, setSegments] = useState(mockSegments);
-
+  let svgRef = useRef(null);
+  const dispatch = useDispatch();
+  const [types, setTypes] = useState(mockTypes);
   const [isExpanded, setIsExpanded] = useState(true);
+  const [selectedType, setSelectedType] = useState<number>(0);
 
+  dispatch(setTechnologies(mockElements));
+  const [elements, setElements] = useState(mockElements);
+  const initialTechs = useTechnologies();
   const [radarDiagram, setRadarDiagram] = useState(
     new CustomRadar(options, {
       elements,
-      rings: mockRings,
-      segments,
+      levels: mockLevels,
+      types: types,
     })
   );
 
   const rerenderRadar = (seg: number) => {
     if (isExpanded) {
-      const segs = Array.isArray(segments)
-        ? segments.find((item) => item.slug === seg)
+      const segs = Array.isArray(types)
+        ? types.find((item) => item.slug === seg)
         : null;
 
       const filteredElements = Array.isArray(elements)
         ? elements.filter(
-            (item) => typeof item.segment === 'number' && item.segment === seg
+            (item) => typeof item.type === 'number' && item.type === seg
           )
         : [];
 
@@ -48,8 +54,8 @@ const Radar = () => {
 
       const updatedData = {
         elements: filteredElements,
-        rings: mockRings,
-        segments: segs ? [segs] : [],
+        levels: mockLevels,
+        types: segs ? [segs] : [],
       };
       setIsExpanded(false);
       setRadarDiagram(new CustomRadar(newOptions, updatedData));
@@ -102,69 +108,96 @@ const Radar = () => {
     } else {
       svgPoint.y < canvasSize / 2 ? (segment = 1) : (segment = 4);
     }
-
+    setSelectedType(segment);
     rerenderRadar(segment);
   };
 
+  const expandRadar = () => {
+    console.log('aaaaaaaaa');
+
+    setElements(initialTechs);
+    const updatedData = {
+      elements,
+      levels: mockLevels,
+      types: mockTypes,
+    };
+
+    const newOptions = { ...options };
+    newOptions.totalAngle = Math.PI * 2;
+    setOptions(newOptions);
+    setSelectedType(0);
+    setIsExpanded(true);
+    setRadarDiagram(new CustomRadar(newOptions, updatedData));
+  };
+
   return (
-    <div className="radar-container">
-      <svg
-        onClick={(e: MouseEvent) => {
-          radarClickHandler(e);
-        }}
-        id="radar-plot"
-        viewBox={`${-padding} ${-padding} ${
-          radarDiagram.options.baseDimension + 2 * padding
-        } ${radarDiagram.options.baseDimension + 2 * padding}`}
-        xmlns="http://www.w3.org/2000/svg"
-        ref={(el) => (svgRef = el)}
-      >
-        <circle
-          r={radarDiagram.options.baseDimension / 2}
-          cx={radarDiagram.options.baseDimension / 2}
-          cy={radarDiagram.options.baseDimension / 2}
-          fill="rgb(181, 191, 255)"
-        ></circle>
-        {radarDiagram.ringAxes.map((ringAxis: any) => (
-          <circle
-            className="radar__ring"
-            key={ringAxis.slug}
-            cx={radarDiagram.options.baseDimension / 2}
-            cy={radarDiagram.options.baseDimension / 2}
-            r={ringAxis.j}
-            stroke="#aaa"
-            strokeWidth={1}
-            fill="#fff"
-            fillOpacity={0.3}
-          ></circle>
-        ))}
-        {radarDiagram.segmentAxes.map((segAxis: any, idx: any) => (
-          <g key={segAxis.slug}>
-            <line
-              className="radar__segment-axis"
-              x1={segAxis.axis.x1}
-              x2={segAxis.axis.x2}
-              y1={segAxis.axis.y1}
-              y2={segAxis.axis.y2}
-              stroke={'#aaa'}
-              strokeWidth={1}
-            ></line>
-          </g>
-        ))}
-        {radarDiagram.dots.map((dot: any) => (
-          <g
-            key={dot.label}
-            className="radar__dot"
-            style={{ transform: `translate(${dot.x}px, ${dot.y}px)` }}
+    <>
+      {!isExpanded && <div onClick={expandRadar}>+Развернуть радар</div>}
+
+      <div className="radar">
+        <div className="radar-container">
+          <svg
+            onClick={(e: MouseEvent) => {
+              radarClickHandler(e);
+            }}
+            id="radar-plot"
+            viewBox={`${-padding} ${-padding} ${
+              radarDiagram.options.baseDimension + 2 * padding
+            } ${radarDiagram.options.baseDimension + 2 * padding}`}
+            xmlns="http://www.w3.org/2000/svg"
+            ref={(el) => (svgRef = el)}
           >
-            <circle r={10} stroke={'#aaa'} fill={dot.color}></circle>
-            <text textAnchor="middle" className="radar__dot__label">
-              {dot.label.substr(0, 15)}
-            </text>
-          </g>
-        ))}
-      </svg>
-    </div>
+            <circle
+              r={radarDiagram.options.baseDimension / 2}
+              cx={radarDiagram.options.baseDimension / 2}
+              cy={radarDiagram.options.baseDimension / 2}
+              fill="rgb(181, 191, 255)"
+            ></circle>
+            {radarDiagram.levelAxes.map((ringAxis: any) => (
+              <circle
+                className="radar__ring"
+                key={ringAxis.slug}
+                cx={radarDiagram.options.baseDimension / 2}
+                cy={radarDiagram.options.baseDimension / 2}
+                r={ringAxis.j}
+                stroke="#aaa"
+                strokeWidth={1}
+                fill="#fff"
+                fillOpacity={0.3}
+              ></circle>
+            ))}
+            {radarDiagram.typeAxes.map((segAxis: any, idx: any) => (
+              <g key={segAxis.slug}>
+                <line
+                  className="radar__segment-axis"
+                  x1={segAxis.axis.x1}
+                  x2={segAxis.axis.x2}
+                  y1={segAxis.axis.y1}
+                  y2={segAxis.axis.y2}
+                  stroke={'#aaa'}
+                  strokeWidth={1}
+                ></line>
+              </g>
+            ))}
+            {radarDiagram.dots.map((dot: any) => (
+              <g
+                key={dot.label}
+                className="radar__dot"
+                style={{ transform: `translate(${dot.x}px, ${dot.y}px)` }}
+              >
+                <circle r={10} stroke={'#aaa'} fill={dot.color}></circle>
+                <text textAnchor="middle" className="radar__dot__label">
+                  {dot.name.substr(0, 15)}
+                </text>
+              </g>
+            ))}
+          </svg>
+        </div>
+        <div className="list">
+          <TechnologiesList type={selectedType} />
+        </div>
+      </div>
+    </>
   );
 };
 

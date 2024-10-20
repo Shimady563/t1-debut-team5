@@ -1,0 +1,33 @@
+@import '../../styles/variables.scss';
+
+.header {
+  width: 100%;
+  position: fixed;
+  background-color: $background-secondary-color;
+  height: fit-content;
+
+  &__container {
+    width: 80vw;
+    max-width: 1280px;
+    margin: 0 auto;
+
+    padding: 12px 0;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__logo {
+    font-size: $font-size-h1;
+    font-weight: bold;
+  }
+
+  &__nav {
+    display: flex;
+    gap: 24px;
+
+    font-weight: 600;
+    font-size: $font-size-text;
+  }
+}

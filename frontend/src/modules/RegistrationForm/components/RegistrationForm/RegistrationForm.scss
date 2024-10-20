@@ -1,6 +1,6 @@
 @import '../../../../styles/variables.scss';
 
-.auth-form {
+.reg-form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -25,6 +25,7 @@
     }
     &_subtitle {
       text-align: center;
+
       font-size: $font-size-text-small;
       font-weight: 300;
       line-height: 18px;
@@ -55,6 +56,7 @@
           outline: 2px solid $brand-color;
         }
       }
+
       &_message {
         font-size: $font-size-text-small;
         color: red;
