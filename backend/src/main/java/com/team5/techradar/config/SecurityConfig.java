@@ -38,7 +38,7 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return (email) -> userRepository.findByEmail(email)
+        return (email) -> userRepository.findFetchSpecializationByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User with email " + email + " not found"));
     }
 
