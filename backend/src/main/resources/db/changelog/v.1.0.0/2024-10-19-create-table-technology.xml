@@ -22,6 +22,9 @@
             <column name="type" type="varchar">
                 <constraints nullable="false"/>
             </column>
+            <column name="is_active" type="boolean">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 

@@ -1,5 +1,6 @@
 package com.team5.techradar.config;
 
+import com.team5.techradar.map.TechnologyResponseMap;
 import com.team5.techradar.map.UserRegistrationRequestMap;
 import com.team5.techradar.map.UserResponseMap;
 import org.modelmapper.ModelMapper;
@@ -18,6 +19,7 @@ public class GenericConfig {
                 .setFieldMatchingEnabled(false);
         mapper.addMappings(new UserResponseMap());
         mapper.addMappings(new UserRegistrationRequestMap());
+        mapper.addMappings(new TechnologyResponseMap());
         return mapper;
     }
 }

@@ -37,6 +37,9 @@ public class Technology {
     @Enumerated(EnumType.STRING)
     private Type type;
 
+    @Column(name = "is_active")
+    private Boolean isActive = Boolean.TRUE;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_technology",
