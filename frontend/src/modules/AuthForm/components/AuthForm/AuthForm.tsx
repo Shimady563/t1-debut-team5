@@ -1,7 +1,8 @@
 import Button from '@/ui/Button/Button';
 import { useRef } from 'react';
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import './AuthForm.scss';
+import axios from 'axios';
 
 const AuthForm = () => {
   const authFormRef = useRef<HTMLFormElement>(null);
@@ -13,8 +14,22 @@ const AuthForm = () => {
   const { register, handleSubmit, watch, formState } = authForm;
   const { isValid, touchedFields, errors } = formState;
 
-  const handleLoginSubmit = () => {
-    console.log('aaaaa');
+  const handleLoginSubmit = async (email: string, password: string) => {
+    try {
+      const response = await axios('YOUR_API_ENDPOINT', {
+        method: 'POST',
+        data: { email, password },
+        withCredentials: true,
+      });
+
+      console.log('Ответ от сервера:', response.data);
+    } catch (error) {
+      console.error('Ошибка при отправке данных:', error);
+    }
+  };
+
+  const onSubmit = (data: FieldValues) => {
+    handleLoginSubmit(data.authLogin, data.authPassword);
   };
 
   return (
@@ -28,7 +43,7 @@ const AuthForm = () => {
       {/* -------------------------------------------------------------- */}
       <form
         ref={authFormRef}
-        onSubmit={handleSubmit(handleLoginSubmit)}
+        onSubmit={handleSubmit(onSubmit)}
         className="auth-form__form"
       >
         <div

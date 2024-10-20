@@ -36,6 +36,22 @@ const Radar = () => {
     })
   );
 
+  const getMoments = async () => {
+    try {
+      const response: Response = await axios(``, {
+        method: 'GET',
+      });
+      setElements(response);
+      dispatch(setTechnologies(response));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getMoments();
+  }, []);
+
   const rerenderRadar = (seg: number) => {
     if (isExpanded) {
       const segs = Array.isArray(types)
