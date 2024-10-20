@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="2024-10-19-create-test-users" author="Shimady">
+
+        <preConditions onFail="MARK_RAN">
+            <dbms type="postgresql"/>
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM technology;
+            </sqlCheck>
+        </preConditions>
+
+        <sqlFile path="script/demo-technology-data.sql"
+                 encoding="UTF-8"
+                 splitStatements="true"
+                 stripComments="true"
+                 relativeToChangelogFile="true"/>
+    </changeSet>
+
+</databaseChangeLog>

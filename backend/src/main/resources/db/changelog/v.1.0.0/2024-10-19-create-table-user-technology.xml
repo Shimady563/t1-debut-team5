@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+    <!-- миграция для создания many to many таблицы для пользователей и технологий -->
+    <changeSet id="2024-10-19-crete-table-user-technology" author="Shimady">
+        <createTable tableName="user_technology">
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="technology_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="user_technology"
+                                 baseColumnNames="technology_id"
+                                 constraintName="user_technology_technology_fkey"
+                                 referencedTableName="technology"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="user_technology"
+                                 baseColumnNames="user_id"
+                                 constraintName="user_technology_tech_radar_user_fkey"
+                                 referencedTableName="tech_radar_user"
+                                 referencedColumnNames="id"/>
+
+        <addPrimaryKey tableName="user_technology" columnNames="technology_id, user_id"/>
+    </changeSet>
+
+</databaseChangeLog>
