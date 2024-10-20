@@ -31,7 +31,7 @@
         <sql>
             alter table tech_radar_user
             add constraint tech_radar_user_role_check
-            check (role in ('ADMIN', 'USER'));
+            check (role in ('ROLE_ADMIN', 'ROLE_USER'));
         </sql>
     </changeSet>
 

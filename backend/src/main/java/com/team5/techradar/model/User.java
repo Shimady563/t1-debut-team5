@@ -32,7 +32,7 @@ public class User implements UserDetails {
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
-    private Role role = Role.USER;
+    private Role role = Role.ROLE_USER;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

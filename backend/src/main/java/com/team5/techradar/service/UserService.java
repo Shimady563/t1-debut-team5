@@ -31,7 +31,7 @@ public class UserService {
                 .getPrincipal());
         log.info("Getting user information from the context: {}", user.getEmail());
         UserResponse response = mapper.map(user, UserResponse.class);
-        response.setAdmin(user.getRole() == Role.ADMIN);
+        response.setAdmin(user.getRole() == Role.ROLE_ADMIN);
         response.setSpecialization(user.getSpecialization().getName());
         return response;
     }
