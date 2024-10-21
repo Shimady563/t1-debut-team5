@@ -27,7 +27,7 @@ public class Technology {
 
     @Column(name = "moved")
     @Enumerated(EnumType.STRING)
-    private Moved moved;
+    private Moved moved = Moved.NOT_MOVED;
 
     @Column(name = "level")
     @Enumerated(EnumType.STRING)

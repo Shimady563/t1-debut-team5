@@ -23,12 +23,14 @@ public class SpecializationService {
 
     @Transactional
     protected Specialization getSpecializationById(Long id) {
+        log.info("Getting specialization by id {}", id);
         return specializationRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Specialization with id " + id + " not found"));
     }
 
     @Transactional
     public List<SpecializationResponse> getAllSpecializations() {
+        log.info("Getting all specializations");
         return specializationRepository.findAll().stream()
                 .map(o -> mapper.map(o, SpecializationResponse.class))
                 .collect(Collectors.toList());
