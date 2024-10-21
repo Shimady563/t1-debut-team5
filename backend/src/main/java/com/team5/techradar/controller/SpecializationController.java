@@ -18,7 +18,7 @@ public class SpecializationController {
 
     private final SpecializationService specializationService;
 
-    @GetMapping("")
+    @GetMapping("/test")
     public List<SpecializationResponse> getAllSpecializations() {
         return specializationService.getAllSpecializations();
     }
