@@ -15,6 +15,7 @@ import { setTechnologies } from '@/store/TechnologiesStore';
 import { useTechnologies } from '@/store/TechnologiesStore';
 import TechnologiesList from '@/components/TechnologiesList/TechnologiesList';
 import axios from 'axios';
+import { useTechnologiesRequest } from '../../api/getTechnologiesRequest';
 
 const padding = 0;
 
@@ -22,48 +23,58 @@ const Radar = () => {
   const [options, setOptions] = useState(mockOptions);
   let svgRef = useRef(null);
   const dispatch = useDispatch();
-  const [types, setTypes] = useState(mockTypes);
   const [isExpanded, setIsExpanded] = useState(true);
-  const [selectedType, setSelectedType] = useState<number>(0);
+  const [selectedType, setSelectedType] = useState<number>(-1);
 
-  dispatch(setTechnologies(mockElements));
-  const [elements, setElements] = useState(mockElements);
   const initialTechs = useTechnologies();
+
+  const [isLoading, setIsLoading] = useState(true);
+
   const [radarDiagram, setRadarDiagram] = useState(
     new CustomRadar(options, {
-      elements,
+      elements: initialTechs,
       levels: mockLevels,
-      types: types,
+      types: mockTypes,
     })
   );
 
-  const getMoments = async () => {
+  const getTechnologies = async () => {
     try {
-      const response = await axios(`http://localhost:8080/api/v1/technologies/active?active=true`, {
-        method: 'GET',
-        withCredentials: 'true'
-      });
-      setElements(response.data);
+      const response = await axios(
+        `http://localhost:8080/api/v1/technologies/active?active=true`,
+        {
+          method: 'GET',
+          //   withCredentials: 'true',
+        }
+      );
       dispatch(setTechnologies(response.data));
-
-      console.log(response);
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    getMoments();
+    getTechnologies();
   }, []);
+
+  useEffect(() => {
+    setRadarDiagram(
+      new CustomRadar(options, {
+        elements: initialTechs,
+        levels: mockLevels,
+        types: mockTypes,
+      })
+    );
+  }, [initialTechs]);
 
   const rerenderRadar = (seg: number) => {
     if (isExpanded) {
-      const segs = Array.isArray(types)
-        ? types.find((item) => item.slug === seg)
+      const segs = Array.isArray(mockTypes)
+        ? mockTypes.find((item) => item.slug === seg)
         : null;
 
-      const filteredElements = Array.isArray(elements)
-        ? elements.filter(
+      const filteredElements = Array.isArray(initialTechs)
+        ? initialTechs.filter(
             (item) => typeof item.type === 'number' && item.type === seg
           )
         : [];
@@ -121,23 +132,19 @@ const Radar = () => {
     );
 
     const canvasSize = svgElement.width.animVal.value;
-    console.log(canvasSize, svgPoint.x, svgPoint.y);
     let segment;
     if (svgPoint.x < canvasSize / 2) {
-      svgPoint.y < canvasSize / 2 ? (segment = 2) : (segment = 3);
+      svgPoint.y < canvasSize / 2 ? (segment = 1) : (segment = 2);
     } else {
-      svgPoint.y < canvasSize / 2 ? (segment = 1) : (segment = 4);
+      svgPoint.y < canvasSize / 2 ? (segment = 0) : (segment = 3);
     }
     setSelectedType(segment);
     rerenderRadar(segment);
   };
 
   const expandRadar = () => {
-    console.log('aaaaaaaaa');
-
-    setElements(initialTechs);
     const updatedData = {
-      elements,
+      elements: initialTechs,
       levels: mockLevels,
       types: mockTypes,
     };
@@ -145,14 +152,18 @@ const Radar = () => {
     const newOptions = { ...options };
     newOptions.totalAngle = Math.PI * 2;
     setOptions(newOptions);
-    setSelectedType(0);
+    setSelectedType(-1);
     setIsExpanded(true);
     setRadarDiagram(new CustomRadar(newOptions, updatedData));
   };
 
   return (
     <>
-      {!isExpanded && <div onClick={expandRadar}>+Развернуть радар</div>}
+      {!isExpanded && (
+        <div className="back" onClick={expandRadar}>
+          Развернуть радар
+        </div>
+      )}
 
       <div className="radar">
         <div className="radar-container">

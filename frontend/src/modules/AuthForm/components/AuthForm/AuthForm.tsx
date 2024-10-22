@@ -11,15 +11,15 @@ const AuthForm = () => {
     mode: 'onChange',
   });
 
-  const { register, handleSubmit, watch, formState } = authForm;
-  const { isValid, touchedFields, errors } = formState;
+  const { register, handleSubmit, formState } = authForm;
+  const { touchedFields, errors } = formState;
 
   const handleLoginSubmit = async (email: string, password: string) => {
     try {
       const response = await axios('http://localhost:8080/api/v1/users/login', {
-          headers: {
-              'Content-Type': 'multipart/form-data',
-         },
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
         method: 'POST',
         data: { username: email, password },
         withCredentials: true,

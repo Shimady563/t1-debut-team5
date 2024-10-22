@@ -1,5 +1,4 @@
 import Radar from '@/modules/Radar/components/Radar/Radar';
-import React from 'react';
 import './MainPage.scss';
 
 const MainPage = () => {

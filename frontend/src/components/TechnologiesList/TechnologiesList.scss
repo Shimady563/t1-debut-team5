@@ -7,6 +7,7 @@
   height: fit-content;
   grid-template-columns: repeat(2, 1fr);
   row-gap: 12px;
+  column-gap: 36px;
 
   &__group {
     display: flex;

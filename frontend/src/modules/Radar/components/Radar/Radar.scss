@@ -1,49 +1,55 @@
+@import '../../../../styles/variables.scss';
+
 .radar {
   display: flex;
+
+  &-container {
+    width: 620px;
+    height: 620px;
+    transition: height 1s;
+    display: flex;
+
+    & svg {
+      width: auto;
+      height: 100%;
+      margin: auto;
+    }
+  }
+  &__dot {
+    transition: transform 1s;
+
+    &__label {
+      fill: #555;
+      transform: translate(0, 20px);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.7em;
+    }
+  }
+  &__segment-axis {
+    transition: all 1s;
+  }
+  &__segment__path {
+    transition: transform 1s, d 1s;
+    transform-origin: 500px 500px;
+  }
 }
 
-.radar-container {
-  width: 620px;
-  height: 620px;
-  //   max-height: calc(100vh - 150px);
-  transition: height 1s;
-  display: flex;
-}
-
-.radar-container svg {
-  width: auto;
-  height: 100%;
-  margin: auto;
-}
-
-.radar__dot {
-  transition: transform 1s;
-
-  //   :hover {
-  //     fill: red;
-  //   }
-}
-
-.radar__dot__label {
-  fill: #555;
-  transform: translate(0, 20px);
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 0.7em;
-}
-
-.radar__segment-axis {
-  transition: all 1s;
-}
-
-.radar__segment__path {
-  transition: transform 1s, d 1s;
-  transform-origin: 500px 500px;
-}
-
-.radar__ring {
+.radar__ .radar__ring {
   transition: r 0.5s;
 }
 
 .list {
   margin-left: 150px;
+}
+
+.back {
+  margin-bottom: 12px;
+
+  font-weight: 500;
+  color: $brand-color;
+  font-size: $font-size-text;
+
+  &:hover {
+    cursor: pointer;
+  }
 }

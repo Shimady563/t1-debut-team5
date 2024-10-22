@@ -37,7 +37,6 @@ class CustomRadar {
   }
 
   getTypeAxes() {
-    console.log('class segs', this.types);
     return this.types?.map((seg, idx) => {
       const i = (idx * this.options.totalAngle) / this.types.length;
       const upperCoord = this.polarToCartesian(this.maxPlotRadius, i);
@@ -63,7 +62,6 @@ class CustomRadar {
   }
 
   getlevelAxes() {
-    console.log('levels', this.levels);
     return this.levels.map((level, idx) => {
       // start
       const i =
@@ -86,7 +84,6 @@ class CustomRadar {
     const typeCounts = {};
     const levelCounts = {};
     const countMatrix = {};
-    console.log('get md elems', this.elements);
     if (!this.elements || !Array.isArray(this.elements)) {
       return { typeCounts, levelCounts, countMatrix };
     }
@@ -107,10 +104,6 @@ class CustomRadar {
 
   getDots() {
     const idx = {};
-    console.log('ded', this.elements);
-    if (!Array.isArray(this.elements)) {
-      console.log('alhsakldjas');
-    }
 
     return this.elements.map((el) => {
       const level = this.levelAxes.filter((r) => r.slug === el.level)[0];
