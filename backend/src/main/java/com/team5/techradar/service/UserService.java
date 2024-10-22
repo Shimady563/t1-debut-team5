@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,14 +24,14 @@ public class UserService {
     private final SpecializationService specializationService;
     private final PasswordEncoder passwordEncoder;
 
-    @Transactional
+    @Transactional(readOnly = true)
     public UserResponse getCurrentUser() {
-        User user = ((User) SecurityContextHolder
+        String email = (String) SecurityContextHolder
                 .getContext()
                 .getAuthentication()
-                .getPrincipal());
-        log.info("Getting user information from the context: {}", user.getEmail());
-        return mapper.map(user, UserResponse.class);
+                .getPrincipal();
+        log.info("Getting user information from the context: {}", email);
+        return mapper.map(findUserByEmail(email), UserResponse.class);
     }
 
     @Transactional
@@ -43,5 +44,18 @@ public class UserService {
         user.setSpecialization(specialization);
 
         userRepository.save(user);
+    }
+
+    @Transactional(readOnly = true)
+    public User findUserByEmail(String email) {
+        log.info("Finding user by email: {}", email);
+        return userRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User with email " + email + " not found"));
+    }
+
+    @Transactional(readOnly = true)
+    public boolean isUserExist(String email) {
+        return userRepository.existsByEmail(email);
     }
 }

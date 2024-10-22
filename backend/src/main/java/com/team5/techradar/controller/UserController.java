@@ -20,9 +20,9 @@ public class UserController {
         return userService.getCurrentUser();
     }
 
-    @PostMapping("/signup")
-    @ResponseStatus(HttpStatus.CREATED)
-    private void signUp(@RequestBody UserRegistrationRequest request) {
-        userService.createUser(request);
-    }
+//    @PostMapping("/signup")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    private void signUp(@RequestBody UserRegistrationRequest request) {
+//        userService.createUser(request);
+//    }
 }
