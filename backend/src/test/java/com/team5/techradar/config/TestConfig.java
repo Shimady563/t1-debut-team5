@@ -4,10 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team5.techradar.filter.JwtFilter;
 import com.team5.techradar.service.JwtService;
 import com.team5.techradar.utils.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -56,17 +58,10 @@ public class TestConfig {
                 .build();
     }
 
-    // prevent filter registration in servlet
     @Bean
-    public FilterRegistrationBean<JwtFilter> jwtFilterRegistrationBean(JwtFilter jwtFilter) {
-        FilterRegistrationBean<JwtFilter> registration = new FilterRegistrationBean<>(jwtFilter);
-        registration.setEnabled(false);
-        return registration;
-    }
-
-    @Bean
+    @Primary
     public JwtFilter jwtFilter() {
-        return new JwtFilter(whitelist, jwtService(), new ObjectMapper());
+        return new TestJwtFilter(whitelist, jwtService(), new ObjectMapper());
     }
 
     @Bean
@@ -77,5 +72,18 @@ public class TestConfig {
     @Bean
     public JwtUtil jwtUtil() {
         return new JwtUtil();
+    }
+
+    // overriding the jwt filter to turn it off
+    // because every other method didn't work
+    private static class TestJwtFilter extends JwtFilter {
+        public TestJwtFilter(String[] whitelist, JwtService jwtService, ObjectMapper objectMapper) {
+            super(whitelist, jwtService, objectMapper);
+        }
+
+        @Override
+        protected boolean shouldNotFilter(@NotNull HttpServletRequest request) {
+            return true;
+        }
     }
 }
