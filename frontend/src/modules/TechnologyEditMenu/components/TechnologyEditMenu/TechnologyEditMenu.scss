@@ -1,0 +1,19 @@
+@import '../../../../styles/variables.scss';
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  &__title {
+    font-size: 24px;
+  }
+
+  &__type-nav {
+    margin-bottom: 24px;
+  }
+
+  &__content {
+    display: flex;
+    gap: 32px;
+  }
+}

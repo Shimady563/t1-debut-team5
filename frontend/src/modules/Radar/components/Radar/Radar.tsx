@@ -38,24 +38,24 @@ const Radar = () => {
     })
   );
 
-  const getTechnologies = async () => {
-    try {
-      const response = await axios(
-        `http://localhost:8080/api/v1/technologies/active?active=true`,
-        {
-          method: 'GET',
-          //   withCredentials: 'true',
-        }
-      );
-      dispatch(setTechnologies(response.data));
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const getTechnologies = async () => {
+  //   try {
+  //     // const response = await axios(
+  //     //   `http://localhost:8080/api/v1/technologies/active?active=true`,
+  //     //   {
+  //     //     method: 'GET',
+  //     //     //   withCredentials: 'true',
+  //     //   }
+  //     // );
+  //     dispatch(setTechnologies(mockElements));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  useEffect(() => {
-    getTechnologies();
-  }, []);
+  // useEffect(() => {
+  //   getTechnologies();
+  // }, []);
 
   useEffect(() => {
     setRadarDiagram(

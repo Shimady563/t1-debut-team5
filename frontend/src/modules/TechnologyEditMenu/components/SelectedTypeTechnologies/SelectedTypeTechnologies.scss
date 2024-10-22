@@ -1,0 +1,21 @@
+@import '../../../../styles/variables.scss';
+
+.technologies-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 200px;
+
+  padding-right: 24px;
+  border-right: 3px solid $brand-color;
+
+  &__item {
+    font-size: $font-size-text;
+    font-weight: 600;
+    line-height: 1.5rem;
+
+    &.active {
+      color: $brand-color;
+    }
+  }
+}

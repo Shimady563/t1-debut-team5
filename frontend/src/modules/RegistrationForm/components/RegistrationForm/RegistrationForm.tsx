@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import './RegistrationForm.scss';
 import Button from '@/ui/Button/Button';
 import { useForm } from 'react-hook-form';
+import { NavLink } from 'react-router-dom';
 
 const RegistrationForm = () => {
   const regFormRef = useRef<HTMLFormElement>(null);
@@ -110,7 +111,9 @@ const RegistrationForm = () => {
       <div className="reg-form__footer">
         <span className="reg-form__footer_text">
           У Вас уже есть аккаунт?{' '}
-          <span className="reg-form__footer_text_link">Авторизируйтесь</span>
+          <NavLink to="/login">
+            <span className="reg-form__footer_text_link">Авторизируйтесь</span>
+          </NavLink>
         </span>
       </div>
     </div>

@@ -3,6 +3,7 @@ import { useRef } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import './AuthForm.scss';
 import axios from 'axios';
+import { NavLink } from 'react-router-dom';
 
 const AuthForm = () => {
   const authFormRef = useRef<HTMLFormElement>(null);
@@ -103,7 +104,11 @@ const AuthForm = () => {
       <div className="auth-form__footer">
         <span className="auth-form__footer_text">
           Еще нет аккаунта?{' '}
-          <span className="auth-form__footer_text_link">Зарегистрируйтесь</span>
+          <NavLink to="/reg">
+            <span className="auth-form__footer_text_link">
+              Зарегистрируйтесь
+            </span>
+          </NavLink>
         </span>
       </div>
     </div>

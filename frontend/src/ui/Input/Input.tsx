@@ -8,7 +8,7 @@ export type InputProps = Omit<
 > & {
   placeholder?: string;
   value?: string;
-  onChangeValue?: (value: string) => void;
+  onChangeValue: (value: string) => void;
   searchValue?: string;
   className?: string;
   sizing: 'big' | 'medium' | 'small';
@@ -20,7 +20,7 @@ const Input: React.FC<InputProps> = React.forwardRef(
     forwardedRef
   ) => {
     const onUpdateSearch = useCallback((str: string) => {
-      //onChangeValue(str);
+      onChangeValue(str);
     }, []);
 
     const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
