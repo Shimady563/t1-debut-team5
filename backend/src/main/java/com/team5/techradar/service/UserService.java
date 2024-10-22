@@ -1,5 +1,6 @@
 package com.team5.techradar.service;
 
+import com.team5.techradar.exception.ResourceNotFoundException;
 import com.team5.techradar.model.Specialization;
 import com.team5.techradar.model.User;
 import com.team5.techradar.model.dto.UserRegistrationRequest;
@@ -49,13 +50,13 @@ public class UserService {
     @Transactional(readOnly = true)
     protected User findUserByEmail(String email) {
         log.info("Finding user by email: {}", email);
-        return userRepository
-                .findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User with email " + email + " not found"));
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User with email " + email + " not found"));
     }
 
     @Transactional(readOnly = true)
     public boolean isUserExist(String email) {
+        log.info("Checking if user with email {} exists", email);
         return userRepository.existsByEmail(email);
     }
 }
