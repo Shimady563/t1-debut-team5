@@ -5,8 +5,6 @@ import com.team5.techradar.model.User;
 import com.team5.techradar.model.dto.JwtResponse;
 import com.team5.techradar.model.dto.UserLoginRequest;
 import com.team5.techradar.model.dto.UserRegistrationRequest;
-import com.team5.techradar.security.jwt.service.JwtService;
-import com.team5.techradar.security.verifier.UserVerifier;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;

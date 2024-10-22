@@ -1,16 +1,15 @@
 package com.team5.techradar.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.team5.techradar.security.filter.JwtFilter;
-import com.team5.techradar.security.jwt.service.JwtService;
-import com.team5.techradar.security.jwt.utils.JwtUtil;
+import com.team5.techradar.filter.JwtFilter;
+import com.team5.techradar.service.JwtService;
+import com.team5.techradar.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;

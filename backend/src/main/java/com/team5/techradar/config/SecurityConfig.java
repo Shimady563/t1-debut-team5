@@ -2,7 +2,7 @@ package com.team5.techradar.config;
 
 
 import com.team5.techradar.repository.UserRepository;
-import com.team5.techradar.security.filter.JwtFilter;
+import com.team5.techradar.filter.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;

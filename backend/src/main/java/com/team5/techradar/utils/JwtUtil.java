@@ -1,4 +1,4 @@
-package com.team5.techradar.security.jwt.utils;
+package com.team5.techradar.utils;
 
 import com.team5.techradar.model.Role;
 import io.jsonwebtoken.JwtException;

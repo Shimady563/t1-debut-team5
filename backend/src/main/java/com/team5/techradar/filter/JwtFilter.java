@@ -1,9 +1,9 @@
-package com.team5.techradar.security.filter;
+package com.team5.techradar.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team5.techradar.model.Role;
-import com.team5.techradar.security.jwt.service.JwtService;
-import com.team5.techradar.security.response.InvalidTokenResponse;
+import com.team5.techradar.service.JwtService;
+import com.team5.techradar.model.dto.InvalidTokenResponse;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

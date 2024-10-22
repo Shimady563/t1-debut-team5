@@ -4,7 +4,7 @@ package com.team5.techradar.controller;
 import com.team5.techradar.model.dto.JwtResponse;
 import com.team5.techradar.model.dto.UserLoginRequest;
 import com.team5.techradar.model.dto.UserRegistrationRequest;
-import com.team5.techradar.security.exception.EmailIsOccupiedException;
+import com.team5.techradar.exception.EmailIsOccupiedException;
 import com.team5.techradar.service.AuthService;
 import com.team5.techradar.service.UserService;
 import lombok.AllArgsConstructor;

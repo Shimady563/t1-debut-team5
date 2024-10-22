@@ -1,7 +1,7 @@
-package com.team5.techradar.security.jwt.service;
+package com.team5.techradar.service;
 
 import com.team5.techradar.model.Role;
-import com.team5.techradar.security.jwt.utils.JwtUtil;
+import com.team5.techradar.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

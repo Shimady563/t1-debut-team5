@@ -1,6 +1,5 @@
 package com.team5.techradar.exception;
 
-import com.team5.techradar.security.exception.EmailIsOccupiedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
