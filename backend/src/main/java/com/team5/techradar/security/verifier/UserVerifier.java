@@ -19,9 +19,9 @@ public class UserVerifier {
 
     public boolean verify(UserLoginRequest user) {
         try{
-            log.info("Verifying user {}", user);
+            log.info("Verifying user {}", user.getEmail());
             User userEntity = userService.findUserByEmail(user.getEmail());
-            log.info("Found user {}", userEntity);
+            log.info("Found user {}", userEntity.getEmail());
             return userEntity.getUsername().equals(user.getEmail())
                     && passwordEncoder.matches(user.getPassword(), userEntity.getPassword());
         }

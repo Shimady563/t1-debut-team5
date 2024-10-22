@@ -29,7 +29,7 @@ public class AuthController {
         if (!userService.isUserExist(userDTO.getEmail())) {
             return authService.registerNewUser(userDTO);
         } else {
-            throw new EmailIsOccupiedException();
+            throw new EmailIsOccupiedException("Email is already occupied: " + userDTO.getEmail());
         }
     }
 }

@@ -35,19 +35,24 @@ public class JwtFilter extends OncePerRequestFilter {
 
 
     @Override
-    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(
+            @NonNull HttpServletRequest request,
+            @NonNull HttpServletResponse response,
+            @NonNull FilterChain filterChain
+    ) throws ServletException, IOException {
         String token = getJWTFromRequest(request);
         boolean validationResult = jwtService.validate(token);
         log.info("JWT Token validation result: {}", validationResult);
         if (validationResult) {
             String username = jwtService.getUsernameFromToken(token);
             String role = jwtService.getRoleNameFromToken(token);
-            log.info("Username : {}", username);
+            log.info("Email : {}", username);
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(username, null, List.of(Role.valueOf(role)));
             SecurityContextHolder.getContext().setAuthentication(authentication);
             filterChain.doFilter(request, response);
         } else {
+            response.setContentType("application/json");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             String body = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(new InvalidTokenResponse("Invalid token"));
             response.getWriter().write(body);

@@ -55,24 +55,6 @@ public class SecurityConfig {
                 .orElseThrow(() -> new UsernameNotFoundException("User with email " + email + " not found"));
     }
 
-    // failure handler to return error json response
-    @Bean
-    public AuthenticationFailureHandler authenticationFailureHandler() {
-        return new CustomAuthenticationFailureHandler();
-    }
-
-    // success handler to return auth success status
-    @Bean
-    public AuthenticationSuccessHandler authenticationSuccessHandler() {
-        return new CustomAuthenticationSuccessHandler();
-    }
-
-    // success handler to return logout success status
-    @Bean
-    public LogoutSuccessHandler logoutSuccessHandler() {
-        return new CustomLogoutSuccessHandler();
-    }
-
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();

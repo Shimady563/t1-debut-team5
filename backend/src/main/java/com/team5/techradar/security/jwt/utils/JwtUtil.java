@@ -27,15 +27,29 @@ public class JwtUtil {
         Duration duration = Duration.ofMillis(Long.parseLong(tokenLifeTimeMs));
         Instant end = start.plus(duration);
 
-        return Jwts.builder().setClaims(claims).setSubject(username).setIssuedAt(Date.from(start)).setExpiration(Date.from(end)).signWith(SignatureAlgorithm.HS256, secret).compact();
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(username)
+                .setIssuedAt(Date.from(start))
+                .setExpiration(Date.from(end))
+                .signWith(SignatureAlgorithm.HS256, secret)
+                .compact();
     }
 
     public String getUserNameFromToken(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parser()
+                .setSigningKey(secret)
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
     }
 
     public String getRoleFromToken(String token) {
-        return (String) Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().get("role");
+        return (String) Jwts.parser()
+                .setSigningKey(secret)
+                .parseClaimsJws(token)
+                .getBody()
+                .get("role");
     }
 
     public boolean validateAccessToken(String token) {
@@ -48,10 +62,20 @@ public class JwtUtil {
     }
 
     public long getTokenIssuedAt(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getIssuedAt().getTime();
+        return Jwts.parser()
+                .setSigningKey(secret)
+                .parseClaimsJws(token)
+                .getBody()
+                .getIssuedAt()
+                .getTime();
     }
 
     public long getTokenExpiration(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getExpiration().getTime();
+        return Jwts.parser()
+                .setSigningKey(secret)
+                .parseClaimsJws(token)
+                .getBody()
+                .getExpiration()
+                .getTime();
     }
 }

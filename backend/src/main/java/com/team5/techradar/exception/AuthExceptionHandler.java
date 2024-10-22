@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class AuthExceptionHandler {
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<AppError> handleResourceNotFoundException(BadCredentialsException e) {
+    public ResponseEntity<AppError> handleBadCredentialsException(BadCredentialsException e) {
         log.error(e.getMessage());
         return new ResponseEntity<>(
                 new AppError(
@@ -24,7 +24,7 @@ public class AuthExceptionHandler {
     }
 
     @ExceptionHandler(EmailIsOccupiedException.class)
-    public ResponseEntity<AppError> handleResourceNotFoundException(EmailIsOccupiedException e) {
+    public ResponseEntity<AppError> handleEmailIsOccupiedException(EmailIsOccupiedException e) {
         log.error(e.getMessage());
         return new ResponseEntity<>(
                 new AppError(
