@@ -47,7 +47,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public User findUserByEmail(String email) {
+    protected User findUserByEmail(String email) {
         log.info("Finding user by email: {}", email);
         return userRepository
                 .findByEmail(email)

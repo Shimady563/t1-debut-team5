@@ -1,11 +1,11 @@
 package com.team5.techradar.model.dto;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class UserResponse {
     private Long id;
