@@ -5,12 +5,14 @@ import com.team5.techradar.model.dto.UserResponse;
 import com.team5.techradar.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:5173")
+@Secured({"ROLE_USER", "ROLE_ADMIN"})
 public class UserController {
 
     private final UserService userService;
@@ -19,10 +21,4 @@ public class UserController {
     public UserResponse getCurrentUser() {
         return userService.getCurrentUser();
     }
-
-//    @PostMapping("/signup")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    private void signUp(@RequestBody UserRegistrationRequest request) {
-//        userService.createUser(request);
-//    }
 }

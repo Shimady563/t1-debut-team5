@@ -3,6 +3,7 @@ package com.team5.techradar.controller;
 import com.team5.techradar.model.dto.SpecializationResponse;
 import com.team5.techradar.service.SpecializationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,11 +15,12 @@ import java.util.List;
 @RequestMapping("/specializations")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:5173")
+@Secured("ROLE_ADMIN")
 public class SpecializationController {
 
     private final SpecializationService specializationService;
 
-    @GetMapping("/test")
+    @GetMapping("")
     public List<SpecializationResponse> getAllSpecializations() {
         return specializationService.getAllSpecializations();
     }
