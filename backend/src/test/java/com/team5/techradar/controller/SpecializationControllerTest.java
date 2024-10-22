@@ -2,7 +2,6 @@ package com.team5.techradar.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team5.techradar.config.TestConfig;
-import com.team5.techradar.model.dto.SpecializationResponse;
 import com.team5.techradar.service.SpecializationService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +33,6 @@ public class SpecializationControllerTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     public void shouldGetAllSpecializations() throws Exception {
-        var response1 = new SpecializationResponse();
-        var response2 = new SpecializationResponse();
-
         mockMvc.perform(get("/specializations").with(csrf())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
