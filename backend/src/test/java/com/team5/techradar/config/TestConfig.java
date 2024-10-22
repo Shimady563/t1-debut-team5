@@ -1,31 +1,19 @@
 package com.team5.techradar.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.team5.techradar.handler.CustomAuthenticationFailureHandler;
-import com.team5.techradar.handler.CustomAuthenticationSuccessHandler;
-import com.team5.techradar.handler.CustomLogoutSuccessHandler;
-import com.team5.techradar.map.UserRegistrationRequestMap;
-import com.team5.techradar.map.UserResponseMap;
-import com.team5.techradar.repository.UserRepository;
-import com.team5.techradar.security.filter.JwtFilter;
-import com.team5.techradar.security.jwt.service.JwtService;
-import com.team5.techradar.security.jwt.utils.JwtUtil;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
+import com.team5.techradar.filter.JwtFilter;
+import com.team5.techradar.service.JwtService;
+import com.team5.techradar.utils.JwtUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -34,14 +22,9 @@ import java.util.List;
 
 @TestConfiguration
 public class TestConfig {
-    private final String[] AUTH_WHITELIST_PATHS = new String[]{
-            "/technologies/**",
-            "/users/signup",
-            "/swagger-ui.html",
-            "/v3/api-docs/**",
-            "/swagger-ui/**",
-            "/auth/**"
-    };
+
+    @Value("${auth.whitelist}")
+    private String[] whitelist;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -61,34 +44,38 @@ public class TestConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, JwtService jwtService, ObjectMapper objectMapper) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-                .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
-                    auth.requestMatchers(AUTH_WHITELIST_PATHS).permitAll();
-                    auth.requestMatchers("/users/**").hasAnyRole("USER", "ADMIN");
-                    auth.requestMatchers("/specializations/**").hasRole("ADMIN");
-                    //auth.requestMatchers("").hasRole("USER");
+                    auth.requestMatchers(whitelist).permitAll();
                     auth.anyRequest().authenticated();
                 })
-                .addFilterAt(getJWTAuthFilter(jwtService, objectMapper), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAt(jwtFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
+    // prevent filter registration in servlet
     @Bean
-    public JwtFilter getJWTAuthFilter(JwtService jwtService, ObjectMapper objectMapper) {
-        return new JwtFilter(jwtService, objectMapper);
+    public FilterRegistrationBean<JwtFilter> jwtFilterRegistrationBean(JwtFilter jwtFilter) {
+        FilterRegistrationBean<JwtFilter> registration = new FilterRegistrationBean<>(jwtFilter);
+        registration.setEnabled(false);
+        return registration;
     }
 
     @Bean
-    public JwtUtil getJwtUtil() {
-        return new JwtUtil();
+    public JwtFilter jwtFilter() {
+        return new JwtFilter(whitelist, jwtService(), new ObjectMapper());
     }
 
     @Bean
     public JwtService jwtService() {
-        return new JwtService(getJwtUtil());
+        return new JwtService(jwtUtil());
+    }
+
+    @Bean
+    public JwtUtil jwtUtil() {
+        return new JwtUtil();
     }
 }

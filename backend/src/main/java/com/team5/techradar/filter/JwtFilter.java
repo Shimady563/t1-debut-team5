@@ -1,23 +1,23 @@
-package com.team5.techradar.security.filter;
+package com.team5.techradar.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team5.techradar.model.Role;
-import com.team5.techradar.security.response.InvalidTokenResponse;
-import com.team5.techradar.security.jwt.service.JwtService;
+import com.team5.techradar.service.JwtService;
+import com.team5.techradar.model.dto.InvalidTokenResponse;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpMethod;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -27,12 +27,11 @@ import java.util.List;
 public class JwtFilter extends OncePerRequestFilter {
     private static final String TOKEN_HEADER = "Authorization";
 
+    @Value("${auth.whitelist}")
+    private final String[] whitelist;
+
     private final JwtService jwtService;
     private final ObjectMapper objectMapper;
-
-    private final RequestMatcher uriMatcher =
-            new AntPathRequestMatcher("/auth/**", HttpMethod.POST.name());
-
 
     @Override
     protected void doFilterInternal(
@@ -46,7 +45,7 @@ public class JwtFilter extends OncePerRequestFilter {
         if (validationResult) {
             String username = jwtService.getUsernameFromToken(token);
             String role = jwtService.getRoleNameFromToken(token);
-            log.info("Email : {}", username);
+            log.info("User validated, email : {}", username);
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(username, null, List.of(Role.valueOf(role)));
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -61,7 +60,12 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(@NonNull HttpServletRequest request) {
-        return uriMatcher.matches(request);
+        for (String path : whitelist) {
+            if (new AntPathRequestMatcher(path).matches(request)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 

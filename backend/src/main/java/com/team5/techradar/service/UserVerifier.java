@@ -1,8 +1,7 @@
-package com.team5.techradar.security.verifier;
+package com.team5.techradar.service;
 
 import com.team5.techradar.model.User;
 import com.team5.techradar.model.dto.UserLoginRequest;
-import com.team5.techradar.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

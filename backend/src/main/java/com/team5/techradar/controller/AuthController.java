@@ -1,13 +1,18 @@
 package com.team5.techradar.controller;
 
 
-import com.team5.techradar.model.dto.*;
-import com.team5.techradar.security.exception.EmailIsOccupiedException;
+import com.team5.techradar.model.dto.JwtResponse;
+import com.team5.techradar.model.dto.UserLoginRequest;
+import com.team5.techradar.model.dto.UserRegistrationRequest;
+import com.team5.techradar.exception.EmailIsOccupiedException;
 import com.team5.techradar.service.AuthService;
 import com.team5.techradar.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
@@ -24,12 +29,11 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public JwtResponse register(@RequestBody UserRegistrationRequest userDTO) throws EmailIsOccupiedException {
+    public JwtResponse register(@RequestBody UserRegistrationRequest userDTO) {
         log.info("Received register request for user: {}", userDTO);
-        if (!userService.isUserExist(userDTO.getEmail())) {
-            return authService.registerNewUser(userDTO);
-        } else {
+        if (userService.isUserExist(userDTO.getEmail())) {
             throw new EmailIsOccupiedException("Email is already occupied: " + userDTO.getEmail());
         }
+        return authService.registerNewUser(userDTO);
     }
 }
