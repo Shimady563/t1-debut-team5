@@ -1,9 +1,10 @@
+import { useUserInfo } from '@/store/UserSlice';
 import React from 'react';
 import { Outlet, Navigate } from 'react-router-dom';
 
 const PrivateRoute = () => {
-  const isAuth = true;
-  return isAuth ? <Outlet /> : <Navigate to="/login" />;
+  const user = useUserInfo();
+  return user.isAuth ? <Outlet /> : <Navigate to="/login" />;
 };
 
 export default PrivateRoute;

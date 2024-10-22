@@ -8,6 +8,7 @@ import Input from '@/ui/Input/Input';
 import { Toggle } from '@admiral-ds/react-ui';
 import type { ToggleProps } from '@admiral-ds/react-ui';
 import Button from '@/ui/Button/Button';
+import axios from 'axios';
 
 type TechnologyFormProps = {
   technologyId: number;
@@ -27,19 +28,38 @@ const TechnologyForm: React.FC<TechnologyFormProps> = ({ technologyId }) => {
     setName(currentTech?.name);
     currentTech?.type != undefined &&
       setType(mockTypes[currentTech?.type].label);
-    setState(currentTech?.active);
+    setState(currentTech?.isActive);
     setStatus(currentTech?.moved);
   }, [currentTech]);
 
-  const onUpdateClick = () => {
+  const onUpdateClick = async () => {
     const data = {
-      id: currentTech?.id,
       name: name,
       moved: status,
-      level: level,
-      type: type,
-      active: state,
+      level: level?.toUpperCase(),
+      type: type?.toUpperCase(),
+      isActive: state,
     };
+    try {
+      const token = document.cookie
+        .split('; ')
+        .find((row) => row.startsWith('jwt='))
+        ?.split('=')[1];
+      const response = await axios(
+        `http://localhost:8080/api/v1/technologies/${currentTech?.id}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          method: 'PUT',
+          data: data,
+        }
+      );
+      console.log(response.data);
+    } catch {
+      console.log('put error');
+    }
 
     console.log(data);
   };

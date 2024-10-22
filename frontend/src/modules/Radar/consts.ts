@@ -113,9 +113,9 @@ export const mockTypes = [
     slug: 0,
     color: '#fa9',
   },
-  { id: 1, label: 'Languages', slug: 2, color: '#7dc' },
+  { id: 1, label: 'Languages', slug: 1, color: '#7dc' },
 
-  { id: 2, label: 'Databases', slug: 1, color: '#ad0' },
+  { id: 2, label: 'Databases', slug: 2, color: '#ad0' },
   { id: 3, label: 'Tools', slug: 3, color: '#caf' },
 ];
 
@@ -128,7 +128,7 @@ export const mockOptions = {
 export const mockStatuses = [
   {
     id: -1,
-    label: 'Понизить',
+    label: 'Понижено',
   },
   {
     id: 0,
@@ -136,6 +136,6 @@ export const mockStatuses = [
   },
   {
     id: 1,
-    label: 'Поднять',
+    label: 'Повышено',
   },
 ];

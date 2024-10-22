@@ -25,7 +25,7 @@ export const userSlice = createSlice({
 });
 
 export const useUserInfo = () =>
-  useSelector((state: { userData: IUserState }) => state.userData.user);
+  useSelector((state: { userData: IUserState }) => state.userData);
 
 export const useAuth = () =>
   useSelector((state: { userData: IUserState }) => state.userData.isAuth);

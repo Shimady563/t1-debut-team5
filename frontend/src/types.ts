@@ -4,7 +4,7 @@ export type TTechnology = {
   level: string; // Номер области на радаре
   moved: number; // Тенденция (1 - поднялась, -1 - опустилась)
   type: number; // Номер сегмента
-  active: boolean;
+  isActive: boolean;
 };
 
 export type TTechnologiesList = {
@@ -14,7 +14,8 @@ export type TTechnologiesList = {
 export type TUser = {
   id: number;
   email: string;
-  isAdmin: boolean;
+  admin: boolean;
+  specialization: string;
 };
 
 export type TLevel = {
