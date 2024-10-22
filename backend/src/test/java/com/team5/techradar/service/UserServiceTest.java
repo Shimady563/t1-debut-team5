@@ -1,5 +1,6 @@
 package com.team5.techradar.service;
 
+import com.team5.techradar.exception.ResourceNotFoundException;
 import com.team5.techradar.model.Specialization;
 import com.team5.techradar.model.User;
 import com.team5.techradar.model.dto.UserRegistrationRequest;
@@ -12,7 +13,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -54,5 +58,41 @@ public class UserServiceTest {
 
         then(userRepository).should().save(eq(user));
         assertEquals(specialization, user.getSpecialization());
+    }
+
+    @Test
+    public void shouldGetSpecializationById() {
+        var user = new User();
+        var email = "mail@mail.com";
+        user.setEmail(email);
+
+        given(userRepository.findByEmail(email)).willReturn(Optional.of(user));
+
+        userService.findUserByEmail(email);
+
+        then(userRepository).should().findByEmail(email);
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenSpecializationNotFoundById() {
+        var email = "mail@mail.com";
+
+        given(userRepository.findByEmail(email)).willReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class,
+                () -> userService.findUserByEmail(email));
+    }
+
+    @Test
+    public void shouldCheckIfUserExistsByEmail() {
+        var user = new User();
+        var email = "email@mail.com";
+        user.setEmail(email);
+
+        given(userRepository.existsByEmail(email)).willReturn(true);
+
+        userService.isUserExist(email);
+
+        then(userRepository).should().existsByEmail(email);
     }
 }

@@ -46,7 +46,6 @@ public class UserRepositoryTest {
         user.setSpecialization(specialization);
         entityManager.persist(user);
         entityManager.flush();
-
     }
 
     @Test
@@ -77,5 +76,21 @@ public class UserRepositoryTest {
 
         assertTrue(foundUser.isPresent());
         assertEquals(user.getEmail(), foundUser.get().getEmail());
+    }
+
+    @Test
+    public void testFindByEmail() {
+        var foundUser = userRepository.findByEmail(user.getEmail());
+
+        assertTrue(foundUser.isPresent());
+        assertEquals(user.getEmail(), foundUser.get().getEmail());
+    }
+
+    @Test
+    public void testExistsByEmail() {
+        var exists = userRepository.existsByEmail(user.getEmail());
+
+        assertTrue(exists);
+
     }
 }
