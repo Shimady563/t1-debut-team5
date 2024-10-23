@@ -30,6 +30,12 @@ public class TechnologyService {
                 .orElseThrow(() -> new ResourceNotFoundException("Technology " + id + " not found"));
     }
 
+    @Transactional
+    protected List<Technology> getAllTechnologiesByIds(List<Long> ids) {
+        log.info("Getting all technologies by ids {}", ids);
+        return technologyRepository.findAllById(ids);
+    }
+
     @Transactional(readOnly = true)
     public List<TechnologyResponse> getAllTechnologies() {
         log.info("Getting all technologies");

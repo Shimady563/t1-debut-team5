@@ -1,15 +1,16 @@
 package com.team5.techradar.model.dto;
 
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class UserResponse {
+public class UserTechnologyResponse {
     private Long id;
     private String email;
     private String specialization;
     private boolean isAdmin;
+    private List<TechnologyResponse> technologies;
 }

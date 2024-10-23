@@ -13,5 +13,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @EntityGraph(type = EntityGraph.EntityGraphType.LOAD, attributePaths = "specialization")
     Optional<User> findFetchSpecializationByEmail(String email);
 
-    boolean existsByEmail(String username);
+    boolean existsByEmail(String email);
+
+    @EntityGraph(type = EntityGraph.EntityGraphType.LOAD, attributePaths = "technologies")
+    Optional<User> findFetchTechnologiesByEmail(String email);
 }
