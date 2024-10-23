@@ -1,12 +1,13 @@
 package com.team5.techradar.controller;
 
-import com.team5.techradar.model.dto.UserRegistrationRequest;
 import com.team5.techradar.model.dto.UserResponse;
+import com.team5.techradar.model.dto.UserTechnologyResponse;
 import com.team5.techradar.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -20,5 +21,20 @@ public class UserController {
     @GetMapping("/me")
     public UserResponse getCurrentUser() {
         return userService.getCurrentUser();
+    }
+
+    @GetMapping("/technology")
+    public UserTechnologyResponse getCurrentUserWithTechnologies() {
+        return userService.getCurrentUserFetchTechnologies();
+    }
+
+    @PutMapping("/technology")
+    public void addTechnologies(@RequestBody List<Long> technologyIds) {
+        userService.addTechnologies(technologyIds);
+    }
+
+    @DeleteMapping("/technology")
+    public void removeTechnologies(@RequestBody List<Long> technologyIds) {
+        userService.removeTechnologies(technologyIds);
     }
 }

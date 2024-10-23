@@ -3,6 +3,7 @@ package com.team5.techradar.config;
 import com.team5.techradar.map.TechnologyResponseMap;
 import com.team5.techradar.map.UserRegistrationRequestMap;
 import com.team5.techradar.map.UserResponseMap;
+import com.team5.techradar.map.UserTechnologyResponseMap;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +21,7 @@ public class GenericConfig {
         mapper.addMappings(new UserResponseMap());
         mapper.addMappings(new UserRegistrationRequestMap());
         mapper.addMappings(new TechnologyResponseMap());
+        mapper.addMappings(new UserTechnologyResponseMap());
         return mapper;
     }
 }
