@@ -16,6 +16,7 @@ import { useTechnologies } from '@/store/TechnologiesStore';
 import TechnologiesList from '@/components/TechnologiesList/TechnologiesList';
 import axios from 'axios';
 import { useTechnologiesRequest } from '../../api/getTechnologiesRequest';
+import useGetTechnologiesRequest from '@/globalApi/getTechnologiesRequest';
 
 const padding = 0;
 
@@ -38,24 +39,11 @@ const Radar = () => {
     })
   );
 
-  // const getTechnologies = async () => {
-  //   try {
-  //     // const response = await axios(
-  //     //   `http://localhost:8080/api/v1/technologies/active?active=true`,
-  //     //   {
-  //     //     method: 'GET',
-  //     //     //   withCredentials: 'true',
-  //     //   }
-  //     // );
-  //     dispatch(setTechnologies(mockElements));
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const getTechnologies = useGetTechnologiesRequest();
 
-  // useEffect(() => {
-  //   getTechnologies();
-  // }, []);
+  useEffect(() => {
+    getTechnologies();
+  }, []);
 
   useEffect(() => {
     setRadarDiagram(

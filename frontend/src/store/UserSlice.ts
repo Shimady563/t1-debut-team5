@@ -3,12 +3,17 @@ import { TUser } from '@/types';
 import { useSelector } from 'react-redux';
 
 interface IUserState {
-  user: TUser | null;
+  user: TUser;
   isAuth: boolean;
 }
 
 const initialState: IUserState = {
-  user: null,
+  user: {
+    id: -1,
+    email: '',
+    admin: false,
+    specialization: '',
+  },
   isAuth: false,
 };
 

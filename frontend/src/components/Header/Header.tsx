@@ -12,19 +12,20 @@ const Header = () => {
           <span>TechRadar by Team5</span>
         </div>
         <ul className="header__nav">
+          {user.isAuth && (
+            <li>
+              <NavLink to="/radar">Радар</NavLink>
+            </li>
+          )}
           {user.user?.admin && (
             <li>
               <NavLink to="/admin">Управление</NavLink>
             </li>
           )}
-          {user.user?.admin && (
+
+          {!user.isAuth && (
             <li>
-              <NavLink to="/">Опросы</NavLink>
-            </li>
-          )}
-          {user.user?.admin && (
-            <li>
-              <NavLink to="/">Голосование</NavLink>
+              <NavLink to="/login">Войти</NavLink>
             </li>
           )}
         </ul>

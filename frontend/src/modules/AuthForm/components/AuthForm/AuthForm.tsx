@@ -36,7 +36,7 @@ const AuthForm = () => {
         Date.now() + 3600000
       ).toUTCString()}`;
       await checkUser();
-      navigate('/');
+      navigate('/radar');
     } catch (error) {
       console.error('Ошибка при отправке данных:', error);
     }

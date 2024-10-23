@@ -12,9 +12,13 @@ import axios from 'axios';
 
 type TechnologyFormProps = {
   technologyId: number;
+  onUpdate: (data: any, id: number) => void;
 };
 
-const TechnologyForm: React.FC<TechnologyFormProps> = ({ technologyId }) => {
+const TechnologyForm: React.FC<TechnologyFormProps> = ({
+  technologyId,
+  onUpdate,
+}) => {
   const [level, setLevel] = useState<string>();
   const [name, setName] = useState<string>();
   const [type, setType] = useState<string>();
@@ -40,28 +44,7 @@ const TechnologyForm: React.FC<TechnologyFormProps> = ({ technologyId }) => {
       type: type?.toUpperCase(),
       isActive: state,
     };
-    try {
-      const token = document.cookie
-        .split('; ')
-        .find((row) => row.startsWith('jwt='))
-        ?.split('=')[1];
-      const response = await axios(
-        `http://localhost:8080/api/v1/technologies/${currentTech?.id}`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          method: 'PUT',
-          data: data,
-        }
-      );
-      console.log(response.data);
-    } catch {
-      console.log('put error');
-    }
-
-    console.log(data);
+    currentTech && onUpdate(data, currentTech?.id);
   };
 
   const handleLevelSelect = (id: number) => {

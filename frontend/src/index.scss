@@ -1,3 +1,5 @@
+@import './styles/variables.scss';
+
 body {
   margin: 0;
   box-sizing: border-box;
@@ -54,4 +56,9 @@ pre {
 a {
   text-decoration: none;
   color: inherit;
+
+  &:hover {
+    text-decoration: none;
+    color: $brand-color;
+  }
 }

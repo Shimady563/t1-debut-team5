@@ -13,11 +13,11 @@ import {
 } from '@admiral-ds/react-ui';
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <ThemeProvider theme={LIGHT_THEME}>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </ThemeProvider>
-  </StrictMode>
+  // <StrictMode>
+  <ThemeProvider theme={LIGHT_THEME}>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </ThemeProvider>
+  // </StrictMode>
 );
