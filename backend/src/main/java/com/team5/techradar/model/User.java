@@ -6,9 +6,7 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Getter
 @Setter
@@ -37,10 +35,10 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_technology",
-            joinColumns = @JoinColumn(name = "technology_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "technology_id")
     )
-    private List<Technology> technologies = new ArrayList<>();
+    private Set<Technology> technologies = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "specialization_id")
@@ -48,6 +46,10 @@ public class User implements UserDetails {
 
     public void addTechnology(Technology technology) {
         technologies.add(technology);
+    }
+
+    public void removeTechnology(Technology technology) {
+        technologies.remove(technology);
     }
 
     @Override

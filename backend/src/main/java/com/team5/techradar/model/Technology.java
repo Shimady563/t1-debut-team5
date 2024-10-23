@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -43,13 +44,27 @@ public class Technology {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_technology",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "technology_id")
+            joinColumns = @JoinColumn(name = "technology_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private List<User> users = new ArrayList<>();
 
     public void addUser(User user) {
         users.add(user);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Technology that)) return false;
+        return Objects.equals(name, that.name) && moved == that.moved
+                && level == that.level && type == that.type
+                && Objects.equals(isActive, that.isActive);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, moved, level, type, isActive);
     }
 }
 
