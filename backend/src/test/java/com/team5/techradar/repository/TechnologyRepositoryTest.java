@@ -18,7 +18,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 @Testcontainers
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class UserRepositoryTest {
+public class TechnologyRepositoryTest {
+
     @Autowired
     protected TestEntityManager entityManager;
 
@@ -30,12 +31,12 @@ public class UserRepositoryTest {
             .withPassword("postgres");
 
     @Autowired
-    private UserRepository userRepository;
+    private TechnologyRepository technologyRepository;
 
-    private final User user = new User();
     private final Technology technology1 = new Technology();
     private final Technology technology2 = new Technology();
     private final Specialization specialization = new Specialization();
+    private final User user = new User();
 
     @BeforeEach
     public void setUp() {
@@ -52,7 +53,7 @@ public class UserRepositoryTest {
         technology2.setLevel(Level.ASSESS);
         technology2.setType(Type.DATABASES);
         technology2.setMoved(Moved.UP);
-        technology2.setIsActive(true);
+        technology2.setIsActive(false);
 
         user.setEmail("email@mail.com");
         user.setPassword("password");
@@ -71,60 +72,57 @@ public class UserRepositoryTest {
 
     @Test
     public void testFindById() {
-        var foundUser = userRepository.findById(user.getId());
+        var foundTechnology = technologyRepository.findById(technology1.getId());
 
-        assertTrue(foundUser.isPresent());
-        assertEquals(user.getId(), foundUser.get().getId());
+        assertTrue(foundTechnology.isPresent());
+        assertEquals(technology1.getId(), foundTechnology.get().getId());
     }
 
     @Test
     public void testSave() {
-        var user1 = new User();
-        user1.setEmail("mail@mail.com");
-        user1.setPassword("password");
+        var technology = new Technology();
+        technology.setName("name");
+        technology.setLevel(Level.HOLD);
+        technology.setType(Type.PLATFORMS);
+        technology.setMoved(Moved.DOWN);
+        technology.setIsActive(true);
 
-        userRepository.save(user1);
+        technologyRepository.save(technology);
 
-        var userOptional = userRepository.findById(user1.getId());
-        assertTrue(userOptional.isPresent());
-        assertEquals(user1.getEmail(), userOptional.get().getEmail());
+        var technologyOptional = technologyRepository.findById(technology.getId());
+        assertTrue(technologyOptional.isPresent());
     }
 
     @Test
-    public void testFindFetchSpecializationByEmail() {
-        var foundUser = userRepository.findById(user.getId());
-
-        assertTrue(foundUser.isPresent());
-        assertEquals(user.getEmail(), foundUser.get().getEmail());
-        assertNotNull(foundUser.get().getSpecialization());
-        assertEquals(user.getSpecialization().getName(), foundUser.get().getSpecialization().getName());
+    public void testDelete() {
+        technologyRepository.delete(technology1);
+        var technologyOptional = technologyRepository.findById(technology1.getId());
+        assertTrue(technologyOptional.isEmpty());
     }
 
     @Test
-    public void testFindFetchTechnologiesByEmail() {
-        var foundUser = userRepository.findById(user.getId());
+    public void testFindAll() {
+        var technologies = technologyRepository.findAll();
+        technologies.stream().map(Technology::getName).forEach(System.out::println);
 
-        assertTrue(foundUser.isPresent());
-        assertEquals(user.getEmail(), foundUser.get().getEmail());
-        assertNotNull(foundUser.get().getTechnologies());
-        assertThat(foundUser.get().getTechnologies())
-                .hasSize(2)
-                .extracting(Technology::getName)
-                .contains(technology1.getName(), technology2.getName());
+        assertThat(technologies).hasSize(12);
     }
 
     @Test
-    public void testFindByEmail() {
-        var foundUser = userRepository.findByEmail(user.getEmail());
+    public void testFindAllByIsActive() {
+        var isActive = true;
+        var technologies = technologyRepository.findAllByIsActive(isActive);
 
-        assertTrue(foundUser.isPresent());
-        assertEquals(user.getEmail(), foundUser.get().getEmail());
+        assertThat(technologies).hasSize(10);
     }
 
     @Test
-    public void testExistsByEmail() {
-        var exists = userRepository.existsByEmail(user.getEmail());
+    public void testFindFetchUsersById() {
+        var foundTechnology = technologyRepository.findById(technology1.getId());
 
-        assertTrue(exists);
+        assertTrue(foundTechnology.isPresent());
+        assertEquals(technology1.getId(), foundTechnology.get().getId());
+        assertNotNull(foundTechnology.get().getUsers());
+        assertThat(foundTechnology.get().getUsers()).hasSize(1);
     }
 }

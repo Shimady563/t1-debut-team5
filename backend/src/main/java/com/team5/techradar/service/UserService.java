@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,7 +60,7 @@ public class UserService {
         String email = getUserEmail();
         log.info("Getting user by email with technologies: {}", email);
         User user = userRepository.findFetchTechnologiesByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User with email " + email + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User with email " + email + " not found"));
         return mapper.map(user, UserTechnologyResponse.class);
     }
 
@@ -79,7 +78,8 @@ public class UserService {
 
     @Transactional
     public void addTechnologies(List<Long> technologyIds) {
-        String email = getCurrentUser().getEmail();
+        log.info("Adding technologies to the current user, technology ids: {}", technologyIds);
+        String email = getUserEmail();
         User user = findUserByEmail(email);
         List<Technology> technologies = technologyService.getAllTechnologiesByIds(technologyIds);
         technologies.forEach(user::addTechnology);
@@ -88,7 +88,8 @@ public class UserService {
 
     @Transactional
     public void removeTechnologies(List<Long> technologyIds) {
-        String email = getCurrentUser().getEmail();
+        log.info("Removing technologies from current user, technology ids: {}", technologyIds);
+        String email = getUserEmail();
         User user = findUserByEmail(email);
         List<Technology> technologies = technologyService.getAllTechnologiesByIds(technologyIds);
         technologies.forEach(user::removeTechnology);

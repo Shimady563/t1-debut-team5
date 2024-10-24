@@ -41,12 +41,7 @@ public class Technology {
     @Column(name = "is_active")
     private Boolean isActive = Boolean.TRUE;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "user_technology",
-            joinColumns = @JoinColumn(name = "technology_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "technologies")
     private List<User> users = new ArrayList<>();
 
     public void addUser(User user) {
