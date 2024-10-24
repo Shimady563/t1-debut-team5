@@ -1,45 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './TechnologyEditMenu.scss';
 import TechnologyTypeSelector from '../TechologyTypeSelector/TechnologyTypeSelector';
 import SelectedTypeTechnologies from '../SelectedTypeTechnologies/SelectedTypeTechnologies';
 import TechnologyForm from '../TechnologyForm/TechnologyForm';
 import useGetAllTechnologiesRequest from '@/globalApi/getAllTechnologiesRequest';
-import { useTechnologies } from '@/store/TechnologiesStore';
-import axios from 'axios';
+
+import { useChangeTechnology } from '../../api/changeTechnologyRequest';
+import { useDeleteTechnology } from '../../api/deleteTechnologyRequest';
 
 const TechnologyEditMenu = () => {
   const [selectedType, setSelectedType] = useState<number>(0);
   const [selectedTechnology, setSelectedTechnology] = useState<number>(-1);
 
   const getAllTechnologies = useGetAllTechnologiesRequest();
+  const changeTechnology = useChangeTechnology();
+  const deleteTechnology = useDeleteTechnology();
+
+  const handleDeleteTechnology = (techId: number) => {
+    deleteTechnology(techId);
+    setSelectedTechnology(-1);
+  };
 
   useEffect(() => {
     getAllTechnologies();
   }, []);
-
-  const onTechnologyUpdateClick = async (data: any, id: number) => {
-    try {
-      const token = document.cookie
-        .split('; ')
-        .find((row) => row.startsWith('jwt='))
-        ?.split('=')[1];
-      const response = await axios(
-        `http://localhost:8080/api/v1/technologies/${id}`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          method: 'PUT',
-          data: data,
-        }
-      );
-      console.log(response.data);
-      getAllTechnologies();
-    } catch {
-      console.log('put error');
-    }
-  };
 
   return (
     <div className="menu">
@@ -59,7 +43,8 @@ const TechnologyEditMenu = () => {
         />
         {selectedTechnology != -1 && (
           <TechnologyForm
-            onUpdate={onTechnologyUpdateClick}
+            onDelete={handleDeleteTechnology}
+            onUpdate={changeTechnology}
             technologyId={selectedTechnology}
           />
         )}

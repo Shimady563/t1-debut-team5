@@ -1,16 +1,16 @@
-import { useUserInfo } from '@/store/UserSlice';
 import React from 'react';
 import { Outlet, Navigate } from 'react-router-dom';
 
 type PrivateRouteProps = {
   isAllowed: boolean;
+  navPath: string;
 };
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ isAllowed }) => {
+const PrivateRoute: React.FC<PrivateRouteProps> = ({ isAllowed, navPath }) => {
   if (isAllowed) {
     return <Outlet />;
   } else {
-    return <Navigate to="" />;
+    return <Navigate to={`/${navPath}`} />;
   }
 };
 

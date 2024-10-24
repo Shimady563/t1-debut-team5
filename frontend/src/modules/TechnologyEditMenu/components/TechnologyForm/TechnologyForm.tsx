@@ -3,21 +3,21 @@ import './TechnologyForm.scss';
 import { useTechnologyById } from '@/store/TechnologiesStore';
 import DropDown from '@/ui/DropDown/DropDown';
 import { mockLevels, mockStatuses, mockTypes } from '@/modules/Radar/consts';
-import { TLevel } from '@/types';
 import Input from '@/ui/Input/Input';
 import { Toggle } from '@admiral-ds/react-ui';
-import type { ToggleProps } from '@admiral-ds/react-ui';
 import Button from '@/ui/Button/Button';
-import axios from 'axios';
+import { toast } from 'react-toastify';
 
 type TechnologyFormProps = {
   technologyId: number;
   onUpdate: (data: any, id: number) => void;
+  onDelete: (id: number) => void;
 };
 
 const TechnologyForm: React.FC<TechnologyFormProps> = ({
   technologyId,
   onUpdate,
+  onDelete,
 }) => {
   const [level, setLevel] = useState<string>();
   const [name, setName] = useState<string>();
@@ -37,6 +37,11 @@ const TechnologyForm: React.FC<TechnologyFormProps> = ({
   }, [currentTech]);
 
   const onUpdateClick = async () => {
+    if (name == '') {
+      toast.error('Поле не должно быть пустым!');
+      return;
+    }
+
     const data = {
       name: name,
       moved: status,
@@ -45,6 +50,10 @@ const TechnologyForm: React.FC<TechnologyFormProps> = ({
       isActive: state,
     };
     currentTech && onUpdate(data, currentTech?.id);
+  };
+
+  const onDeleteClick = async () => {
+    currentTech && onDelete(currentTech?.id);
   };
 
   const handleLevelSelect = (id: number) => {
@@ -122,7 +131,11 @@ const TechnologyForm: React.FC<TechnologyFormProps> = ({
         <Button onClick={() => onUpdateClick()} size="medium">
           Сохранить
         </Button>
-        <Button style={{ backgroundColor: 'red' }} size="medium">
+        <Button
+          onClick={() => onDeleteClick()}
+          style={{ backgroundColor: 'red' }}
+          size="medium"
+        >
           Удалить технологию{' '}
         </Button>
       </div>

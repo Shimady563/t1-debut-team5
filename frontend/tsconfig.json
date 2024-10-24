@@ -1,5 +1,6 @@
 {
   "files": [],
+  "extends": [],
   "references": [{ "path": "./tsconfig.node.json" }],
   "compilerOptions": {
     "baseUrl": ".",
@@ -19,7 +20,7 @@
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
-
+    "noEmit": true,
     "skipLibCheck": true,
 
     /* Bundler mode */
@@ -27,7 +28,6 @@
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
     "jsx": "react-jsx",
 
     /* Linting */

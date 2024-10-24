@@ -27,6 +27,8 @@ const useCheckUser = () => {
         }
       );
       dispatch(setUser(response.data));
+      localStorage.setItem('isAuth', 'true');
+      localStorage.setItem('isAdmin', response.data.admin);
     } catch (error) {
       console.error('Ошибка при отправке данных:', error);
     }

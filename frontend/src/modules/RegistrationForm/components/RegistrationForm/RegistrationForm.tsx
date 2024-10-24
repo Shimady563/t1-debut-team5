@@ -1,21 +1,25 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import './RegistrationForm.scss';
 import Button from '@/ui/Button/Button';
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
+
+import { useRegister } from '../../api/registerRequest';
 
 const RegistrationForm = () => {
   const regFormRef = useRef<HTMLFormElement>(null);
+
+  const registrate = useRegister();
 
   const regForm = useForm({
     mode: 'onChange',
   });
 
   const { register, handleSubmit, watch, formState } = regForm;
-  const { isValid, touchedFields, errors } = formState;
+  const { touchedFields, errors } = formState;
 
-  const handleLoginSubmit = () => {
-    console.log('aaaaa');
+  const onSubmit = (data: FieldValues) => {
+    registrate(data.regLogin, data.regPassword);
   };
 
   return (
@@ -29,7 +33,7 @@ const RegistrationForm = () => {
       {/* -------------------------------------------------------------- */}
       <form
         ref={regFormRef}
-        onSubmit={handleSubmit(handleLoginSubmit)}
+        onSubmit={handleSubmit(onSubmit)}
         className="reg-form__form"
       >
         <div
