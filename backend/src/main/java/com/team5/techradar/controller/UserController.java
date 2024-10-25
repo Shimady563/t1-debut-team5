@@ -1,16 +1,21 @@
 package com.team5.techradar.controller;
 
-import com.team5.techradar.model.dto.UserRegistrationRequest;
 import com.team5.techradar.model.dto.UserResponse;
+import com.team5.techradar.model.dto.UserTechnologyResponse;
 import com.team5.techradar.service.UserService;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@Validated
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:5173")
+@Secured({"ROLE_USER", "ROLE_ADMIN"})
 public class UserController {
 
     private final UserService userService;
@@ -20,9 +25,18 @@ public class UserController {
         return userService.getCurrentUser();
     }
 
-    @PostMapping("/signup")
-    @ResponseStatus(HttpStatus.CREATED)
-    private void signUp(@RequestBody UserRegistrationRequest request) {
-        userService.createUser(request);
+    @GetMapping("/technology")
+    public UserTechnologyResponse getCurrentUserWithTechnologies() {
+        return userService.getCurrentUserFetchTechnologies();
+    }
+
+    @PutMapping("/technology")
+    public void addTechnologies(@NotEmpty @RequestBody List<Long> technologyIds) {
+        userService.addTechnologies(technologyIds);
+    }
+
+    @DeleteMapping("/technology")
+    public void removeTechnologies(@NotEmpty @RequestBody List<Long> technologyIds) {
+        userService.removeTechnologies(technologyIds);
     }
 }

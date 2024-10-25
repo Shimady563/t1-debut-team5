@@ -3,6 +3,8 @@ spring:
     name: techradar
   datasource:
     driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: postgres
   jpa:
     show-sql: true
     properties:
@@ -13,6 +15,11 @@ spring:
 logging:
   level:
     root: info
+jwt:
+  secret: 12ksafmkhdiucghdinusgnhu12ksafmkhdiucghdinusgnhu
+  tokenLifeTime: 60000000000000
 server:
   servlet:
     context-path: /api/v1
+auth:
+  whitelist: /auth/**, /swagger-ui.html, /v3/api-docs/**, /swagger-ui/**

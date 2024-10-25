@@ -1,9 +1,12 @@
 package com.team5.techradar.service;
 
+import com.team5.techradar.exception.ResourceNotFoundException;
 import com.team5.techradar.model.Specialization;
+import com.team5.techradar.model.Technology;
 import com.team5.techradar.model.User;
 import com.team5.techradar.model.dto.UserRegistrationRequest;
 import com.team5.techradar.model.dto.UserResponse;
+import com.team5.techradar.model.dto.UserTechnologyResponse;
 import com.team5.techradar.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -21,16 +26,21 @@ public class UserService {
     private final UserRepository userRepository;
     private final ModelMapper mapper;
     private final SpecializationService specializationService;
+    private final TechnologyService technologyService;
     private final PasswordEncoder passwordEncoder;
 
-    @Transactional
-    public UserResponse getCurrentUser() {
-        User user = ((User) SecurityContextHolder
+    public String getUserEmail() {
+        return (String) SecurityContextHolder
                 .getContext()
                 .getAuthentication()
-                .getPrincipal());
-        log.info("Getting user information from the context: {}", user.getEmail());
-        return mapper.map(user, UserResponse.class);
+                .getPrincipal();
+    }
+
+    @Transactional(readOnly = true)
+    public UserResponse getCurrentUser() {
+        String email = getUserEmail();
+        log.info("Getting user information from the context: {}", email);
+        return mapper.map(findUserByEmail(email), UserResponse.class);
     }
 
     @Transactional
@@ -42,6 +52,47 @@ public class UserService {
         Specialization specialization = specializationService.getSpecializationById(request.getSpecializationId());
         user.setSpecialization(specialization);
 
+        userRepository.save(user);
+    }
+
+    @Transactional
+    public UserTechnologyResponse getCurrentUserFetchTechnologies() {
+        String email = getUserEmail();
+        log.info("Getting user by email with technologies: {}", email);
+        User user = userRepository.findFetchTechnologiesByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User with email " + email + " not found"));
+        return mapper.map(user, UserTechnologyResponse.class);
+    }
+
+    protected User findUserByEmail(String email) {
+        log.info("Finding user by email: {}", email);
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User with email " + email + " not found"));
+    }
+
+    @Transactional(readOnly = true)
+    public boolean isUserExist(String email) {
+        log.info("Checking if user with email {} exists", email);
+        return userRepository.existsByEmail(email);
+    }
+
+    @Transactional
+    public void addTechnologies(List<Long> technologyIds) {
+        log.info("Adding technologies to the current user, technology ids: {}", technologyIds);
+        String email = getUserEmail();
+        User user = findUserByEmail(email);
+        List<Technology> technologies = technologyService.getAllTechnologiesByIds(technologyIds);
+        technologies.forEach(user::addTechnology);
+        userRepository.save(user);
+    }
+
+    @Transactional
+    public void removeTechnologies(List<Long> technologyIds) {
+        log.info("Removing technologies from current user, technology ids: {}", technologyIds);
+        String email = getUserEmail();
+        User user = findUserByEmail(email);
+        List<Technology> technologies = technologyService.getAllTechnologiesByIds(technologyIds);
+        technologies.forEach(user::removeTechnology);
         userRepository.save(user);
     }
 }
