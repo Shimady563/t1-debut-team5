@@ -1,9 +1,7 @@
 services:
   backend:
     container_name: backend
-    build:
-      context: ./backend
-      dockerfile: build.Dockerfile
+    image: shimady563/t1-debut-team5-backend
     ports:
       - "8080:8080"
     environment:
@@ -16,11 +14,9 @@ services:
 
 #  fronted:
 #    container_name: frontend
-#    build:
-#      context: ./frontend
-#      dockerfile: Dockerfile
+#    image: shimady563/t1-debut-team5-fronted
 #    ports:
-#      - "5173:80"
+#      - "5173:5173"
 #    depends_on:
 #      backend:
 #        condition: service_started

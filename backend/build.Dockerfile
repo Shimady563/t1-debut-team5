@@ -1,7 +1,7 @@
 FROM gradle:jdk21-alpine as builder
 WORKDIR /builder
 COPY . /builder
-RUN gradle bootJar -x test
+RUN gradle bootJar -x test --no-daemon
 
 FROM bellsoft/liberica-runtime-container:jre-21-cds-slim-glibc as optimizer
 WORKDIR /optimizer
