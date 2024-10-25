@@ -1,5 +1,3 @@
-import { TTechnologiesList } from '../../types';
-
 export const mockLevels = [
   { id: 0, label: 'Adopt', slug: 'Adopt' },
   { id: 1, label: 'Trial', slug: 'Trial' },
