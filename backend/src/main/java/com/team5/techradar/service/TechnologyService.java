@@ -23,14 +23,18 @@ public class TechnologyService {
     private final TechnologyRepository technologyRepository;
     private final ModelMapper mapper;
 
-    @Transactional
     protected Technology getTechnologyById(Long id) {
         log.info("Getting technology by id {}", id);
         return technologyRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Technology " + id + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Technology with id: " + id + " not found"));
     }
 
-    @Transactional
+    protected Technology getTechnologyByIdFetchUsers(Long id) {
+        log.info("Getting technology with users by id {}", id);
+        return technologyRepository.findFetchUsersById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Technology with id: " + id + " not found"));
+    }
+
     protected List<Technology> getAllTechnologiesByIds(List<Long> ids) {
         log.info("Getting all technologies by ids {}", ids);
         return technologyRepository.findAllById(ids);
@@ -61,7 +65,7 @@ public class TechnologyService {
 
     @Transactional
     public void updateTechnology(Long id, TechnologyUpdateRequest request) {
-        log.info("Updating technology with id {}", id);
+        log.info("Updating technology with id: {}", id);
         Technology technology = getTechnologyById(id);
         technology.setName(request.getName());
         technology.setLevel(request.getLevel());
@@ -73,8 +77,9 @@ public class TechnologyService {
 
     @Transactional
     public void deleteTechnology(Long id) {
-        log.info("Deleting technology with id {}", id);
-        Technology technology = getTechnologyById(id);
+        log.info("Deleting technology with id: {}", id);
+        Technology technology = getTechnologyByIdFetchUsers(id);
+        technology.getUsers().forEach(user -> user.removeTechnology(technology));
         technologyRepository.delete(technology);
     }
 

@@ -3,16 +3,18 @@ package com.team5.techradar.controller;
 import com.team5.techradar.model.dto.UserResponse;
 import com.team5.techradar.model.dto.UserTechnologyResponse;
 import com.team5.techradar.service.UserService;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:5173")
 @Secured({"ROLE_USER", "ROLE_ADMIN"})
 public class UserController {
 
@@ -29,12 +31,12 @@ public class UserController {
     }
 
     @PutMapping("/technology")
-    public void addTechnologies(@RequestBody List<Long> technologyIds) {
+    public void addTechnologies(@NotEmpty @RequestBody List<Long> technologyIds) {
         userService.addTechnologies(technologyIds);
     }
 
     @DeleteMapping("/technology")
-    public void removeTechnologies(@RequestBody List<Long> technologyIds) {
+    public void removeTechnologies(@NotEmpty @RequestBody List<Long> technologyIds) {
         userService.removeTechnologies(technologyIds);
     }
 }
