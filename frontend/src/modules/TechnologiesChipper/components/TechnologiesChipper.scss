@@ -1,0 +1,17 @@
+@import '../../../styles/variables.scss';
+
+.chipper {
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    &_item {
+      color: $brand-color;
+      font-weight: 600;
+    }
+  }
+
+  &_el {
+    border: 2px solid $brand-color !important;
+  }
+}
