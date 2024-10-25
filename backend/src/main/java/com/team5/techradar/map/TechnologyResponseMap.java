@@ -28,7 +28,7 @@ public class TechnologyResponseMap extends PropertyMap<Technology, TechnologyRes
         return 1;
     };
 
-    private static final Converter<Level, String> leveConverter = context -> context.getSource().getValue();
+    protected static final Converter<Level, String> leveConverter = context -> context.getSource().getValue();
 
     private static final Converter<Type, Integer> typeConverter = context -> context.getSource().ordinal();
 }

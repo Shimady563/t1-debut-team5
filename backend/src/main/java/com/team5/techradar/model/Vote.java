@@ -20,6 +20,7 @@ public class Vote {
     private Long id;
 
     @Column(name = "level")
+    @Enumerated(EnumType.STRING)
     private Level level;
 
     @ManyToOne(fetch = FetchType.LAZY)
