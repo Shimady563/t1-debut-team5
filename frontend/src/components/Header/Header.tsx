@@ -3,10 +3,6 @@ import { NavLink } from 'react-router-dom';
 import { useUserInfo } from '@/store/UserSlice';
 import Button from '@/ui/Button/Button';
 import { useLogout } from './api/logoutRequest';
-import ModalWindow from '../ModalWindow/ModalWindow';
-import { useState } from 'react';
-import TechnologiesChipper from '@/modules/TechnologiesChipper/components/TechnologiesChipper';
-import DropDown from '@/ui/DropDown/DropDown';
 
 type HeaderProps = {
   onModalClick: () => void;

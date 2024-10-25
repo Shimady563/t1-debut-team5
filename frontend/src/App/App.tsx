@@ -32,6 +32,7 @@ const App = () => {
   useEffect(() => {
     isAuth && setIsUserAuth(isAuth);
     isAdmin && setIsUserAdmin(isAdmin);
+    console.log(isUserAuth, isUserAdmin);
   }, [user.isAuth]);
 
   return (
