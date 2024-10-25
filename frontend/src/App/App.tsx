@@ -11,10 +11,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useState } from 'react';
 import { useUserInfo } from '@/store/UserSlice';
 import useCheckUser from '@/globalApi/checkUserRequest';
+import ModalWindow from '@/components/ModalWindow/ModalWindow';
+import TechnologiesChipper from '@/modules/TechnologiesChipper/components/TechnologiesChipper';
 
 const App = () => {
   const chekUser = useCheckUser();
   const user = useUserInfo();
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const isAuth = localStorage.getItem('isAuth');
   const isAdmin = localStorage.getItem('isAdmin');
@@ -34,7 +37,7 @@ const App = () => {
   return (
     <>
       <BrowserRouter>
-        <Header />
+        <Header onModalClick={() => setModalOpen(true)} />
         <Routes>
           <Route
             element={
@@ -62,6 +65,14 @@ const App = () => {
           </Route>
         </Routes>
       </BrowserRouter>
+      <ModalWindow
+        active={modalOpen}
+        handleBackdropClick={() => setModalOpen(false)}
+      >
+        {modalOpen && (
+          <TechnologiesChipper onSubmit={() => setModalOpen(false)} />
+        )}
+      </ModalWindow>
       <ToastContainer autoClose={2000} pauseOnHover={true} />
     </>
   );

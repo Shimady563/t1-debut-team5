@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './TechnologyCreateForm.scss';
 import Input from '@/ui/Input/Input';
 import DropDown from '@/ui/DropDown/DropDown';
-import { mockLevels, mockTypes } from '@/modules/Radar/consts';
+import { mockLevels, mockTypes } from '@/globalConsts';
 import Button from '@/ui/Button/Button';
 import { useCreateTechnology } from '../../api/createTechnologyRequest';
 import { toast } from 'react-toastify';

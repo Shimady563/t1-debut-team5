@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './TechnologyForm.scss';
 import { useTechnologyById } from '@/store/TechnologiesStore';
 import DropDown from '@/ui/DropDown/DropDown';
-import { mockLevels, mockStatuses, mockTypes } from '@/modules/Radar/consts';
+import { mockLevels, mockStatuses, mockTypes } from '@/globalConsts';
 import Input from '@/ui/Input/Input';
 import { Toggle } from '@admiral-ds/react-ui';
 import Button from '@/ui/Button/Button';

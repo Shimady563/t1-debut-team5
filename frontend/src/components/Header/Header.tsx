@@ -3,10 +3,19 @@ import { NavLink } from 'react-router-dom';
 import { useUserInfo } from '@/store/UserSlice';
 import Button from '@/ui/Button/Button';
 import { useLogout } from './api/logoutRequest';
+import ModalWindow from '../ModalWindow/ModalWindow';
+import { useState } from 'react';
+import TechnologiesChipper from '@/modules/TechnologiesChipper/components/TechnologiesChipper';
+import DropDown from '@/ui/DropDown/DropDown';
 
-const Header = () => {
+type HeaderProps = {
+  onModalClick: () => void;
+};
+
+const Header: React.FC<HeaderProps> = ({ onModalClick }) => {
   const user = useUserInfo();
   const logout = useLogout();
+  // const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const onLogoutClick = () => {
     logout();
@@ -35,6 +44,7 @@ const Header = () => {
               <NavLink to="/login">Войти</NavLink>
             </li>
           )}
+          {user.isAuth && <li onClick={onModalClick}>Технологии</li>}
           {user.isAuth && (
             <Button onClick={onLogoutClick} size="medium">
               Выйти

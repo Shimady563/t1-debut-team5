@@ -6,7 +6,6 @@ const AuthPage = () => {
   return (
     <div className="auth-page">
       <AuthForm />
-      {/* <TechnologiesChipper /> */}
     </div>
   );
 };

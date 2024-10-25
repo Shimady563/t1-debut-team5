@@ -1,62 +1,67 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './TechnologiesChipper.scss';
 import { Chips } from '@admiral-ds/react-ui';
-import type { ChipsProps } from '@admiral-ds/react-ui';
+import { useUserTechnologies } from '../api/UserTechnologiesRequest';
+import { useAllTechnologies } from '@/store/TechnologiesStore';
+import { updateSelectedStatus } from '../helpers/updateSelectesStatus';
+import { TTechnology } from '@/types';
+import { getSelectedIds } from '../helpers/getSelectedTechnologiesIds';
+import Button from '@/ui/Button/Button';
+import clsx from 'clsx';
+import { useUpdateUserTechnologies } from '../api/UpdateUserTechnologies';
 
-import { mockElements } from '@/modules/Radar/consts';
+type TechnologiesChipperProps = {
+  onSubmit: () => void;
+};
 
-// function deepClone(obj: any): any {
-//   if (typeof obj !== 'object' || obj === null) {
-//     return obj;
-//   }
+const TechnologiesChipper: React.FC<TechnologiesChipperProps> = ({
+  onSubmit,
+}) => {
+  const userTechnologies = useUserTechnologies();
+  const allServiceTechnologies = useAllTechnologies();
 
-//   if (Array.isArray(obj)) {
-//     return obj.map(deepClone);
-//   }
+  const [allTechnologies, setAllTechnologies] = React.useState<any>([]);
+  const updateUserTechnologies = useUpdateUserTechnologies();
 
-//   return Object.fromEntries(
-//     Object.entries(obj).map(([key, value]) => [key, deepClone(value)])
-//   );
-// }
+  const handleKeyM = (id: number) => {
+    setAllTechnologies((prev: TTechnology[]) =>
+      prev.map((item: any) =>
+        item.id === id ? { ...item, selected: !item.selected } : { ...item }
+      )
+    );
+  };
 
-// const copiedMockElements = deepClone(mockElements);
-// copiedMockElements.forEach((element) => {
-//   element.selected = false;
-// });
+  const onClick = () => {
+    updateUserTechnologies(getSelectedIds(allTechnologies));
+    onSubmit();
+  };
 
-// console.log(copiedMockElements);
+  useEffect(() => {
+    setAllTechnologies(
+      updateSelectedStatus(allServiceTechnologies, userTechnologies)
+    );
+  }, [userTechnologies]);
 
-const TechnologiesChipper = () => {
-  //   const [listM, setListM] = React.useState<any>(copiedMockElements);
-  //   const handleKeyM = (id: number) => {
-  //     setListM((prev) =>
-  //       prev.map((item) =>
-  //         item.id === id ? { ...item, selected: !item.selected } : { ...item }
-  //       )
-  //     );
-  //   };
-  //   const req = () => {
-  //     console.log(listM);
-  //   };
-  //   return (
-  //     <div className="chipper">
-  //       <div className="chipper__content">
-  //         {listM.map((el: any) => (
-  //           <Chips
-  //             key={el.id}
-  //             className="chipper_el"
-  //             onClick={handleKeyM.bind(null, el.id)}
-  //             selected={el.selected}
-  //           >
-  //             <div className="chipper__content_item">{el.name}</div>
-  //           </Chips>
-  //         ))}
-  //       </div>
-  //       <div className="" onClick={req}>
-  //         aaaa
-  //       </div>
-  //     </div>
-  //   );
+  return (
+    <div className="chipper">
+      <h2 className="chipper__title">Выберите Ваши технологии</h2>
+      <div className="chipper__content">
+        {allTechnologies.map((el: any) => (
+          <Chips
+            key={el.id}
+            className={clsx('chipper_el', el.selected ? 'selected' : '')}
+            onClick={handleKeyM.bind(null, el.id)}
+            selected={el.selected}
+          >
+            <div className="chipper__content_item">{el.name}</div>
+          </Chips>
+        ))}
+      </div>
+      <div onClick={() => onClick()} className="chipper__submit">
+        <Button size="medium">Сохранить</Button>
+      </div>
+    </div>
+  );
 };
 
 export default TechnologiesChipper;

@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TTechnologiesList, TTechnology } from '@/types';
 import { useSelector } from 'react-redux';
+import { useMemo } from 'react';
 
 const initialState: TTechnology[] = [];
 
@@ -14,10 +15,21 @@ export const technologiesSlice = createSlice({
   },
 });
 
-export const useTechnologies = () =>
+export const useAllTechnologies = () =>
   useSelector(
     (state: { technologiesData: TTechnology[] }) => state.technologiesData
   );
+
+export const useActiveTechnologies = (): TTechnology[] => {
+  const technologies = useSelector(
+    (state: { technologiesData: TTechnology[] }) => state.technologiesData
+  );
+
+  return useMemo(
+    () => technologies.filter((tech) => tech.isActive === true),
+    [technologies]
+  );
+};
 
 export const useFilteredTechnologies = (type: number): TTechnology[] => {
   const technologies = useSelector(

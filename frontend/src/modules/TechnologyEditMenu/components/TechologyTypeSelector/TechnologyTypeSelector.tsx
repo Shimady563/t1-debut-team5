@@ -1,6 +1,6 @@
 import React from 'react';
 import './TechnologyTypeSelector.scss';
-import { mockTypes } from '@/modules/Radar/consts';
+import { mockTypes } from '@/globalConsts';
 import clsx from 'clsx';
 
 type TechnologyTypeSelectorProps = {

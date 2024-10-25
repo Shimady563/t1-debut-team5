@@ -1,17 +1,39 @@
 @import '../../../styles/variables.scss';
 
 .chipper {
+  margin-top: 30px;
+  margin-bottom: 100px;
+
+  background-color: #fff;
+  padding: 30px 60px;
+  border-radius: 16px;
+
+  width: 700px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
   &__content {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: 8px;
     &_item {
-      color: $brand-color;
       font-weight: 600;
     }
   }
 
   &_el {
     border: 2px solid $brand-color !important;
+    color: $brand-color !important;
+    border-radius: 8px !important;
+
+    &.selected {
+      color: #fff !important;
+      background-color: $brand-color;
+
+      &:hover {
+        background-color: $brand-color-hover;
+      }
+    }
   }
 }
