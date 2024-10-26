@@ -134,7 +134,10 @@ public class UserServiceTest {
     }
 
     @Test
-    public void shouldAddTechnologies() {
+    public void shouldModifyTechnologies() {
+        var existingTechnology = new Technology();
+        existingTechnology.setId(3L);
+        existingTechnology.setType(Type.PLATFORMS);
         var technology1 = new Technology();
         technology1.setId(1L);
         technology1.setType(Type.LANGUAGES);
@@ -143,16 +146,19 @@ public class UserServiceTest {
         technology2.setType(Type.DATABASES);
         var user = new User();
         var email = "email@mail.com";
+        user.addTechnology(existingTechnology);
 
         willReturn(email).given(userService).getUserEmail();
         given(userRepository.findByEmail(email)).willReturn(Optional.of(user));
         given(technologyService.getAllTechnologiesByIds(List.of(technology1.getId(), technology2.getId())))
                 .willReturn(List.of(technology1, technology2));
 
-        userService.addTechnologies(List.of(technology1.getId(), technology2.getId()));
+        userService.modifyTechnologies(List.of(technology1.getId(), technology2.getId()));
 
         then(userRepository).should().save(user);
-        assertThat(user.getTechnologies()).hasSize(2);
+        assertThat(user.getTechnologies())
+                .hasSize(2)
+                .contains(technology1, technology2);
     }
 
     @Test

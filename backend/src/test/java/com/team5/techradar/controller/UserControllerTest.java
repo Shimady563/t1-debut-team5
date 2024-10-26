@@ -65,7 +65,7 @@ public class UserControllerTest {
 
     @Test
     @WithMockUser(roles = {"USER", "ADMIN"})
-    public void shouldAddTechnologies() throws Exception {
+    public void shouldModifyTechnologies() throws Exception {
         var request = List.of(1L, 2L, 3L);
 
         mockMvc.perform(put("/users/technology").with(csrf())
@@ -74,7 +74,7 @@ public class UserControllerTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk());
 
-        then(userService).should().addTechnologies(request);
+        then(userService).should().modifyTechnologies(request);
     }
 
     @Test
