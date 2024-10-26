@@ -1,4 +1,3 @@
-import React from 'react';
 import RegistrationForm from '@/modules/RegistrationForm/components/RegistrationForm/RegistrationForm';
 import './RegistrationPage.scss';
 

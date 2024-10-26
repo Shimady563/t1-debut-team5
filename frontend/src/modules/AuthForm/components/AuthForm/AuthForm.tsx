@@ -2,39 +2,20 @@ import Button from '@/ui/Button/Button';
 import { useRef } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import './AuthForm.scss';
-import axios from 'axios';
+import { NavLink } from 'react-router-dom';
+import { useLogin } from '../../api/loginRequest';
 
 const AuthForm = () => {
   const authFormRef = useRef<HTMLFormElement>(null);
-
   const authForm = useForm({
     mode: 'onChange',
   });
-
   const { register, handleSubmit, formState } = authForm;
   const { touchedFields, errors } = formState;
 
-  const handleLoginSubmit = async (email: string, password: string) => {
-    try {
-      const response = await axios('http://localhost:8080/api/v1/users/login', {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-        method: 'POST',
-        data: { username: email, password },
-        withCredentials: true,
-      });
-
-      console.log(response);
-
-      console.log('Ответ от сервера:', response.data);
-    } catch (error) {
-      console.error('Ошибка при отправке данных:', error);
-    }
-  };
-
+  const login = useLogin();
   const onSubmit = (data: FieldValues) => {
-    handleLoginSubmit(data.authLogin, data.authPassword);
+    login(data.authLogin, data.authPassword);
   };
 
   return (
@@ -103,7 +84,11 @@ const AuthForm = () => {
       <div className="auth-form__footer">
         <span className="auth-form__footer_text">
           Еще нет аккаунта?{' '}
-          <span className="auth-form__footer_text_link">Зарегистрируйтесь</span>
+          <NavLink to="/reg">
+            <span className="auth-form__footer_text_link">
+              Зарегистрируйтесь
+            </span>
+          </NavLink>
         </span>
       </div>
     </div>

@@ -1,0 +1,23 @@
+@import '../../../../styles/variables.scss';
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-right: 40px;
+
+  border-right: 5px solid $brand-color;
+
+  &__title {
+    font-size: 24px;
+  }
+
+  &__type-nav {
+    margin-bottom: 24px;
+  }
+
+  &__content {
+    display: flex;
+    gap: 32px;
+  }
+}

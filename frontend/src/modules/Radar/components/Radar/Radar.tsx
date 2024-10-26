@@ -6,16 +6,22 @@ import {
   mockElements,
   mockTypes,
   mockOptions,
-} from '@modules/Radar/consts';
+} from '@/globalConsts';
 import CustomRadar from '@/libs/CustomRadarLib/CustomRadar';
 import { TweenMax } from 'gsap';
 import './Radar.scss';
 import { useDispatch } from 'react-redux';
 import { setTechnologies } from '@/store/TechnologiesStore';
-import { useTechnologies } from '@/store/TechnologiesStore';
+import {
+  useTechnologies,
+  useAllTechnologies,
+  useActiveTechnologies,
+} from '@/store/TechnologiesStore';
 import TechnologiesList from '@/components/TechnologiesList/TechnologiesList';
 import axios from 'axios';
 import { useTechnologiesRequest } from '../../api/getTechnologiesRequest';
+import useGetTechnologiesRequest from '@/globalApi/getTechnologiesRequest';
+import useGetAllTechnologiesRequest from '@/globalApi/getAllTechnologiesRequest';
 
 const padding = 0;
 
@@ -26,7 +32,7 @@ const Radar = () => {
   const [isExpanded, setIsExpanded] = useState(true);
   const [selectedType, setSelectedType] = useState<number>(-1);
 
-  const initialTechs = useTechnologies();
+  const initialTechs = useActiveTechnologies();
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -38,20 +44,7 @@ const Radar = () => {
     })
   );
 
-  const getTechnologies = async () => {
-    try {
-      const response = await axios(
-        `http://localhost:8080/api/v1/technologies/active?active=true`,
-        {
-          method: 'GET',
-          //   withCredentials: 'true',
-        }
-      );
-      dispatch(setTechnologies(response.data));
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const getTechnologies = useGetAllTechnologiesRequest();
 
   useEffect(() => {
     getTechnologies();
@@ -184,10 +177,10 @@ const Radar = () => {
               cy={radarDiagram.options.baseDimension / 2}
               fill="rgb(181, 191, 255)"
             ></circle>
-            {radarDiagram.levelAxes.map((ringAxis: any) => (
+            {radarDiagram.levelAxes.map((ringAxis: any, id) => (
               <circle
+                key={id}
                 className="radar__ring"
-                key={ringAxis.slug}
                 cx={radarDiagram.options.baseDimension / 2}
                 cy={radarDiagram.options.baseDimension / 2}
                 r={ringAxis.j}
@@ -198,7 +191,7 @@ const Radar = () => {
               ></circle>
             ))}
             {radarDiagram.typeAxes.map((segAxis: any, idx: any) => (
-              <g key={segAxis.slug}>
+              <g key={idx}>
                 <line
                   className="radar__segment-axis"
                   x1={segAxis.axis.x1}
@@ -210,9 +203,9 @@ const Radar = () => {
                 ></line>
               </g>
             ))}
-            {radarDiagram.dots.map((dot: any) => (
+            {radarDiagram.dots.map((dot: any, id) => (
               <g
-                key={dot.label}
+                key={id}
                 className="radar__dot"
                 style={{ transform: `translate(${dot.x}px, ${dot.y}px)` }}
               >

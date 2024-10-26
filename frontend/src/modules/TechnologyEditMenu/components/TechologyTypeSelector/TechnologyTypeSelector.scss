@@ -1,0 +1,21 @@
+@import '../../../../styles/variables.scss';
+
+.selector {
+  outline: 2px solid $brand-color;
+  width: fit-content;
+  border-radius: 8px;
+
+  display: flex;
+  overflow: hidden;
+
+  &__item {
+    font-weight: 600;
+    font-size: 16px;
+    padding: 8px 14px;
+
+    &.active {
+      background-color: $brand-color;
+      color: #fff;
+    }
+  }
+}

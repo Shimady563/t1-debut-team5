@@ -1,0 +1,42 @@
+@import '../../../../styles/variables.scss';
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    &_item {
+      display: flex;
+      align-items: end;
+      gap: 56px;
+
+      &_title {
+        display: block;
+        font-size: $font-size-text;
+        font-weight: 600;
+        width: 100px;
+      }
+    }
+  }
+
+  &__actions {
+    // margin-top: 16px;
+    display: flex;
+    gap: 16px;
+    align-self: flex-end;
+  }
+}
+
+.toggler {
+  margin-bottom: -0.2rem;
+  display: flex;
+  gap: 8px;
+
+  &__text {
+    font-size: 16px;
+  }
+}

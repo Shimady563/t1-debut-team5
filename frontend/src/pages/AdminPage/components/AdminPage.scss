@@ -1,0 +1,18 @@
+@import '../../../styles/variables.scss';
+
+.admin-page {
+  padding-top: 102px;
+  height: 570px;
+
+  width: 80vw;
+  margin: 0 auto;
+
+  display: flex;
+  justify-content: space-between;
+
+  &__line {
+    height: 100%;
+    width: 2px;
+    background-color: red;
+  }
+}

@@ -3,12 +3,17 @@ import { TUser } from '@/types';
 import { useSelector } from 'react-redux';
 
 interface IUserState {
-  user: TUser | null;
+  user: TUser;
   isAuth: boolean;
 }
 
 const initialState: IUserState = {
-  user: null,
+  user: {
+    id: -1,
+    email: '',
+    admin: false,
+    specialization: '',
+  },
   isAuth: false,
 };
 
@@ -25,7 +30,7 @@ export const userSlice = createSlice({
 });
 
 export const useUserInfo = () =>
-  useSelector((state: { userData: IUserState }) => state.userData.user);
+  useSelector((state: { userData: IUserState }) => state.userData);
 
 export const useAuth = () =>
   useSelector((state: { userData: IUserState }) => state.userData.isAuth);
