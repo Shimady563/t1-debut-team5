@@ -1,13 +1,11 @@
 name: Publish Fronted Image
 on:
-  workflow_run:
-    workflows:
-      - Test Frontend
-    types:
-      - completed
+  push:
     branches:
       - main
-      - frontend
+  pull_request:
+    branches:
+      - main
 jobs:
   build:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
