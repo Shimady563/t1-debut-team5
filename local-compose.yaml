@@ -1,7 +1,7 @@
 services:
   backend:
     container_name: backend
-    image: shimady563/t1-debut-team5-backend
+    image: shimady563/t1-debut-team5-backend:latest
     ports:
       - "8080:8080"
     environment:
@@ -12,14 +12,14 @@ services:
       postgres:
         condition: service_healthy
 
-#  fronted:
-#    container_name: frontend
-#    image: shimady563/t1-debut-team5-fronted
-#    ports:
-#      - "5173:5173"
-#    depends_on:
-#      backend:
-#        condition: service_started
+  fronted:
+    container_name: frontend
+    image: shimady563/t1-debut-team5-frontend:latest
+    ports:
+      - "5173:5173"
+    depends_on:
+      backend:
+        condition: service_started
 
   postgres:
     container_name: postgres
