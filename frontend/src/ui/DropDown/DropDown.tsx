@@ -1,5 +1,4 @@
 import { Dropdown } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
 import './DropDown.scss';
 // import {
 //   setDropdownValueId,
@@ -22,7 +21,7 @@ const DropDown: React.FC<DropDownProps> = ({
       <Dropdown.Toggle className="dropdown__toggle">{title}</Dropdown.Toggle>
 
       <Dropdown.Menu className="dropdown__menu">
-        {options.map((option) => (
+        {options.map((option: any) => (
           <Dropdown.Item
             onClick={() => handleSelect(option.id)}
             key={option.id}

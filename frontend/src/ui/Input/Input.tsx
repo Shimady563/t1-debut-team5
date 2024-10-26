@@ -15,10 +15,15 @@ export type InputProps = Omit<
 };
 
 const Input: React.FC<InputProps> = React.forwardRef(
-  (
-    { onChangeValue, searchValue, className, value, placeholder, sizing, id },
-    forwardedRef
-  ) => {
+  ({
+    onChangeValue,
+    searchValue,
+    className,
+    value,
+    placeholder,
+    sizing,
+    id,
+  }) => {
     const onUpdateSearch = useCallback((str: string) => {
       onChangeValue(str);
     }, []);

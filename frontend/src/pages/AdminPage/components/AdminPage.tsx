@@ -1,4 +1,3 @@
-import React from 'react';
 import './AdminPage.scss';
 import TechnologyEditMenu from '@/modules/TechnologyEditMenu/components/TechnologyEditMenu/TechnologyEditMenu';
 import TechnologyCreateForm from '@/modules/TechnologyCreateForm/components/TechnologyCreateForm/TechnologyCreateForm';

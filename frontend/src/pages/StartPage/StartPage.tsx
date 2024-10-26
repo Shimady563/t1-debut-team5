@@ -1,4 +1,3 @@
-import React from 'react';
 import './StartPage.scss';
 
 const StartPage = () => {

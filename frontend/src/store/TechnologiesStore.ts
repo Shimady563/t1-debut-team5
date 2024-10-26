@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TTechnologiesList, TTechnology } from '@/types';
+import { TTechnology } from '@/types';
 import { useSelector } from 'react-redux';
 import { useMemo } from 'react';
 
@@ -10,6 +10,7 @@ export const technologiesSlice = createSlice({
   initialState,
   reducers: {
     setTechnologies: (state, action: PayloadAction<TTechnology[]>) => {
+      state;
       return [...action.payload];
     },
   },
