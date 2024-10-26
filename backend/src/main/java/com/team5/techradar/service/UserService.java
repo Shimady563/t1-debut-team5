@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -77,11 +78,16 @@ public class UserService {
     }
 
     @Transactional
-    public void addTechnologies(List<Long> technologyIds) {
+    public void modifyTechnologies(List<Long> technologyIds) {
         log.info("Adding technologies to the current user, technology ids: {}", technologyIds);
         String email = getUserEmail();
         User user = findUserByEmail(email);
         List<Technology> technologies = technologyService.getAllTechnologiesByIds(technologyIds);
+        user.setTechnologies(
+                user.getTechnologies().stream()
+                        .filter(technologies::contains)
+                        .collect(Collectors.toSet())
+        );
         technologies.forEach(user::addTechnology);
         userRepository.save(user);
     }

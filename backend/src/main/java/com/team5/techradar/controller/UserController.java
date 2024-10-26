@@ -31,8 +31,8 @@ public class UserController {
     }
 
     @PutMapping("/technology")
-    public void addTechnologies(@NotEmpty @RequestBody List<Long> technologyIds) {
-        userService.addTechnologies(technologyIds);
+    public void modifyTechnologies(@NotEmpty @RequestBody List<Long> technologyIds) {
+        userService.modifyTechnologies(technologyIds);
     }
 
     @DeleteMapping("/technology")
