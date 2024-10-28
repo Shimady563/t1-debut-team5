@@ -125,4 +125,13 @@ public class TechnologyRepositoryTest {
         assertNotNull(foundTechnology.get().getUsers());
         assertThat(foundTechnology.get().getUsers()).hasSize(1);
     }
+
+    @Test
+    public void testFindAllFetchUsers() {
+        var foundTechnologies = technologyRepository.findAllFetchUsers();
+
+        assertThat(foundTechnologies).hasSize(12)
+                .extracting(Technology::getUsers)
+                .contains(technology1.getUsers(), technology2.getUsers());
+    }
 }

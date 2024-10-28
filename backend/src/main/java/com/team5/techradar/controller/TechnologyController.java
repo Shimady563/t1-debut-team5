@@ -2,6 +2,7 @@ package com.team5.techradar.controller;
 
 import com.team5.techradar.model.dto.TechnologyCreationRequest;
 import com.team5.techradar.model.dto.TechnologyResponse;
+import com.team5.techradar.model.dto.TechnologyStatsResponse;
 import com.team5.techradar.model.dto.TechnologyUpdateRequest;
 import com.team5.techradar.service.TechnologyService;
 import jakarta.validation.Valid;
@@ -28,6 +29,13 @@ public class TechnologyController {
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public List<TechnologyResponse> getAllTechnologiesByActivity(@RequestParam(name = "active") Boolean isActive) {
         return technologyService.getAllTechnologiesByActivity(isActive);
+    }
+
+
+    @GetMapping("/usage-stats")
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    public List<TechnologyStatsResponse> getTechnologiesWithUsageStats() {
+        return technologyService.getAllTechnologiesWithUsageStats();
     }
 
     @PostMapping("")

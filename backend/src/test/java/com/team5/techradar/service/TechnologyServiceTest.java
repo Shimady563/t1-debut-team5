@@ -6,6 +6,7 @@ import com.team5.techradar.model.Technology;
 import com.team5.techradar.model.Type;
 import com.team5.techradar.model.dto.TechnologyCreationRequest;
 import com.team5.techradar.model.dto.TechnologyResponse;
+import com.team5.techradar.model.dto.TechnologyStatsResponse;
 import com.team5.techradar.model.dto.TechnologyUpdateRequest;
 import com.team5.techradar.repository.TechnologyRepository;
 import org.junit.jupiter.api.Test;
@@ -163,5 +164,21 @@ public class TechnologyServiceTest {
 
         assertThrows(ResourceNotFoundException.class,
                 () -> technologyService.getTechnologyByIdFetchUsers(1L));
+    }
+
+    @Test
+    public void shouldGetAllTechnologiesWithUsageStats() {
+        var technology1 = new Technology();
+        var technology2 = new Technology();
+        var response1 = new TechnologyStatsResponse();
+        var response2 = new TechnologyStatsResponse();
+
+        given(technologyRepository.findAllFetchUsers()).willReturn(List.of(technology1, technology2));
+        given(mapper.map(technology1, TechnologyStatsResponse.class)).willReturn(response1);
+        given(mapper.map(technology2, TechnologyStatsResponse.class)).willReturn(response2);
+
+        technologyService.getAllTechnologiesWithUsageStats();
+
+        then(technologyRepository).should().findAllFetchUsers();
     }
 }

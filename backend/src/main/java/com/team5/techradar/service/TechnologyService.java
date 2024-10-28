@@ -5,6 +5,7 @@ import com.team5.techradar.model.Moved;
 import com.team5.techradar.model.Technology;
 import com.team5.techradar.model.dto.TechnologyCreationRequest;
 import com.team5.techradar.model.dto.TechnologyResponse;
+import com.team5.techradar.model.dto.TechnologyStatsResponse;
 import com.team5.techradar.model.dto.TechnologyUpdateRequest;
 import com.team5.techradar.repository.TechnologyRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -53,6 +55,13 @@ public class TechnologyService {
         log.info("Getting all technologies by activity {}", isActive);
         return technologyRepository.findAllByIsActive(isActive).stream()
                 .map(o -> mapper.map(o, TechnologyResponse.class))
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<TechnologyStatsResponse> getAllTechnologiesWithUsageStats() {
+        return technologyRepository.findAllFetchUsers().stream()
+                .map(t -> mapper.map(t, TechnologyStatsResponse.class))
                 .toList();
     }
 

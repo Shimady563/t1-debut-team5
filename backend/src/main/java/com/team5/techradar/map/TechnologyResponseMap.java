@@ -19,7 +19,7 @@ public class TechnologyResponseMap extends PropertyMap<Technology, TechnologyRes
         map(source.getIsActive(), destination.getIsActive());
     }
 
-    private static final Converter<Moved, Integer> movedConverter = context -> {
+    protected static final Converter<Moved, Integer> movedConverter = context -> {
         if (context.getSource() == Moved.DOWN) {
             return -1;
         } else if (context.getSource() == Moved.NOT_MOVED) {
@@ -28,7 +28,7 @@ public class TechnologyResponseMap extends PropertyMap<Technology, TechnologyRes
         return 1;
     };
 
-    private static final Converter<Level, String> leveConverter = context -> context.getSource().getValue();
+    protected static final Converter<Level, String> leveConverter = context -> context.getSource().getValue();
 
-    private static final Converter<Type, Integer> typeConverter = context -> context.getSource().ordinal();
+    protected static final Converter<Type, Integer> typeConverter = context -> context.getSource().ordinal();
 }

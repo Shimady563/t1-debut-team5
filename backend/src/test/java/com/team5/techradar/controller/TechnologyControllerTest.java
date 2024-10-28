@@ -57,6 +57,16 @@ public class TechnologyControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = {"USER", "ADMIN"})
+    public void shouldGetAllTechnologiesWithUsageStats() throws Exception {
+        mockMvc.perform(get("/technologies/usage-stats").with(csrf())
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        then(technologyService).should().getAllTechnologiesWithUsageStats();
+    }
+
+    @Test
     @WithMockUser(roles = "ADMIN")
     public void shouldCreateTechnology() throws Exception {
         var request = new TechnologyCreationRequest();
