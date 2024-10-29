@@ -19,7 +19,6 @@ const TechnologyCreateForm = () => {
   };
 
   const handleCreateTechnologyClick = () => {
-    console.log(name);
     if (!name) {
       toast.error('Поле не должно быть пустым');
       return;

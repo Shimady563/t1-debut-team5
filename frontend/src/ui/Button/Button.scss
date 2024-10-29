@@ -18,15 +18,15 @@
   transition: background-color 0.1s linear;
 
   &.big {
-    font-size: 24px;
+    font-size: $font-size-h2;
   }
 
   &.medium {
-    font-size: 16px;
+    font-size: $font-size-text;
   }
 
   &.small {
-    font-size: 12px;
+    font-size: $font-size-text-small;
   }
 
   &:hover {

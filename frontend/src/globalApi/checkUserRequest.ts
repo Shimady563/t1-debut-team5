@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux';
 import { setUser } from '@/store/UserSlice';
 import { getTokenFromCookie } from '@/utils/tokenGetter';
 import apiClient from './apiClient';
+import { toast } from 'react-toastify';
 
 const useCheckUser = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const useCheckUser = () => {
       localStorage.setItem('isAuth', 'true');
       localStorage.setItem('isAdmin', response.data.admin);
     } catch (error) {
-      console.error('Ошибка при отправке данных:', error);
+      toast.error('Упс...Что-то пошло не так');
     }
   };
 

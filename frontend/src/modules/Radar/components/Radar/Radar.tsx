@@ -29,12 +29,12 @@ const Radar = () => {
   const [options, setOptions] = useState(mockOptions);
   let svgRef = useRef(null);
   const dispatch = useDispatch();
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState<boolean>(true);
   const [selectedType, setSelectedType] = useState<number>(-1);
 
   const initialTechs = useActiveTechnologies();
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const [radarDiagram, setRadarDiagram] = useState(
     new CustomRadar(options, {

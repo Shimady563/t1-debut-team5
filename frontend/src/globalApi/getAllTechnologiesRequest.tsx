@@ -2,6 +2,7 @@ import { setTechnologies } from '@/store/TechnologiesStore';
 import { getTokenFromCookie } from '@/utils/tokenGetter';
 import { useDispatch } from 'react-redux';
 import apiClient from './apiClient';
+import { toast } from 'react-toastify';
 
 const useGetAllTechnologiesRequest = () => {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const useGetAllTechnologiesRequest = () => {
       });
       dispatch(setTechnologies(response.data));
     } catch (error) {
-      console.log(error);
+      toast.error('Упс...Что-то пошло не так');
     }
   };
 

@@ -1,6 +1,7 @@
 import apiClient from '@/globalApi/apiClient';
 import useGetAllTechnologiesRequest from '@/globalApi/getAllTechnologiesRequest';
 import { getTokenFromCookie } from '@/utils/tokenGetter';
+import { toast } from 'react-toastify';
 
 export const useDeleteTechnology = () => {
   const getAllTechnologies = useGetAllTechnologiesRequest();
@@ -17,7 +18,7 @@ export const useDeleteTechnology = () => {
 
       getAllTechnologies();
     } catch {
-      console.log('delete error');
+      toast.error('Упс...Что-то пошло не так');
     }
   };
 

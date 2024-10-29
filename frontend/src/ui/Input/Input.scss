@@ -1,18 +1,16 @@
 @import '@styles/variables.scss';
 
 .input {
-  margin-top: 10px;
-
   &.big {
-    font-size: 24px;
+    font-size: $font-size-h2;
   }
 
   &.medium {
-    font-size: 16px;
+    font-size: $font-size-text;
   }
 
   &.small {
-    font-size: 12px;
+    font-size: $font-size-text-small;
   }
 
   &__block {

@@ -7,14 +7,12 @@ body {
 }
 
 #root {
-  background-color: #eef2f6;
+  background-color: $background-color;
   min-height: 100vh;
-  // box-sizing: border-box;
 }
 
 body {
-  background-color: #eef2f6;
-  // box-sizing: border-box;
+  background-color: $background-color;
 }
 
 button {
