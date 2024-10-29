@@ -1,4 +1,5 @@
-import axios from 'axios';
+import apiClient from '@/globalApi/apiClient';
+import { getTokenFromCookie } from '@/utils/tokenGetter';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -6,22 +7,15 @@ export const useCreateTechnology = () => {
   const navigate = useNavigate();
   const TechnologyCreateRequest = async (data: any) => {
     try {
-      const token = document.cookie
-        .split('; ')
-        .find((row) => row.startsWith('jwt='))
-        ?.split('=')[1];
-      const response = await axios(
-        `http://localhost:8080/api/v1/technologies`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          method: 'POST',
-          data: data,
-        }
-      );
-      console.log(response);
+      const token = getTokenFromCookie();
+
+      await apiClient.post('technologies', data, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       toast.success('Технология добавлена!');
       navigate('/radar');
     } catch {

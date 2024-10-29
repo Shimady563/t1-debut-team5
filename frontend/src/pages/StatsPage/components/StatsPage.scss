@@ -1,6 +1,9 @@
+@import '@styles/variables.scss';
+
 .stats-page {
   padding-top: 102px;
 
-  width: 80vw;
+  width: $content-width;
+  max-width: $content-max-width;
   margin: 0 auto;
 }

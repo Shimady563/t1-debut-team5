@@ -5,6 +5,8 @@ export const mockLevels = [
   { id: 3, label: 'Hold', slug: 'Hold' },
 ];
 
+export const API_BASE_URL = 'http://localhost:8080';
+
 export const mockElements = [
   {
     id: 1,

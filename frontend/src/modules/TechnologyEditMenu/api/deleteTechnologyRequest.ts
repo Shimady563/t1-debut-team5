@@ -1,25 +1,20 @@
+import apiClient from '@/globalApi/apiClient';
 import useGetAllTechnologiesRequest from '@/globalApi/getAllTechnologiesRequest';
-import axios from 'axios';
+import { getTokenFromCookie } from '@/utils/tokenGetter';
 
 export const useDeleteTechnology = () => {
   const getAllTechnologies = useGetAllTechnologiesRequest();
   const TechnologyDeleteRequest = async (id: number) => {
     try {
-      const token = document.cookie
-        .split('; ')
-        .find((row) => row.startsWith('jwt='))
-        ?.split('=')[1];
-      const response = await axios(
-        `http://localhost:8080/api/v1/technologies/${id}`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          method: 'DELETE',
-        }
-      );
-      console.log(response.data);
+      const token = getTokenFromCookie();
+
+      await apiClient.delete(`technologies/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       getAllTechnologies();
     } catch {
       console.log('delete error');

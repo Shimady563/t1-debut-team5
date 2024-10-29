@@ -1,6 +1,5 @@
 import { setTechnologies } from '@/store/TechnologiesStore';
 import { getTokenFromCookie } from '@/utils/tokenGetter';
-import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import apiClient from './apiClient';
 
@@ -10,7 +9,7 @@ const useGetTechnologiesRequest = () => {
     try {
       const token = getTokenFromCookie();
 
-      const response = await apiClient.get('/technologies/active?active=true', {
+      const response = await apiClient.get('technologies/active?active=true', {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,

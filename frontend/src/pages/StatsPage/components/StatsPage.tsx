@@ -1,5 +1,4 @@
 import BarChart from '@/modules/BarChart/components/BarChart/BarChart';
-import React from 'react';
 import './StatsPage.scss';
 
 const StatsPage = () => {

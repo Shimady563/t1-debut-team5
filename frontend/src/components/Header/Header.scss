@@ -1,4 +1,4 @@
-@import '../../styles/variables.scss';
+@import '@styles/variables.scss';
 
 .header {
   width: 100%;
@@ -7,8 +7,8 @@
   height: fit-content;
 
   &__container {
-    width: 80vw;
-    max-width: 1280px;
+    width: $content-width;
+    max-width: $content-max-width;
     margin: 0 auto;
 
     padding: 12px 0;

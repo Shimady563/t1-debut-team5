@@ -1,5 +1,6 @@
+import apiClient from '@/globalApi/apiClient';
 import useCheckUser from '@/globalApi/checkUserRequest';
-import axios from 'axios';
+import { setTokenToCookie } from '@/utils/tokenSetter';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -8,21 +9,13 @@ export const useRegister = () => {
   const navigate = useNavigate();
   const registerRequest = async (email: string, password: string) => {
     try {
-      const response: any = await axios(
-        'http://localhost:8080/api/v1/auth/register',
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          method: 'POST',
-          data: { email: email, password, specializationId: 1 },
-        }
-      );
-      document.cookie = `jwt=${
-        response.data.jwtToken
-      }; path=/; SameSite=Lax; Expires=${new Date(
-        Date.now() + 365 * 24 * 60 * 60 * 1000
-      ).toUTCString()}`;
+      const response = await apiClient.post('auth/register', {
+        email,
+        password,
+        specializationId: 1,
+      });
+      setTokenToCookie(response.data.jwtToken);
+
       await checkUser();
 
       navigate('/radar');

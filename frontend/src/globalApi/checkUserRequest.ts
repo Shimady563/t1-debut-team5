@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
-import axios from 'axios';
 import { setUser } from '@/store/UserSlice';
 import { getTokenFromCookie } from '@/utils/tokenGetter';
+import apiClient from './apiClient';
 
 const useCheckUser = () => {
   const dispatch = useDispatch();
@@ -9,16 +9,13 @@ const useCheckUser = () => {
   const checkUser = async () => {
     try {
       const token = getTokenFromCookie();
+      const response = await apiClient.get('users/me', {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-      const response: any = await axios.get(
-        'http://localhost:8080/api/v1/users/me',
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
       dispatch(setUser(response.data));
       localStorage.setItem('isAuth', 'true');
       localStorage.setItem('isAdmin', response.data.admin);

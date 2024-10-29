@@ -1,18 +1,12 @@
-@import '../../../styles/variables.scss';
+@import '@styles/variables.scss';
 
 .admin-page {
-  padding-top: 102px;
-  height: 570px;
+  width: $content-width;
+  max-width: $content-max-width;
 
-  width: 80vw;
   margin: 0 auto;
+  padding-top: 102px;
 
   display: flex;
   justify-content: space-between;
-
-  &__line {
-    height: 100%;
-    width: 2px;
-    background-color: red;
-  }
 }
