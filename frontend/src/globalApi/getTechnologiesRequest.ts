@@ -1,26 +1,21 @@
 import { setTechnologies } from '@/store/TechnologiesStore';
+import { getTokenFromCookie } from '@/utils/tokenGetter';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
+import apiClient from './apiClient';
 
 const useGetTechnologiesRequest = () => {
   const dispatch = useDispatch();
   const getTechnologies = async () => {
     try {
-      const token = document.cookie
-        .split('; ')
-        .find((row) => row.startsWith('jwt='))
-        ?.split('=')[1];
+      const token = getTokenFromCookie();
 
-      const response = await axios(
-        `http://localhost:8080/api/v1/technologies/active?active=true`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          method: 'GET',
-        }
-      );
+      const response = await apiClient.get('/technologies/active?active=true', {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
       dispatch(setTechnologies(response.data));
     } catch (error) {
       console.log(error);

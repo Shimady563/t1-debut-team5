@@ -13,6 +13,7 @@ import { useUserInfo } from '@/store/UserSlice';
 import useCheckUser from '@/globalApi/checkUserRequest';
 import ModalWindow from '@/components/ModalWindow/ModalWindow';
 import TechnologiesChipper from '@/modules/TechnologiesChipper/components/TechnologiesChipper';
+import StatsPage from '@/pages/StatsPage/components/StatsPage';
 
 const App = () => {
   const chekUser = useCheckUser();
@@ -53,6 +54,7 @@ const App = () => {
               <PrivateRoute navPath="radar" isAllowed={isAdmin == 'true'} />
             }
           >
+            <Route element={<StatsPage />} path="/stats" />
             <Route element={<AdminPage />} path="/admin" />
           </Route>
 

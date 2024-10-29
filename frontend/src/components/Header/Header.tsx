@@ -34,13 +34,23 @@ const Header: React.FC<HeaderProps> = ({ onModalClick }) => {
               <NavLink to="/admin">Управление</NavLink>
             </li>
           )}
+          {user.user?.admin && (
+            <li>
+              <NavLink to="/stats">Статистика</NavLink>
+            </li>
+          )}
 
           {!user.isAuth && (
             <li>
               <NavLink to="/login">Войти</NavLink>
             </li>
           )}
-          {user.isAuth && <li onClick={onModalClick}>Технологии</li>}
+          {user.isAuth && (
+            <li style={{ cursor: 'pointer' }} onClick={onModalClick}>
+              Выбор стека
+            </li>
+          )}
+
           {user.isAuth && (
             <Button onClick={onLogoutClick} size="medium">
               Выйти

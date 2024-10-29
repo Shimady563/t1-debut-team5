@@ -1,0 +1,11 @@
+@import '../../../../styles/variables.scss';
+
+.bar-chart {
+  &__title {
+    font-size: $font-size-h1;
+  }
+
+  &__content {
+    height: 400px;
+  }
+}

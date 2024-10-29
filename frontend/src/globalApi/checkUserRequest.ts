@@ -1,17 +1,10 @@
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { setUser } from '@/store/UserSlice';
+import { getTokenFromCookie } from '@/utils/tokenGetter';
 
 const useCheckUser = () => {
   const dispatch = useDispatch();
-
-  const getTokenFromCookie = (): string | null => {
-    const token = document.cookie
-      .split('; ')
-      .find((row) => row.startsWith('jwt='))
-      ?.split('=')[1];
-    return token ? token : null;
-  };
 
   const checkUser = async () => {
     try {

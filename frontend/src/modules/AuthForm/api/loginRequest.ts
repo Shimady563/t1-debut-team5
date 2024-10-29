@@ -21,7 +21,7 @@ export const useLogin = () => {
       document.cookie = `jwt=${
         response.data.jwtToken
       }; path=/; SameSite=Lax; Expires=${new Date(
-        Date.now() + 3600000
+        Date.now() + 365 * 24 * 60 * 60 * 1000
       ).toUTCString()}`;
       await checkUser();
 
