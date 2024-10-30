@@ -9,11 +9,11 @@ import java.util.List;
 
 public interface VoteRepository extends JpaRepository<Vote, Long> {
 
-    @EntityGraph(type = EntityGraph.EntityGraphType.LOAD,
-            attributePaths = {"user", "technology"})
+    @EntityGraph(value = "vote_user_technology_load_graph")
     List<Vote> findFetchAllByTechnology(Technology technology);
 
-    @EntityGraph(type = EntityGraph.EntityGraphType.LOAD,
-            attributePaths = {"user", "technology"})
+    @EntityGraph(value = "vote_user_technology_load_graph")
     List<Vote> findAll();
+
+    void deleteByTechnology(Technology technology);
 }

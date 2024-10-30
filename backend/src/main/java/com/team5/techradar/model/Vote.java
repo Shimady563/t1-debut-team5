@@ -8,6 +8,10 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "vote")
+@NamedEntityGraph(
+        name = "vote_user_technology_load_graph",
+        includeAllAttributes = true
+)
 public class Vote {
 
     @Id
