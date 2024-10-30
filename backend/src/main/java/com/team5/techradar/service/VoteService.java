@@ -56,10 +56,17 @@ public class VoteService {
 
     @Transactional(readOnly = true)
     public List<VoteResponse> getAllVotesByTechnologyId(Long technologyId) {
-        log.info("Getting all technologies by technology id: {}", technologyId);
+        log.info("Getting votes by technology id: {}", technologyId);
         Technology technology = technologyService.getTechnologyById(technologyId);
         return voteRepository.findFetchAllByTechnology(technology).stream()
                 .map((vote) -> mapper.map(vote, VoteResponse.class))
                 .toList();
+    }
+
+    @Transactional
+    public void deleteVotesByTechnologyId(Long technologyId) {
+        log.info("Deleting votes by technology id: {}", technologyId);
+        Technology technology = technologyService.getTechnologyById(technologyId);
+        voteRepository.deleteByTechnology(technology);
     }
 }

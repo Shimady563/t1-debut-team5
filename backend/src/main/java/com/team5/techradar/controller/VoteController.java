@@ -40,4 +40,10 @@ public class VoteController {
     public List<VoteResponse> getAllVotesByTechnologyId(@RequestParam Long technologyId) {
         return voteService.getAllVotesByTechnologyId(technologyId);
     }
+
+    @DeleteMapping("/technology")
+    //@Secured("ROLE_ADMIN")
+    public void deleteVotesByTechnologyId(@RequestParam Long technologyId) {
+        voteService.deleteVotesByTechnologyId(technologyId);
+    }
 }
