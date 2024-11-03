@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './TechnologyEditMenu.scss';
 import TechnologyTypeSelector from '../TechologyTypeSelector/TechnologyTypeSelector';
 import SelectedTypeTechnologies from '../SelectedTypeTechnologies/SelectedTypeTechnologies';
 import TechnologyForm from '../TechnologyForm/TechnologyForm';
-import useGetAllTechnologiesRequest from '@/globalApi/getAllTechnologiesRequest';
+// import useGetAllTechnologiesRequest from '@/globalApi/getAllTechnologiesRequest';
 
 import { useChangeTechnology } from '../../api/changeTechnologyRequest';
 import { useDeleteTechnology } from '../../api/deleteTechnologyRequest';
@@ -12,7 +12,11 @@ const TechnologyEditMenu = () => {
   const [selectedType, setSelectedType] = useState<number>(0);
   const [selectedTechnology, setSelectedTechnology] = useState<number>(-1);
 
-  const getAllTechnologies = useGetAllTechnologiesRequest();
+  // const getAllTechnologies = useGetAllTechnologiesRequest();
+  // useEffect(() => {
+  //   getAllTechnologies();
+  // }, []);
+
   const changeTechnology = useChangeTechnology();
   const deleteTechnology = useDeleteTechnology();
 
@@ -20,10 +24,6 @@ const TechnologyEditMenu = () => {
     deleteTechnology(techId);
     setSelectedTechnology(-1);
   };
-
-  useEffect(() => {
-    getAllTechnologies();
-  }, []);
 
   return (
     <div className="menu">

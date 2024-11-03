@@ -1,26 +1,12 @@
-// @ts-nocheck
-import React, { useEffect, useRef, useState } from 'react';
-import {
-  mockTechnologies,
-  mockLevels,
-  mockElements,
-  mockTypes,
-  mockOptions,
-} from '@/globalConsts';
+//@ts-nocheck
+import { useEffect, useRef, useState } from 'react';
+import { mockLevels, mockTypes, mockOptions } from '@/globalConsts';
 import CustomRadar from '@/libs/CustomRadarLib/CustomRadar';
 import { TweenMax } from 'gsap';
 import './Radar.scss';
 import { useDispatch } from 'react-redux';
-import { setTechnologies } from '@/store/TechnologiesStore';
-import {
-  useTechnologies,
-  useAllTechnologies,
-  useActiveTechnologies,
-} from '@/store/TechnologiesStore';
+import { useActiveTechnologies } from '@/store/TechnologiesStore';
 import TechnologiesList from '@/components/TechnologiesList/TechnologiesList';
-import axios from 'axios';
-import { useTechnologiesRequest } from '../../api/getTechnologiesRequest';
-import useGetTechnologiesRequest from '@/globalApi/getTechnologiesRequest';
 import useGetAllTechnologiesRequest from '@/globalApi/getAllTechnologiesRequest';
 
 const padding = 0;
@@ -28,13 +14,10 @@ const padding = 0;
 const Radar = () => {
   const [options, setOptions] = useState(mockOptions);
   let svgRef = useRef(null);
-  const dispatch = useDispatch();
   const [isExpanded, setIsExpanded] = useState<boolean>(true);
   const [selectedType, setSelectedType] = useState<number>(-1);
 
   const initialTechs = useActiveTechnologies();
-
-  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const [radarDiagram, setRadarDiagram] = useState(
     new CustomRadar(options, {
@@ -43,12 +26,6 @@ const Radar = () => {
       types: mockTypes,
     })
   );
-
-  const getTechnologies = useGetAllTechnologiesRequest();
-
-  useEffect(() => {
-    getTechnologies();
-  }, []);
 
   useEffect(() => {
     setRadarDiagram(

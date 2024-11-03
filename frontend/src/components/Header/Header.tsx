@@ -11,7 +11,6 @@ type HeaderProps = {
 const Header: React.FC<HeaderProps> = ({ onModalClick }) => {
   const user = useUserInfo();
   const logout = useLogout();
-  // const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const onLogoutClick = () => {
     logout();

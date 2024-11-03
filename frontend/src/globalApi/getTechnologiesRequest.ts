@@ -18,7 +18,7 @@ const useGetTechnologiesRequest = () => {
       });
       dispatch(setTechnologies(response.data));
     } catch (error) {
-      toast.error('Упс...Что-то пошло не так');
+      toast.error('Произошла ошибка, попробуйте позднее');
     }
   };
 

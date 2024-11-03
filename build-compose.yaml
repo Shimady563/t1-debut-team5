@@ -14,16 +14,16 @@ services:
       postgres:
         condition: service_healthy
 
-  fronted:
-    container_name: frontend
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    ports:
-      - '5173:5173'
-    depends_on:
-      backend:
-        condition: service_started
+  # fronted:
+  #   container_name: frontend
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - '5173:5173'
+  #   depends_on:
+  #     backend:
+  #       condition: service_started
 
   postgres:
     container_name: postgres

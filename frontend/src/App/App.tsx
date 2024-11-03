@@ -14,6 +14,7 @@ import useCheckUser from '@/globalApi/checkUserRequest';
 import ModalWindow from '@/components/ModalWindow/ModalWindow';
 import TechnologiesChipper from '@/modules/TechnologiesChipper/components/TechnologiesChipper';
 import StatsPage from '@/pages/StatsPage/components/StatsPage';
+import useGetAllTechnologiesRequest from '@/globalApi/getAllTechnologiesRequest';
 
 const App = () => {
   const chekUser = useCheckUser();
@@ -35,6 +36,11 @@ const App = () => {
     isAdmin && setIsUserAdmin(isAdmin);
     console.log(isUserAuth, isUserAdmin);
   }, [user.isAuth]);
+
+  const getAllTechnologies = useGetAllTechnologiesRequest();
+  useEffect(() => {
+    getAllTechnologies();
+  }, []);
 
   return (
     <>
