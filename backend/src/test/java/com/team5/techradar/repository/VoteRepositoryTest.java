@@ -126,6 +126,15 @@ public class VoteRepositoryTest {
     }
 
     @Test
+    public void testFindFetchTechnologyAllByUser() {
+        var foundVotes = voteRepository.findFetchTechnologyAllByUser(user);
+
+        assertThat(foundVotes).hasSize(2)
+                .extracting(Vote::getTechnology)
+                .contains(technology1, technology2);
+    }
+
+    @Test
     public void testDeleteByTechnology() {
         voteRepository.deleteByTechnology(technology1);
 

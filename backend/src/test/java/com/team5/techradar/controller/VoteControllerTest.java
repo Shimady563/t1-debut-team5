@@ -56,6 +56,16 @@ public class VoteControllerTest {
 
     @Test
     @WithMockUser(roles = {"USER", "ADMIN"})
+    public void shouldGetVotesForCurrentUser() throws Exception{
+        mockMvc.perform(get("/votes/user").with(csrf())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        then(voteService).should().getVotesForCurrentUser();
+    }
+
+    @Test
+    @WithMockUser(roles = {"USER", "ADMIN"})
     public void shouldCreateVote() throws Exception {
         var request = new VoteCreationRequest();
         request.setLevel(Level.ADOPT);

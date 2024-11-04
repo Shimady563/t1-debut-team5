@@ -2,6 +2,7 @@ package com.team5.techradar.service;
 
 import com.team5.techradar.exception.ResourceNotFoundException;
 import com.team5.techradar.model.*;
+import com.team5.techradar.model.dto.UserVoteResponse;
 import com.team5.techradar.model.dto.VoteCreationRequest;
 import com.team5.techradar.model.dto.VoteResponse;
 import com.team5.techradar.repository.VoteRepository;
@@ -138,6 +139,31 @@ public class VoteServiceTest {
         voteService.getAllVotesByTechnologyId(technologyId);
 
         then(voteRepository.findFetchAllByTechnology(technology));
+    }
+
+    @Test
+    public void shouldGetVotesForCurrentUser() {
+        var email = "email@mail.com";
+        var user = new User();
+        user.setEmail(email);
+        var vote1 = new Vote();
+        vote1.setLevel(Level.ASSESS);
+        var vote2 = new Vote();
+        vote2.setLevel(Level.ADOPT);
+        var response1 = new UserVoteResponse();
+        response1.setLevel(vote1.getLevel().getValue());
+        var response2 = new UserVoteResponse();
+        response2.setLevel(vote2.getLevel().getValue());
+
+        given(mapper.map(vote1, UserVoteResponse.class)).willReturn(response1);
+        given(mapper.map(vote2, UserVoteResponse.class)).willReturn(response2);
+        given(voteRepository.findFetchTechnologyAllByUser(user)).willReturn(List.of(vote1, vote2));
+        given(userService.getUserEmail()).willReturn(user.getEmail());
+        given(userService.findUserByEmail(user.getEmail())).willReturn(user);
+
+        voteService.getVotesForCurrentUser();
+
+        then(voteRepository).should().findFetchTechnologyAllByUser(user);
     }
 
     @Test

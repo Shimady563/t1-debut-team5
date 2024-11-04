@@ -4,6 +4,7 @@ import com.team5.techradar.exception.ResourceNotFoundException;
 import com.team5.techradar.model.Technology;
 import com.team5.techradar.model.User;
 import com.team5.techradar.model.Vote;
+import com.team5.techradar.model.dto.UserVoteResponse;
 import com.team5.techradar.model.dto.VoteCreationRequest;
 import com.team5.techradar.model.dto.VoteResponse;
 import com.team5.techradar.repository.VoteRepository;
@@ -60,6 +61,14 @@ public class VoteService {
         Technology technology = technologyService.getTechnologyById(technologyId);
         return voteRepository.findFetchAllByTechnology(technology).stream()
                 .map((vote) -> mapper.map(vote, VoteResponse.class))
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<UserVoteResponse> getVotesForCurrentUser() {
+        User user = userService.findUserByEmail(userService.getUserEmail());
+        return voteRepository.findFetchTechnologyAllByUser(user).stream()
+                .map(v -> mapper.map(v, UserVoteResponse.class))
                 .toList();
     }
 
