@@ -3,9 +3,11 @@ package com.team5.techradar.config;
 import com.team5.techradar.map.*;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+@EnableCaching
 @Configuration
 public class GenericConfig {
 

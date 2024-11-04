@@ -10,6 +10,12 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  cache:
+    type: redis
+    redis:
+      time-to-live: 21600000
+      enable-statistics: true
+      cache-null-values: false
   liquibase:
     change-log: classpath:/db/changelog/db-changelog-master.xml
 logging:
