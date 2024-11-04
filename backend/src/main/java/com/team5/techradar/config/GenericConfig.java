@@ -22,6 +22,7 @@ public class GenericConfig {
         mapper.addMappings(new TechnologyStatsResponseMap());
         mapper.addMappings(new VoteCreationRequestMap());
         mapper.addMappings(new VoteResponseMap());
+        mapper.addMappings(new UserVoteResponseMap());
         return mapper;
     }
 }

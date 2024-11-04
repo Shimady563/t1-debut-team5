@@ -71,7 +71,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private String getJWTFromRequest(HttpServletRequest request) {
         String header = request.getHeader(TOKEN_HEADER);
-        if (header != null) {
+        if (header != null && header.startsWith("Bearer ")) {
             return header.substring(7);
         }
         return null;

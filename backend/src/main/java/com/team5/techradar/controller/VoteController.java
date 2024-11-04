@@ -1,5 +1,6 @@
 package com.team5.techradar.controller;
 
+import com.team5.techradar.model.dto.UserVoteResponse;
 import com.team5.techradar.model.dto.VoteCreationRequest;
 import com.team5.techradar.model.dto.VoteResponse;
 import com.team5.techradar.service.VoteService;
@@ -29,6 +30,12 @@ public class VoteController {
         return voteService.getVoteById(id);
     }
 
+    @GetMapping("/user")
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    public List<UserVoteResponse> getAllVotesByUserId() {
+        return voteService.getVotesForCurrentUser();
+    }
+
     @PostMapping("")
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public void createVote(@Valid @RequestBody VoteCreationRequest request) {
@@ -42,7 +49,7 @@ public class VoteController {
     }
 
     @DeleteMapping("/technology")
-    //@Secured("ROLE_ADMIN")
+    @Secured("ROLE_ADMIN")
     public void deleteVotesByTechnologyId(@RequestParam Long technologyId) {
         voteService.deleteVotesByTechnologyId(technologyId);
     }
