@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -27,6 +29,9 @@ public class TestConfig {
 
     @Value("${auth.whitelist}")
     private String[] whitelist;
+
+    @Value("${jwt.secret}")
+    private String secret;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -48,6 +53,9 @@ public class TestConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
+                .csrf(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
@@ -71,7 +79,7 @@ public class TestConfig {
 
     @Bean
     public JwtUtil jwtUtil() {
-        return new JwtUtil();
+        return new JwtUtil(secret);
     }
 
     // overriding the jwt filter to turn it off

@@ -17,7 +17,7 @@ logging:
     root: info
 jwt:
   secret: 12ksafmkhdiucghdinusgnhu12ksafmkhdiucghdinusgnhu
-  tokenLifeTime: 60000000000000
+  tokenLifeTime: 86400000
 server:
   servlet:
     context-path: /api/v1

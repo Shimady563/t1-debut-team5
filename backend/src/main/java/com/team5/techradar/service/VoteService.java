@@ -67,6 +67,7 @@ public class VoteService {
     @Transactional(readOnly = true)
     public List<UserVoteResponse> getVotesForCurrentUser() {
         User user = userService.findUserByEmail(userService.getUserEmail());
+        log.info("Getting votes for user with email: {}", user.getEmail());
         return voteRepository.findFetchTechnologyAllByUser(user).stream()
                 .map(v -> mapper.map(v, UserVoteResponse.class))
                 .toList();

@@ -21,7 +21,7 @@ public class JwtService {
         return jwtUtil.getUserNameFromToken(token);
     }
 
-    public String getRoleNameFromToken(String token) {
+    public Role getRoleFromToken(String token) {
         return jwtUtil.getRoleFromToken(token);
     }
 

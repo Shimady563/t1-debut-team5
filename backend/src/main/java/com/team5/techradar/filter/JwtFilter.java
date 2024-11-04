@@ -2,8 +2,8 @@ package com.team5.techradar.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team5.techradar.model.Role;
-import com.team5.techradar.service.JwtService;
 import com.team5.techradar.model.dto.InvalidTokenResponse;
+import com.team5.techradar.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,22 +40,25 @@ public class JwtFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
         String token = getJWTFromRequest(request);
-        boolean validationResult = jwtService.validate(token);
-        log.info("JWT Token validation result: {}", validationResult);
-        if (validationResult) {
-            String username = jwtService.getUsernameFromToken(token);
-            String role = jwtService.getRoleNameFromToken(token);
-            log.info("User validated, email : {}", username);
-            UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(username, null, List.of(Role.valueOf(role)));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            filterChain.doFilter(request, response);
-        } else {
+
+        if (!jwtService.validate(token)) {
             response.setContentType("application/json");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            String body = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(new InvalidTokenResponse("Invalid token"));
+            String body = objectMapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(new InvalidTokenResponse("Invalid token"));
             response.getWriter().write(body);
+            return;
         }
+
+        String username = jwtService.getUsernameFromToken(token);
+        Role role = jwtService.getRoleFromToken(token);
+
+        log.info("User validated, email : {}", username);
+
+        UsernamePasswordAuthenticationToken authentication =
+                new UsernamePasswordAuthenticationToken(username, null, List.of(role));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        filterChain.doFilter(request, response);
     }
 
     @Override

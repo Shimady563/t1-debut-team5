@@ -25,11 +25,11 @@ repositories {
 }
 
 // Example to configure HTML report
-sonarlintMain {
-	reports {
-		text.enabled = true // default false
-	}
-}
+//sonarlintMain {
+//	reports {
+//		text.enabled = true // default false
+//	}
+//}
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'

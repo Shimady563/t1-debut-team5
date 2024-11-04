@@ -59,6 +59,7 @@ public class TechnologyService {
 
     @Transactional(readOnly = true)
     public List<TechnologyStatsResponse> getAllTechnologiesWithUsageStats() {
+        log.info("Getting all technologies with usage stats");
         return technologyRepository.findAllFetchUsers().stream()
                 .map(t -> mapper.map(t, TechnologyStatsResponse.class))
                 .toList();
