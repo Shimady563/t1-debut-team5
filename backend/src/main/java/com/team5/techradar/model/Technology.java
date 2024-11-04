@@ -44,6 +44,9 @@ public class Technology {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "technologies")
     private List<User> users = new ArrayList<>();
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "technology")
+    private List<Vote> votes = new ArrayList<>();
+
     public void addUser(User user) {
         users.add(user);
     }

@@ -30,6 +30,11 @@ public class UserController {
         return userService.getCurrentUserFetchTechnologies();
     }
 
+//    @GetMapping("/vote")
+//    public UserVoteResponse getCurrentUserWithVotes(@RequestParam Long userId) {
+//        return userService.getCurrentUserWithVotes();
+//    }
+
     @PutMapping("/technology")
     public void modifyTechnologies(@RequestBody List<Long> technologyIds) {
         userService.modifyTechnologies(technologyIds);
