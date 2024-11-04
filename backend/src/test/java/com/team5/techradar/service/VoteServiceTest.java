@@ -138,7 +138,7 @@ public class VoteServiceTest {
 
         voteService.getAllVotesByTechnologyId(technologyId);
 
-        then(voteRepository.findFetchAllByTechnology(technology));
+        then(voteRepository).should().findFetchAllByTechnology(technology);
     }
 
     @Test

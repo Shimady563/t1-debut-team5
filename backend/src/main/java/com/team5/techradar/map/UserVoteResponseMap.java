@@ -2,7 +2,6 @@ package com.team5.techradar.map;
 
 import com.team5.techradar.model.Vote;
 import com.team5.techradar.model.dto.UserVoteResponse;
-import com.team5.techradar.model.dto.VoteResponse;
 import org.modelmapper.PropertyMap;
 
 public class UserVoteResponseMap extends PropertyMap<Vote, UserVoteResponse> {
