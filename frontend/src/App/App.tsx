@@ -15,6 +15,7 @@ import ModalWindow from '@/components/ModalWindow/ModalWindow';
 import TechnologiesChipper from '@/modules/TechnologiesChipper/components/TechnologiesChipper';
 import StatsPage from '@/pages/StatsPage/components/StatsPage';
 import useGetAllTechnologiesRequest from '@/globalApi/getAllTechnologiesRequest';
+import PollsPage from '@/pages/PollsPage/components/PollsPage';
 
 const App = () => {
   const chekUser = useCheckUser();
@@ -53,6 +54,7 @@ const App = () => {
             }
           >
             <Route element={<MainPage />} path="/radar" />
+            <Route element={<PollsPage />} path="/polls" />
           </Route>
 
           <Route

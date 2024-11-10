@@ -32,11 +32,28 @@ export const useActiveTechnologies = (): TTechnology[] => {
   );
 };
 
+export const useFilteredActiveTechnologies = (type: number): TTechnology[] => {
+  const technologies = useSelector(
+    (state: { technologiesData: TTechnology[] }) => state.technologiesData
+  );
+
+  return useMemo(
+    () => technologies.filter((tech) => tech.isActive && tech.type === type),
+    [type, technologies]
+  );
+  // return technologies.filter((tech) => tech.type === type);
+};
+
 export const useFilteredTechnologies = (type: number): TTechnology[] => {
   const technologies = useSelector(
     (state: { technologiesData: TTechnology[] }) => state.technologiesData
   );
-  return technologies.filter((tech) => tech.type === type);
+
+  return useMemo(
+    () => technologies.filter((tech) => tech.type === type),
+    [type, technologies]
+  );
+  // return technologies.filter((tech) => tech.type === type);
 };
 
 export const useTechnologyById = (id: number): TTechnology | undefined => {

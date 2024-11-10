@@ -1,6 +1,8 @@
 import React from 'react';
 import {
+  useActiveTechnologies,
   useAllTechnologies,
+  useFilteredActiveTechnologies,
   useFilteredTechnologies,
 } from '@/store/TechnologiesStore';
 import { groupTechnologies } from './helpers/TechnologiesGrouping';
@@ -13,7 +15,7 @@ type TechnologiesListProps = {
 
 const TechnologiesList: React.FC<TechnologiesListProps> = ({ type }) => {
   const technologies =
-    type == -1 ? useAllTechnologies() : useFilteredTechnologies(type);
+    type == -1 ? useActiveTechnologies() : useFilteredActiveTechnologies(type);
   const groupedTechnologies = groupTechnologies(technologies);
 
   return (

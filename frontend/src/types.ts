@@ -19,6 +19,6 @@ export type TUser = {
 };
 
 export type TLevel = {
-  level: string;
+  label: string;
   slug: string;
 };

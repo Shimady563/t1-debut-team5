@@ -1,0 +1,45 @@
+@import '@styles/variables.scss';
+
+.poll {
+  width: 500px;
+  padding: 16px 24px;
+  border: 2px solid $brand-color;
+  border-radius: 8px;
+  color: #fff;
+  background: rgb(108, 99, 255);
+  background: linear-gradient(
+    329deg,
+    rgba(108, 99, 255, 1) 0%,
+    rgba(108, 99, 255, 1) 44%,
+    rgba(57, 45, 255, 1) 100%
+  );
+
+  &__title {
+    font-size: $font-size-h2;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    &_option {
+      font-weight: 300;
+      padding: 4px 8px;
+      border-radius: 8px;
+      background-color: #ffffff4b;
+      transition: all 0.2s linear;
+
+      &:hover {
+        cursor: pointer;
+        background-color: #ffffff73;
+      }
+      &.voted {
+        background-color: #ffffffaf;
+        font-weight: 600;
+      }
+    }
+  }
+}

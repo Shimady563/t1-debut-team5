@@ -1,0 +1,9 @@
+@import '@styles/variables.scss';
+
+.polls-page {
+  width: $content-width;
+  max-width: $content-max-width;
+
+  padding-top: 102px;
+  margin: 0 auto;
+}
