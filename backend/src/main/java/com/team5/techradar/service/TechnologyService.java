@@ -11,10 +11,10 @@ import com.team5.techradar.repository.TechnologyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -59,7 +59,9 @@ public class TechnologyService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "technologyStats")
     public List<TechnologyStatsResponse> getAllTechnologiesWithUsageStats() {
+        log.info("Getting all technologies with usage stats");
         return technologyRepository.findAllFetchUsers().stream()
                 .map(t -> mapper.map(t, TechnologyStatsResponse.class))
                 .toList();

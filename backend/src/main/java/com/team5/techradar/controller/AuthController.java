@@ -1,10 +1,10 @@
 package com.team5.techradar.controller;
 
 
+import com.team5.techradar.exception.EmailIsOccupiedException;
 import com.team5.techradar.model.dto.JwtResponse;
 import com.team5.techradar.model.dto.UserLoginRequest;
 import com.team5.techradar.model.dto.UserRegistrationRequest;
-import com.team5.techradar.exception.EmailIsOccupiedException;
 import com.team5.techradar.service.AuthService;
 import com.team5.techradar.service.UserService;
 import jakarta.validation.Valid;
@@ -25,13 +25,13 @@ public class AuthController {
 
     @PostMapping("/login")
     public JwtResponse login(@Valid @RequestBody UserLoginRequest userDTO) {
-        log.info("Received login request for user: {}", userDTO);
+        log.info("Received login request for user with email: {}", userDTO.getEmail());
         return authService.authUser(userDTO);
     }
 
     @PostMapping("/register")
     public JwtResponse register(@Valid @RequestBody UserRegistrationRequest userDTO) {
-        log.info("Received register request for user: {}", userDTO);
+        log.info("Received register request for user with email: {}", userDTO.getEmail());
         if (userService.isUserExist(userDTO.getEmail())) {
             throw new EmailIsOccupiedException("Email is already occupied: " + userDTO.getEmail());
         }

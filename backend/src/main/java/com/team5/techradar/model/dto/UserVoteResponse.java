@@ -5,11 +5,8 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class TechnologyResponse {
+public class UserVoteResponse {
     private Long id;
-    private String name;
-    private Integer moved;
     private String level;
-    private Integer type;
-    private Boolean isActive;
+    private TechnologyResponse technology;
 }

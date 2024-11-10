@@ -13,7 +13,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.BDDMockito.then;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -33,7 +32,7 @@ public class SpecializationControllerTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     public void shouldGetAllSpecializations() throws Exception {
-        mockMvc.perform(get("/specializations").with(csrf())
+        mockMvc.perform(get("/specializations")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 

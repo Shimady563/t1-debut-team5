@@ -27,7 +27,7 @@ public class SpecializationRepositoryTest {
 
     @Container
     @ServiceConnection
-    private static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:alpine")
+    private static final PostgreSQLContainer<?> POSTGRES = new PostgreSQLContainer<>("postgres:alpine")
             .withDatabaseName("techradar")
             .withUsername("postgres")
             .withPassword("postgres");

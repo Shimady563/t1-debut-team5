@@ -27,7 +27,7 @@ public class VoteRepositoryTest {
 
     @Container
     @ServiceConnection
-    private static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:alpine")
+    private static final PostgreSQLContainer<?> POSTGRES = new PostgreSQLContainer<>("postgres:alpine")
             .withDatabaseName("techradar")
             .withUsername("postgres")
             .withPassword("postgres");
@@ -123,6 +123,15 @@ public class VoteRepositoryTest {
         assertThat(foundVotes).hasSize(1)
                 .extracting(Vote::getUser, Vote::getTechnology)
                 .contains(tuple(user, technology1));
+    }
+
+    @Test
+    public void testFindFetchTechnologyAllByUser() {
+        var foundVotes = voteRepository.findFetchTechnologyAllByUser(user);
+
+        assertThat(foundVotes).hasSize(2)
+                .extracting(Vote::getTechnology)
+                .contains(technology1, technology2);
     }
 
     @Test

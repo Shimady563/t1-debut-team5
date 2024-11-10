@@ -16,7 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.BDDMockito.given;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -42,7 +41,7 @@ public class AuthControllerTest {
 
         given(authService.authUser(request)).willReturn(response);
 
-        mockMvc.perform(post("/auth/login").with(csrf())
+        mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
@@ -60,7 +59,7 @@ public class AuthControllerTest {
         given(authService.registerNewUser(request)).willReturn(response);
         given(userService.isUserExist(request.getEmail())).willReturn(false);
 
-        mockMvc.perform(post("/auth/register").with(csrf())
+        mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
@@ -76,7 +75,7 @@ public class AuthControllerTest {
 
         given(userService.isUserExist(request.getEmail())).willReturn(true);
 
-        mockMvc.perform(post("/auth/register").with(csrf())
+        mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))

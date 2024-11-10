@@ -1,17 +1,19 @@
 package com.team5.techradar.utils;
 
 import com.team5.techradar.model.Role;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.jackson.io.JacksonDeserializer;
+import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.security.Key;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
@@ -20,66 +22,63 @@ public class JwtUtil {
 
     @Value("${jwt.tokenLifeTime}")
     private String tokenLifeTimeMs;
+    private final Key secret;
 
-    @Value("${jwt.secret}")
-    private String secret;
+    public JwtUtil(@Value("${jwt.secret}") String secret) {
+        this.secret = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
+    }
 
     public String generateAccessToken(String username, Role role) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("role", role);
         Instant start = Instant.now();
-        Duration duration = Duration.ofMillis(Long.parseLong(tokenLifeTimeMs));
-        Instant end = start.plus(duration);
+        Duration tokenLifeTime = Duration.ofMillis(Long.parseLong(tokenLifeTimeMs));
+        Instant end = start.plus(tokenLifeTime);
 
         return Jwts.builder()
-                .setClaims(claims)
                 .setSubject(username)
+                .claim("role", role)
                 .setIssuedAt(Date.from(start))
                 .setExpiration(Date.from(end))
-                .signWith(SignatureAlgorithm.HS256, secret)
+                .signWith(secret, SignatureAlgorithm.HS256)
                 .compact();
     }
 
     public String getUserNameFromToken(String token) {
-        return Jwts.parser()
+        return Jwts.parserBuilder()
                 .setSigningKey(secret)
+                .build()
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
     }
 
-    public String getRoleFromToken(String token) {
-        return (String) Jwts.parser()
+    public Role getRoleFromToken(String token) {
+        return Jwts.parserBuilder()
+                .deserializeJsonWith(new JacksonDeserializer<>(Map.of("role", Role.class)))
                 .setSigningKey(secret)
+                .build()
                 .parseClaimsJws(token)
                 .getBody()
-                .get("role");
+                .get("role", Role.class);
     }
 
     public boolean validateAccessToken(String token) {
         try {
-            Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+            Jwts.parserBuilder()
+                    .setSigningKey(secret)
+                    .build()
+                    .parseClaimsJws(token);
             return true;
-        } catch (JwtException ex) {
-            return false;
+        } catch (ExpiredJwtException e) {
+            log.error("Token expired: {}", e.getMessage());
+        } catch (UnsupportedJwtException e) {
+            log.error("Token unsupported: {}", e.getMessage());
+        } catch (MalformedJwtException e) {
+            log.error("Malformed jwt: {}", e.getMessage());
+        } catch (SignatureException e) {
+            log.error("Invalid signature: {}", e.getMessage());
+        } catch (IllegalArgumentException e) {
+            log.error("Invalid token: {}", e.getMessage());
         }
-    }
-
-    public long getTokenIssuedAt(String token) {
-        return Jwts.parser()
-                .setSigningKey(secret)
-                .parseClaimsJws(token)
-                .getBody()
-                .getIssuedAt()
-                .getTime();
-    }
-
-    public long getTokenExpiration(String token) {
-        return Jwts.parser()
-                .setSigningKey(secret)
-                .parseClaimsJws(token)
-                .getBody()
-                .getExpiration()
-                .getTime();
+        return false;
     }
 }

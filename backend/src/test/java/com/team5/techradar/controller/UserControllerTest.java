@@ -17,7 +17,6 @@ import java.util.List;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,7 +36,7 @@ public class UserControllerTest {
     @Test
     @WithMockUser(roles = {"USER", "ADMIN"})
     public void shouldGetCurrentUser() throws Exception {
-        mockMvc.perform(get("/users/me").with(csrf())
+        mockMvc.perform(get("/users/me")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
@@ -56,7 +55,7 @@ public class UserControllerTest {
 
         given(userService.getCurrentUserFetchTechnologies()).willReturn(response);
 
-        mockMvc.perform(get("/users/technology").with(csrf())
+        mockMvc.perform(get("/users/technology")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
@@ -68,7 +67,7 @@ public class UserControllerTest {
     public void shouldModifyTechnologies() throws Exception {
         var request = List.of(1L, 2L, 3L);
 
-        mockMvc.perform(put("/users/technology").with(csrf())
+        mockMvc.perform(put("/users/technology")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
@@ -82,7 +81,7 @@ public class UserControllerTest {
     public void shouldRemoveTechnologies() throws Exception {
         var request = List.of(1L, 2L, 3L);
 
-        mockMvc.perform(delete("/users/technology").with(csrf())
+        mockMvc.perform(delete("/users/technology")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))

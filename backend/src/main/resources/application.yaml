@@ -10,6 +10,12 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  cache:
+    type: redis
+    redis:
+      time-to-live: 21600000
+      enable-statistics: true
+      cache-null-values: false
   liquibase:
     change-log: classpath:/db/changelog/db-changelog-master.xml
 logging:
@@ -17,7 +23,7 @@ logging:
     root: info
 jwt:
   secret: 12ksafmkhdiucghdinusgnhu12ksafmkhdiucghdinusgnhu
-  tokenLifeTime: 60000000000000
+  tokenLifeTime: 86400000
 server:
   servlet:
     context-path: /api/v1

@@ -3,9 +3,11 @@ package com.team5.techradar.config;
 import com.team5.techradar.map.*;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+@EnableCaching
 @Configuration
 public class GenericConfig {
 
@@ -22,6 +24,7 @@ public class GenericConfig {
         mapper.addMappings(new TechnologyStatsResponseMap());
         mapper.addMappings(new VoteCreationRequestMap());
         mapper.addMappings(new VoteResponseMap());
+        mapper.addMappings(new UserVoteResponseMap());
         return mapper;
     }
 }

@@ -10,8 +10,13 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/tech_radar
       - SPRING_DATASOURCE_PASSWORD=postgres
       - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATA_REDIS_HOST=redis
+      - SPRING_DATA_REDIS_PORT=6379
+      - SPRING_DATA_REDIS_PASSWORD=redis
     depends_on:
       postgres:
+        condition: service_healthy
+      redis:
         condition: service_healthy
 
   # fronted:
@@ -43,5 +48,21 @@ services:
       timeout: 5s
       retries: 5
 
+  redis:
+    container_name: redis
+    image: redis:alpine
+    command: [ "redis-server", "--save", "", "--appendonly", "no", "--requirepass", "redis" ]
+    restart: always
+    volumes:
+      - redis-data:/data
+    expose:
+      - 6379
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
 volumes:
   postgres-data:
+  redis-data:

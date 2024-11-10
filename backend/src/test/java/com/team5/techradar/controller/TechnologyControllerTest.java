@@ -17,7 +17,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.BDDMockito.then;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,7 +36,7 @@ public class TechnologyControllerTest {
     @Test
     @WithMockUser(roles = {"USER", "ADMIN"})
     public void shouldGetAllTechnologies() throws Exception {
-        mockMvc.perform(get("/technologies").with(csrf())
+        mockMvc.perform(get("/technologies")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
@@ -48,7 +47,7 @@ public class TechnologyControllerTest {
     @WithMockUser(roles = {"USER", "ADMIN"})
     public void shouldGetAllTechnologiesByActivity() throws Exception {
 
-        mockMvc.perform(get("/technologies/active").with(csrf())
+        mockMvc.perform(get("/technologies/active")
                         .accept(MediaType.APPLICATION_JSON)
                         .param("active", "true"))
                 .andExpect(status().isOk());
@@ -59,8 +58,8 @@ public class TechnologyControllerTest {
     @Test
     @WithMockUser(roles = {"USER", "ADMIN"})
     public void shouldGetAllTechnologiesWithUsageStats() throws Exception {
-        mockMvc.perform(get("/technologies/usage-stats").with(csrf())
-                .accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/technologies/usage-stats")
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
         then(technologyService).should().getAllTechnologiesWithUsageStats();
@@ -74,7 +73,7 @@ public class TechnologyControllerTest {
         request.setType(Type.DATABASES);
         request.setLevel(Level.ADOPT);
 
-        mockMvc.perform(post("/technologies").with(csrf())
+        mockMvc.perform(post("/technologies")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
@@ -94,7 +93,7 @@ public class TechnologyControllerTest {
         request.setMoved(0);
         request.setIsActive(true);
 
-        mockMvc.perform(put("/technologies/" + id).with(csrf())
+        mockMvc.perform(put("/technologies/" + id)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
@@ -108,7 +107,7 @@ public class TechnologyControllerTest {
     public void shouldDeleteTechnology() throws Exception {
         var id = 1L;
 
-        mockMvc.perform(delete("/technologies/" + id).with(csrf())
+        mockMvc.perform(delete("/technologies/" + id)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
