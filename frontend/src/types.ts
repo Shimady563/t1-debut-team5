@@ -6,6 +6,17 @@ export type TTechnology = {
   type: number; // Номер сегмента
   isActive: boolean;
 };
+export type TUserVoteResponse = {
+  id: number;
+  level: string;
+  technology: TTechnology;
+};
+
+export type TPoll = {
+  technology: TTechnology;
+  isVoted: boolean;
+  level: string;
+};
 
 export type TTechnologiesList = {
   data: TTechnology[];

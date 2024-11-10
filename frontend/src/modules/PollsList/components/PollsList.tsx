@@ -1,44 +1,37 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import './PollsList.scss';
 import Poll from '@/components/Poll/components/Poll';
-
-const mockLevels = [
-  { id: 0, label: 'Adopt', slug: 'Adopt' },
-  { id: 1, label: 'Trial', slug: 'Trial' },
-  { id: 2, label: 'Assess', slug: 'Assess' },
-  { id: 3, label: 'Hold', slug: 'Hold' },
-];
-
-const MockPolls = [
-  {
-    id: 1,
-    technologyId: 1,
-    technologyName: 'React',
-    options: mockLevels,
-    isVoted: false,
-    voteChoise: '',
-  },
-  {
-    id: 2,
-    technologyId: 2,
-    technologyName: 'Java',
-    options: mockLevels,
-    isVoted: true,
-    voteChoise: 'Adopt',
-  },
-];
+import { useAllTechnologies } from '@/store/TechnologiesStore';
+import { useUserVotes } from '../api/getUserVotesRequest';
+import { updateUserVotes } from '../helpers/FilterVotes';
+import { TPoll } from '@/types';
+import { useVoteRequest } from '../api/voteRequest';
+import { mockLevels } from '@/globalConsts';
 
 const PollsList = () => {
+  const techs = useAllTechnologies();
+  const { userVotes, refreshVotes } = useUserVotes();
+  const [polls, setPolls] = useState<TPoll[]>([]);
+  const voteRequest = useVoteRequest();
+
+  useEffect(() => {
+    console.log('refresh');
+    setPolls(updateUserVotes(userVotes, techs));
+  }, [userVotes, techs]);
+
+  const handlePollSubmit = async (techId: number, level: string) => {
+    await voteRequest(level.toUpperCase(), techId);
+    refreshVotes();
+  };
+
   return (
     <div className="poll-list">
-      {MockPolls.map((poll) => (
+      {polls.map((poll, index) => (
         <Poll
-          key={poll.id}
-          title={`Уровень технологии ${poll.technologyName}`}
-          technologyId={poll.technologyId}
+          key={index}
+          poll={poll}
           options={mockLevels}
-          isVoted={poll.isVoted}
-          votedLevel={poll.voteChoise}
+          onVote={handlePollSubmit}
         />
       ))}
     </div>

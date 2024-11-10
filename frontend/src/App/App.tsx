@@ -39,6 +39,7 @@ const App = () => {
   }, [user.isAuth]);
 
   const getAllTechnologies = useGetAllTechnologiesRequest();
+
   useEffect(() => {
     getAllTechnologies();
   }, []);
