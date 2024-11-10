@@ -3,10 +3,7 @@ package com.team5.techradar.service;
 import com.team5.techradar.exception.ResourceNotFoundException;
 import com.team5.techradar.model.Moved;
 import com.team5.techradar.model.Technology;
-import com.team5.techradar.model.dto.TechnologyCreationRequest;
-import com.team5.techradar.model.dto.TechnologyResponse;
-import com.team5.techradar.model.dto.TechnologyStatsResponse;
-import com.team5.techradar.model.dto.TechnologyUpdateRequest;
+import com.team5.techradar.model.dto.*;
 import com.team5.techradar.repository.TechnologyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +12,9 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -65,6 +64,28 @@ public class TechnologyService {
         return technologyRepository.findAllFetchUsers().stream()
                 .map(t -> mapper.map(t, TechnologyStatsResponse.class))
                 .toList();
+    }
+
+    @Transactional(readOnly = true)
+    @Cacheable(value = "voteStats")
+    public List<VoteStatsResponse> getVoteStats() {
+        log.info("Getting vote stats");
+        List<Technology> technologies = technologyRepository.findAllFetchVotes();
+        List<VoteStatsResponse> stats = new ArrayList<>();
+
+        for (Technology technology : technologies) {
+            VoteStatsResponse voteStats = new VoteStatsResponse();
+            voteStats.setTechnology(mapper.map(technology, TechnologyResponse.class));
+            voteStats.setVotes(technology.getVotes().stream()
+                    .collect(Collectors.groupingBy(
+                            v -> v.getLevel().getValue(),
+                            Collectors.counting())
+                    )
+            );
+            stats.add(voteStats);
+        }
+
+        return stats;
     }
 
     @Transactional
