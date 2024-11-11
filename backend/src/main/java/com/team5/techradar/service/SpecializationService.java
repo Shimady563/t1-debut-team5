@@ -33,6 +33,6 @@ public class SpecializationService {
         log.info("Getting all specializations");
         return specializationRepository.findAll().stream()
                 .map(o -> mapper.map(o, SpecializationResponse.class))
-                .collect(Collectors.toList());
+                .toList();
     }
 }

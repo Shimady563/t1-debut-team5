@@ -7,5 +7,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SpecializationResponse {
     private Long id;
-    private String name;
+    private String label;
 }

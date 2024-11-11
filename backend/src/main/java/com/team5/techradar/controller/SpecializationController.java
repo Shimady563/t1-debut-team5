@@ -13,7 +13,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/specializations")
 @RequiredArgsConstructor
-@Secured("ROLE_ADMIN")
 public class SpecializationController {
 
     private final SpecializationService specializationService;
