@@ -11,8 +11,6 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -23,10 +21,10 @@ public class TechnologyKafkaListener {
     @KafkaListener(topics = "externalTechnologyTopic", groupId = "technology")
     public void listenTechnologiesMessage(
             @Header(KafkaHeaders.RECEIVED_KEY) String key,
-            @Payload @Valid List<TechnologyPayload> message,
+            @Payload @Valid TechnologyPayload message,
             @Header(KafkaHeaders.PARTITION) Integer partition
     ) {
-        log.info("Received technologies message from partition {}", partition);
-        integrationService.mapTechnologies(key, message);
+        log.info("Received technology message with name: {}, from partition: {}", message.getName(), partition);
+        integrationService.mapTechnology(key, message);
     }
 }

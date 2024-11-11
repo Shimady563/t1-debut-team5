@@ -5,9 +5,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class TechnologyPayload {
+public class TechnologyPayloadResponse {
     private Long id;
     private String name;
-    private String category;
-    private Long usage;
+    private String level;
+    private Integer type;
 }
