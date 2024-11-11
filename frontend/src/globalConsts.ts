@@ -119,6 +119,20 @@ export const mockTypes = [
   { id: 3, label: 'Tools', slug: 3, color: '#caf' },
 ];
 
+//Types for integration
+export const mockShareTypes = [
+  {
+    id: 0,
+    label: 'Share1',
+    slug: 0,
+    color: '#fa9',
+  },
+  { id: 1, label: 'Share2', slug: 1, color: '#7dc' },
+
+  { id: 2, label: 'Share3', slug: 2, color: '#ad0' },
+  { id: 3, label: 'Share4', slug: 3, color: '#caf' },
+];
+
 export const mockOptions = {
   totalAngle: Math.PI * 2,
   minPlotRadius: 120,
@@ -139,3 +153,5 @@ export const mockStatuses = [
     label: 'Повышено',
   },
 ];
+
+export const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;

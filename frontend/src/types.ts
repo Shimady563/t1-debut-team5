@@ -33,3 +33,10 @@ export type TLevel = {
   label: string;
   slug: string;
 };
+
+export type TType = {
+  id: number;
+  label: string;
+  slug: number;
+  color: string;
+};

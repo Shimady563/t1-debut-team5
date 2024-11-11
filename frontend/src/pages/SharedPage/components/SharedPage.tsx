@@ -1,4 +1,3 @@
-import React from 'react';
 import './SharedPage.scss';
 import SharedRadar from '@/modules/SharedRadar/components/SharedRadar';
 

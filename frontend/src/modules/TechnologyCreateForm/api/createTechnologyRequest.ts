@@ -4,6 +4,10 @@ import { getTokenFromCookie } from '@/utils/tokenGetter';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+/**
+ * Возвращает post-request на создание новой технологии.
+ */
+
 export const useCreateTechnology = () => {
   const getAllTechnologies = useGetAllTechnologiesRequest();
   const navigate = useNavigate();

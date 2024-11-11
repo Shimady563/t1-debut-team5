@@ -4,11 +4,13 @@ import { mockLevels, mockTypes, mockOptions } from '@/globalConsts';
 import CustomRadar from '@/libs/CustomRadarLib/CustomRadar';
 import { TweenMax } from 'gsap';
 import './Radar.scss';
-import { useDispatch } from 'react-redux';
 import { useActiveTechnologies } from '@/store/TechnologiesStore';
 import TechnologiesList from '@/components/TechnologiesList/TechnologiesList';
-import useGetAllTechnologiesRequest from '@/globalApi/getAllTechnologiesRequest';
-import { RADAR_PADDING } from '../../consts';
+import {
+  RADAR_PADDING,
+  TECHNOLOGY_SUBSTR_COUNT,
+  RADAR_BACKGROUND_COLOR,
+} from '../../consts';
 
 const Radar = () => {
   const [options, setOptions] = useState(mockOptions);
@@ -151,7 +153,7 @@ const Radar = () => {
               r={radarDiagram.options.baseDimension / 2}
               cx={radarDiagram.options.baseDimension / 2}
               cy={radarDiagram.options.baseDimension / 2}
-              fill="rgb(181, 191, 255)"
+              fill={RADAR_BACKGROUND_COLOR}
             ></circle>
             {radarDiagram.levelAxes.map((ringAxis: any, id) => (
               <circle
@@ -202,14 +204,14 @@ const Radar = () => {
                 )}
 
                 <text textAnchor="middle" className="radar__dot__label">
-                  {dot.name.substr(0, 15)}
+                  {dot.name.substr(0, TECHNOLOGY_SUBSTR_COUNT)}
                 </text>
               </g>
             ))}
           </svg>
         </div>
         <div className="list">
-          <TechnologiesList type={selectedType} />
+          <TechnologiesList typesList={mockTypes} type={selectedType} />
         </div>
       </div>
     </>

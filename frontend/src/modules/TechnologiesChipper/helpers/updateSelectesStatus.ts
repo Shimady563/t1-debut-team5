@@ -1,3 +1,7 @@
+/**
+ * Получает список всех технологий и технологий за которые проголосовал пользователь. Возвращает список всех технологий с соответсвующем значением поля selected
+ *
+ */
 export function updateSelectedStatus(
   originalArr: any[],
   technologiesArr: any[]

@@ -4,6 +4,9 @@ import { setTokenToCookie } from '@/utils/tokenSetter';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+/**
+ * Возвразает post-request на регистрацию.
+ */
 export const useRegister = () => {
   const checkUser = useCheckUser();
   const navigate = useNavigate();

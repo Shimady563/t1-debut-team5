@@ -1,6 +1,11 @@
 //@ts-nocheck
 import { useEffect, useRef, useState } from 'react';
-import { mockLevels, mockTypes, mockOptions } from '@/globalConsts';
+import {
+  mockLevels,
+  mockTypes,
+  mockOptions,
+  mockShareTypes,
+} from '@/globalConsts';
 import CustomRadar from '@/libs/CustomRadarLib/CustomRadar';
 import './SharedRadar.scss';
 import { useActiveTechnologies } from '@/store/TechnologiesStore';
@@ -125,6 +130,7 @@ const SharedRadar = () => {
             isTechsPassed={true}
             passedTechs={initialTechs}
             type={-1}
+            typesList={mockShareTypes}
           />
         </div>
       </div>

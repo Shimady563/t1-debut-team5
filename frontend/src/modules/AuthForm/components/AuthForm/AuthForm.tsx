@@ -4,6 +4,7 @@ import { FieldValues, useForm } from 'react-hook-form';
 import './AuthForm.scss';
 import { NavLink } from 'react-router-dom';
 import { useLogin } from '../../api/loginRequest';
+import { EMAIL_REGEX } from '@/globalConsts';
 
 const AuthForm = () => {
   const authFormRef = useRef<HTMLFormElement>(null);
@@ -41,7 +42,7 @@ const AuthForm = () => {
             {...register('authLogin', {
               required: 'Обязательное поле',
               pattern: {
-                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                value: EMAIL_REGEX,
                 message: 'Введите корректный e-mail', //!!!
               },
             })}

@@ -4,6 +4,9 @@ import { setTokenToCookie } from '@/utils/tokenSetter';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+/**
+ * Возвращает request на login
+ */
 export const useLogin = () => {
   const checkUser = useCheckUser();
   const navigate = useNavigate();

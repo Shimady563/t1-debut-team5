@@ -7,6 +7,7 @@ import Input from '@/ui/Input/Input';
 import { Toggle } from '@admiral-ds/react-ui';
 import Button from '@/ui/Button/Button';
 import { toast } from 'react-toastify';
+import { statusToName } from '../../helpers/intStatusToName';
 
 type TechnologyFormProps = {
   technologyId: number;
@@ -72,11 +73,6 @@ const TechnologyForm: React.FC<TechnologyFormProps> = ({
   const handleNameChange = (value: string) => {
     setName(value);
   };
-
-  const statusToName = (id?: number) => {
-    const status = mockStatuses.find((el) => el.id == id);
-    return status?.label;
-  }; // TODO: вынести
 
   return (
     <div className="edit-form">

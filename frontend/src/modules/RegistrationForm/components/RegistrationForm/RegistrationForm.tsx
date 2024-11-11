@@ -3,8 +3,8 @@ import './RegistrationForm.scss';
 import Button from '@/ui/Button/Button';
 import { FieldValues, useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
-
 import { useRegister } from '../../api/registerRequest';
+import { EMAIL_REGEX } from '@/globalConsts';
 
 const RegistrationForm = () => {
   const regFormRef = useRef<HTMLFormElement>(null);
@@ -45,7 +45,7 @@ const RegistrationForm = () => {
             {...register('regLogin', {
               required: 'Обязательное поле',
               pattern: {
-                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                value: EMAIL_REGEX,
                 message: 'Введите корректный e-mail', //!!!
               },
             })}

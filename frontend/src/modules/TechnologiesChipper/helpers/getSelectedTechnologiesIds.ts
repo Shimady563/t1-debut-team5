@@ -1,3 +1,7 @@
+/**
+ * Получает список технологий, которые выбрал пользователь. Возвращает массив id этих технологий
+ */
+
 export function getSelectedIds(
   items: { id: number; selected: boolean }[]
 ): number[] {

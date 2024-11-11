@@ -1,3 +1,6 @@
+/**
+ * Получение jwt-токена из cookie
+ */
 export const getTokenFromCookie = (): string | null => {
   const token = document.cookie
     .split('; ')

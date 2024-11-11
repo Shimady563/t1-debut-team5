@@ -3,6 +3,9 @@ import useGetAllTechnologiesRequest from '@/globalApi/getAllTechnologiesRequest'
 import { getTokenFromCookie } from '@/utils/tokenGetter';
 import { toast } from 'react-toastify';
 
+/**
+ * Возвращает put-request на изменение существующей технологии.
+ */
 export const useChangeTechnology = () => {
   const getAllTechnologies = useGetAllTechnologiesRequest();
   const TechnologyEditRequest = async (data: any, id: number) => {

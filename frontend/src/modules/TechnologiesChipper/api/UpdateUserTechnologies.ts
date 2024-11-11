@@ -2,6 +2,9 @@ import apiClient from '@/globalApi/apiClient';
 import { getTokenFromCookie } from '@/utils/tokenGetter';
 import { toast } from 'react-toastify';
 
+/**
+ * Возвращает put-request на обновление стека пользователя.
+ */
 export const useUpdateUserTechnologies = () => {
   const UserTechnologiesUpdateRequest = async (data: number[]) => {
     try {

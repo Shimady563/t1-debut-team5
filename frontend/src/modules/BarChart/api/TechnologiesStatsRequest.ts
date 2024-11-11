@@ -8,6 +8,9 @@ type TechStat = TTechnology & {
   score: number;
 };
 
+/**
+ * Выполняет запрос за статистикой по технологиям. Возвращает статистику
+ */
 export const useGetTechnologiesStats = () => {
   const [stats, setStats] = useState<TechStat[]>([]);
 

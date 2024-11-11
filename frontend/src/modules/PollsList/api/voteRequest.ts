@@ -2,6 +2,9 @@ import apiClient from '@/globalApi/apiClient';
 import { getTokenFromCookie } from '@/utils/tokenGetter';
 import { toast } from 'react-toastify';
 
+/**
+ * Возвращает post-request на отправку голоса.
+ */
 export const useVoteRequest = () => {
   const voteRequest = async (level: string, technologyId: number) => {
     try {

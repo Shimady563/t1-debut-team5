@@ -3,6 +3,9 @@ import useGetAllTechnologiesRequest from '@/globalApi/getAllTechnologiesRequest'
 import { getTokenFromCookie } from '@/utils/tokenGetter';
 import { toast } from 'react-toastify';
 
+/**
+ * Возвращает delete-request на удаление существующей технологии.
+ */
 export const useDeleteTechnology = () => {
   const getAllTechnologies = useGetAllTechnologiesRequest();
   const TechnologyDeleteRequest = async (id: number) => {

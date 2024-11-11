@@ -16,11 +16,17 @@ export const technologiesSlice = createSlice({
   },
 });
 
+/**
+ * Получение всех технологий из store
+ */
 export const useAllTechnologies = () =>
   useSelector(
     (state: { technologiesData: TTechnology[] }) => state.technologiesData
   );
 
+/**
+ * Получение активных технологий из store
+ */
 export const useActiveTechnologies = (): TTechnology[] => {
   const technologies = useSelector(
     (state: { technologiesData: TTechnology[] }) => state.technologiesData
@@ -31,7 +37,9 @@ export const useActiveTechnologies = (): TTechnology[] => {
     [technologies]
   );
 };
-
+/**
+ * Получение активных технологий заданной области из store
+ */
 export const useFilteredActiveTechnologies = (type: number): TTechnology[] => {
   const technologies = useSelector(
     (state: { technologiesData: TTechnology[] }) => state.technologiesData
@@ -43,7 +51,9 @@ export const useFilteredActiveTechnologies = (type: number): TTechnology[] => {
   );
   // return technologies.filter((tech) => tech.type === type);
 };
-
+/**
+ * Получение всех технологий заданной области из store
+ */
 export const useFilteredTechnologies = (type: number): TTechnology[] => {
   const technologies = useSelector(
     (state: { technologiesData: TTechnology[] }) => state.technologiesData
@@ -56,6 +66,9 @@ export const useFilteredTechnologies = (type: number): TTechnology[] => {
   // return technologies.filter((tech) => tech.type === type);
 };
 
+/**
+ * Получение технологии по id из store
+ */
 export const useTechnologyById = (id: number): TTechnology | undefined => {
   const technologies = useSelector(
     (state: { technologiesData: TTechnology[] }) => state.technologiesData

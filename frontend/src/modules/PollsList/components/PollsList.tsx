@@ -15,7 +15,6 @@ const PollsList = () => {
   const voteRequest = useVoteRequest();
 
   useEffect(() => {
-    console.log('refresh');
     setPolls(updateUserVotes(userVotes, techs));
   }, [userVotes, techs]);
 

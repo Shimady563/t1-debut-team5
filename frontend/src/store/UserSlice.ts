@@ -28,10 +28,15 @@ export const userSlice = createSlice({
     },
   },
 });
-
+/**
+ * Получение информации о пользователя из store
+ */
 export const useUserInfo = () =>
   useSelector((state: { userData: IUserState }) => state.userData);
 
+/**
+ * Получение информации об авторизации пользователя из store
+ */
 export const useAuth = () =>
   useSelector((state: { userData: IUserState }) => state.userData.isAuth);
 

@@ -5,22 +5,24 @@ import {
 } from '@/store/TechnologiesStore';
 import { groupTechnologies } from './helpers/TechnologiesGrouping';
 import './TechnologiesList.scss';
-import { mockTypes } from '@/globalConsts';
-import { TTechnology } from '@/types';
+import { TTechnology, TType } from '@/types';
 
 type TechnologiesListProps = {
   type: number;
   isTechsPassed?: boolean;
   passedTechs?: TTechnology[];
+  typesList: TType[];
 };
 
 const TechnologiesList: React.FC<TechnologiesListProps> = ({
   type,
   isTechsPassed,
   passedTechs,
+  typesList,
 }) => {
   const technologies =
     type == -1 ? useActiveTechnologies() : useFilteredActiveTechnologies(type);
+
   const groupedTechnologies = isTechsPassed
     ? passedTechs && groupTechnologies(passedTechs)
     : groupTechnologies(technologies);
@@ -31,7 +33,7 @@ const TechnologiesList: React.FC<TechnologiesListProps> = ({
         Object.entries(groupedTechnologies).map(([key, techs]) => (
           <div key={key} className="tech-list__group">
             <h3 className="tech-list__group_title">
-              {mockTypes[parseInt(key)].label}
+              {typesList[parseInt(key)].label}
             </h3>
             <ul className="tech-list__group_list" key={key}>
               {techs.map((tech) => (

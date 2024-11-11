@@ -2,6 +2,9 @@ import { clearUser } from '@/store/UserSlice';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * Возвращает request на logout
+ */
 export const useLogout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();

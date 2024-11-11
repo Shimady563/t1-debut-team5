@@ -3,6 +3,9 @@ import { getTokenFromCookie } from '@/utils/tokenGetter';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
+/**
+ * Выполняет get-request на получение стека пользователя. Возвращает список технологий в стеке пользователя.
+ */
 export const useUserTechnologies = () => {
   const [userTechnologies, setUserTechnologies] = useState<any>([]);
 

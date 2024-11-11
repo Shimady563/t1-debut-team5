@@ -1,5 +1,9 @@
 import { TTechnology, TUserVoteResponse } from '@/types';
 
+/**
+ * Проверяет за какие технологии уже голсовал пользователь, и возвращает список технологий с соответсвующими полями isVoted и level
+ *
+ */
 export const updateUserVotes = (
   votes: TUserVoteResponse[],
   technology: TTechnology[]
