@@ -1,13 +1,60 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import './RegistrationForm.scss';
 import Button from '@/ui/Button/Button';
 import { FieldValues, useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
 import { useRegister } from '../../api/registerRequest';
 import { EMAIL_REGEX } from '@/globalConsts';
+import DropDown from '@/ui/DropDown/DropDown';
+import {
+  removeValidationError,
+  throwValidationError,
+} from '@/utils/validationErrors';
+
+const mockSpecializations = [
+  {
+    id: 1,
+    label: 'Администратор системы',
+  },
+  {
+    id: 2,
+    label: 'Backend-разработчик',
+  },
+  {
+    id: 3,
+    label: 'Frontend-разработчик',
+  },
+  {
+    id: 4,
+    label: 'Data Scientist',
+  },
+  {
+    id: 5,
+    label: 'Мобильный разработчик',
+  },
+  {
+    id: 6,
+    label: 'DevOps-инженер',
+  },
+  {
+    id: 7,
+    label: 'QA-инженер',
+  },
+  {
+    id: 8,
+    label: 'ML-Инженер',
+  },
+  {
+    id: 9,
+    label: 'Системный аналитик',
+  },
+];
+// import { useSpecializations } from '../../api/getSpecializationsRequest';
 
 const RegistrationForm = () => {
   const regFormRef = useRef<HTMLFormElement>(null);
+  const [specialization, setSpecialization] = useState<number>(-1);
+  // const specializations = useSpecializations();
 
   const registrate = useRegister();
 
@@ -19,7 +66,19 @@ const RegistrationForm = () => {
   const { touchedFields, errors } = formState;
 
   const onSubmit = (data: FieldValues) => {
+    const errorPlace = document.getElementById(
+      'specialization_dropdown_error'
+    ) as HTMLElement;
+    if (specialization === -1) {
+      throwValidationError(errorPlace, 'Обязательное поле');
+      return;
+    }
+    removeValidationError(errorPlace);
     registrate(data.regLogin, data.regPassword);
+  };
+
+  const handleSpecializationSelect = (id: number) => {
+    setSpecialization(id);
   };
 
   return (
@@ -106,8 +165,26 @@ const RegistrationForm = () => {
             </div>
           )}
         </div>
+        <div className="reg-form__form_dropdown">
+          <span className="reg-form__form_dropdown_title">
+            Ваша специализация
+          </span>
+          <DropDown
+            handleSelect={handleSpecializationSelect}
+            title={
+              specialization == -1
+                ? 'Выбрать'
+                : mockSpecializations[specialization - 1].label
+            }
+            options={mockSpecializations}
+          />
+          <div
+            id="specialization_dropdown_error"
+            className="reg-form__form_dropdown_message"
+          ></div>
+        </div>
 
-        <Button type="submit" size="medium">
+        <Button className="reg-form__form_submit" type="submit" size="medium">
           Войти
         </Button>
       </form>

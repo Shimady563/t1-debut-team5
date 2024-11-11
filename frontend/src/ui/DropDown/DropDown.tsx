@@ -1,5 +1,6 @@
 import { Dropdown } from 'react-bootstrap';
 import './DropDown.scss';
+import clsx from 'clsx';
 // import {
 //   setDropdownValueId,
 //   setDropdownValueName,
@@ -8,6 +9,7 @@ import './DropDown.scss';
 export type DropDownProps = {
   options: any;
   title?: string;
+  className?: string;
   handleSelect: (id: number) => void;
 };
 
@@ -15,9 +17,10 @@ const DropDown: React.FC<DropDownProps> = ({
   options,
   title,
   handleSelect,
+  className,
 }) => {
   return (
-    <Dropdown className="dropdown">
+    <Dropdown className={clsx('dropdown', className)}>
       <Dropdown.Toggle className="dropdown__toggle">{title}</Dropdown.Toggle>
 
       <Dropdown.Menu className="dropdown__menu">

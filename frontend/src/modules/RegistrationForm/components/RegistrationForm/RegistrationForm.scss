@@ -64,6 +64,27 @@
         left: 0;
       }
     }
+
+    &_dropdown {
+      margin-top: -8px;
+      position: relative;
+
+      &_title {
+        display: block;
+        margin-bottom: 2px;
+      }
+
+      &_message {
+        font-size: $font-size-text-small;
+        color: red;
+        position: absolute;
+        left: 0;
+      }
+    }
+
+    &_submit {
+      margin-top: 8px;
+    }
   }
 
   &__footer {

@@ -40,3 +40,8 @@ export type TType = {
   slug: number;
   color: string;
 };
+
+export type TSpecialization = {
+  id: number;
+  name: string;
+};
