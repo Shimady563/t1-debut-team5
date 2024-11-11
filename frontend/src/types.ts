@@ -45,3 +45,13 @@ export type TSpecialization = {
   id: number;
   label: string;
 };
+
+export type TVoteStat = {
+  technology: TTechnology;
+  votes: {
+    Assess?: number;
+    Hold?: number;
+    Adopt?: number;
+    Trial?: number;
+  };
+};

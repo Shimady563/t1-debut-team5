@@ -1,0 +1,13 @@
+@import '@styles/variables.scss';
+
+.votes-stats-block {
+  &__title {
+    font-size: $font-size-h1;
+  }
+  &__content {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 300px);
+    justify-content: space-between;
+    row-gap: 24px;
+  }
+}
