@@ -43,5 +43,5 @@ export type TType = {
 
 export type TSpecialization = {
   id: number;
-  name: string;
+  label: string;
 };

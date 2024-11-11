@@ -10,51 +10,12 @@ import {
   removeValidationError,
   throwValidationError,
 } from '@/utils/validationErrors';
-
-const mockSpecializations = [
-  {
-    id: 1,
-    label: 'Администратор системы',
-  },
-  {
-    id: 2,
-    label: 'Backend-разработчик',
-  },
-  {
-    id: 3,
-    label: 'Frontend-разработчик',
-  },
-  {
-    id: 4,
-    label: 'Data Scientist',
-  },
-  {
-    id: 5,
-    label: 'Мобильный разработчик',
-  },
-  {
-    id: 6,
-    label: 'DevOps-инженер',
-  },
-  {
-    id: 7,
-    label: 'QA-инженер',
-  },
-  {
-    id: 8,
-    label: 'ML-Инженер',
-  },
-  {
-    id: 9,
-    label: 'Системный аналитик',
-  },
-];
-// import { useSpecializations } from '../../api/getSpecializationsRequest';
+import { useSpecializations } from '../../api/getSpecializationsRequest';
 
 const RegistrationForm = () => {
   const regFormRef = useRef<HTMLFormElement>(null);
   const [specialization, setSpecialization] = useState<number>(-1);
-  // const specializations = useSpecializations();
+  const availableSpecializations = useSpecializations();
 
   const registrate = useRegister();
 
@@ -74,7 +35,7 @@ const RegistrationForm = () => {
       return;
     }
     removeValidationError(errorPlace);
-    registrate(data.regLogin, data.regPassword);
+    registrate(data.regLogin, data.regPassword, specialization);
   };
 
   const handleSpecializationSelect = (id: number) => {
@@ -174,9 +135,9 @@ const RegistrationForm = () => {
             title={
               specialization == -1
                 ? 'Выбрать'
-                : mockSpecializations[specialization - 1].label
+                : availableSpecializations[specialization - 2].label
             }
-            options={mockSpecializations}
+            options={availableSpecializations}
           />
           <div
             id="specialization_dropdown_error"

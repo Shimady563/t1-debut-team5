@@ -1,5 +1,6 @@
 import apiClient from '@/globalApi/apiClient';
 import useCheckUser from '@/globalApi/checkUserRequest';
+import useGetAllTechnologiesRequest from '@/globalApi/getAllTechnologiesRequest';
 import { setTokenToCookie } from '@/utils/tokenSetter';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -9,17 +10,23 @@ import { toast } from 'react-toastify';
  */
 export const useRegister = () => {
   const checkUser = useCheckUser();
+  const getTechnologies = useGetAllTechnologiesRequest();
+
   const navigate = useNavigate();
-  const registerRequest = async (email: string, password: string) => {
+  const registerRequest = async (
+    email: string,
+    password: string,
+    specializationId: number
+  ) => {
     try {
       const response = await apiClient.post('auth/register', {
         email,
         password,
-        specializationId: 1,
+        specializationId,
       });
       setTokenToCookie(response.data.jwtToken);
-
       await checkUser();
+      await getTechnologies();
 
       navigate('/radar');
     } catch (error) {
