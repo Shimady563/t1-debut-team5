@@ -1,5 +1,5 @@
 import './Header.scss';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useUserInfo } from '@/store/UserSlice';
 import Button from '@/ui/Button/Button';
 import { useLogout } from './api/logoutRequest';
@@ -11,10 +11,15 @@ type HeaderProps = {
 const Header: React.FC<HeaderProps> = ({ onModalClick }) => {
   const user = useUserInfo();
   const logout = useLogout();
+  const location = useLocation();
 
   const onLogoutClick = () => {
     logout();
   };
+
+  if (location.pathname === '/share') {
+    return <></>;
+  }
 
   return (
     <div className="header">
@@ -28,6 +33,7 @@ const Header: React.FC<HeaderProps> = ({ onModalClick }) => {
               <NavLink to="/radar">Радар</NavLink>
             </li>
           )}
+
           {user.user?.admin && (
             <li>
               <NavLink to="/admin">Управление</NavLink>
@@ -42,6 +48,11 @@ const Header: React.FC<HeaderProps> = ({ onModalClick }) => {
           {!user.isAuth && (
             <li>
               <NavLink to="/login">Войти</NavLink>
+            </li>
+          )}
+          {user.isAuth && (
+            <li>
+              <NavLink to="/polls">Голосование</NavLink>
             </li>
           )}
           {user.isAuth && (

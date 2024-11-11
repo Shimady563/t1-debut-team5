@@ -3,19 +3,20 @@ import './TechnologyEditMenu.scss';
 import TechnologyTypeSelector from '../TechologyTypeSelector/TechnologyTypeSelector';
 import SelectedTypeTechnologies from '../SelectedTypeTechnologies/SelectedTypeTechnologies';
 import TechnologyForm from '../TechnologyForm/TechnologyForm';
-// import useGetAllTechnologiesRequest from '@/globalApi/getAllTechnologiesRequest';
-
 import { useChangeTechnology } from '../../api/changeTechnologyRequest';
 import { useDeleteTechnology } from '../../api/deleteTechnologyRequest';
+import {
+  DEFAULT_SELECTED_TECHNOLOGY,
+  DEFAULT_SELECTED_TYPE,
+} from '../../consts';
 
 const TechnologyEditMenu = () => {
-  const [selectedType, setSelectedType] = useState<number>(0);
-  const [selectedTechnology, setSelectedTechnology] = useState<number>(-1);
-
-  // const getAllTechnologies = useGetAllTechnologiesRequest();
-  // useEffect(() => {
-  //   getAllTechnologies();
-  // }, []);
+  const [selectedType, setSelectedType] = useState<number>(
+    DEFAULT_SELECTED_TYPE
+  );
+  const [selectedTechnology, setSelectedTechnology] = useState<number>(
+    DEFAULT_SELECTED_TECHNOLOGY
+  );
 
   const changeTechnology = useChangeTechnology();
   const deleteTechnology = useDeleteTechnology();

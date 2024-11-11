@@ -2,21 +2,39 @@
 import { useEffect, useRef, useState } from 'react';
 import { mockLevels, mockTypes, mockOptions } from '@/globalConsts';
 import CustomRadar from '@/libs/CustomRadarLib/CustomRadar';
-import { TweenMax } from 'gsap';
-import './Radar.scss';
-import { useDispatch } from 'react-redux';
+import './SharedRadar.scss';
 import { useActiveTechnologies } from '@/store/TechnologiesStore';
 import TechnologiesList from '@/components/TechnologiesList/TechnologiesList';
 import useGetAllTechnologiesRequest from '@/globalApi/getAllTechnologiesRequest';
-import { RADAR_PADDING } from '../../consts';
+const RADAR_PADDING = 0;
 
-const Radar = () => {
+const SharedRadar = () => {
   const [options, setOptions] = useState(mockOptions);
   let svgRef = useRef(null);
-  const [isExpanded, setIsExpanded] = useState<boolean>(true);
-  const [selectedType, setSelectedType] = useState<number>(-1);
+  const [initialTechs, setInitialTechs] = useState([]);
 
-  const initialTechs = useActiveTechnologies();
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data && event.data.type === 'setData') {
+        console.log(event.data.data);
+        setInitialTechs((prevState) => [...prevState, ...event.data.data]);
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, []);
+
+  useEffect(() => {
+    console.log(initialTechs);
+    setRadarDiagram(
+      new CustomRadar(options, {
+        elements: initialTechs,
+        levels: mockLevels,
+        types: mockTypes,
+      })
+    );
+  }, [initialTechs, options, mockLevels, mockTypes]);
 
   const [radarDiagram, setRadarDiagram] = useState(
     new CustomRadar(options, {
@@ -26,114 +44,8 @@ const Radar = () => {
     })
   );
 
-  useEffect(() => {
-    setRadarDiagram(
-      new CustomRadar(options, {
-        elements: initialTechs,
-        levels: mockLevels,
-        types: mockTypes,
-      })
-    );
-  }, [initialTechs]);
-
-  const rerenderRadar = (seg: number) => {
-    if (isExpanded) {
-      const segs = Array.isArray(mockTypes)
-        ? mockTypes.find((item) => item.slug === seg)
-        : null;
-
-      const filteredElements = Array.isArray(initialTechs)
-        ? initialTechs.filter(
-            (item) => typeof item.type === 'number' && item.type === seg
-          )
-        : [];
-
-      const newOptions = { ...options };
-      newOptions.totalAngle = Math.PI / 2;
-      setOptions(newOptions);
-
-      const updatedData = {
-        elements: filteredElements,
-        levels: mockLevels,
-        types: segs ? [segs] : [],
-      };
-      setIsExpanded(false);
-      setRadarDiagram(new CustomRadar(newOptions, updatedData));
-    }
-  };
-
-  useEffect(() => {
-    if (options) {
-      let vb;
-      switch (options.totalAngle) {
-        case Math.PI:
-          vb = `${-RADAR_PADDING} ${-RADAR_PADDING} ${
-            radarDiagram.options.baseDimension + 2 * RADAR_PADDING
-          } ${radarDiagram.options.baseDimension / 2 + RADAR_PADDING}`;
-          break;
-        case Math.PI * 2:
-          vb = `${-RADAR_PADDING} ${-RADAR_PADDING} ${
-            radarDiagram.options.baseDimension + 2 * RADAR_PADDING
-          } ${radarDiagram.options.baseDimension + 2 * RADAR_PADDING}`;
-          break;
-        case Math.PI / 2:
-          vb = `${radarDiagram.options.baseDimension / 2} ${-RADAR_PADDING} ${
-            (radarDiagram.options.baseDimension + 2 * RADAR_PADDING) / 2
-          } ${(radarDiagram.options.baseDimension + 2 * RADAR_PADDING) / 2}`;
-          break;
-        default:
-          break;
-      }
-      TweenMax.to(svgRef, 1, { attr: { viewBox: vb } });
-    }
-  }, [options]);
-
-  const radarClickHandler = (e: MouseEvent) => {
-    const clientX = e.clientX;
-    const clientY = e.clientY;
-
-    const svgElement = e.currentTarget as SVGSVGElement;
-
-    const point = new DOMPoint(clientX, clientY);
-
-    const svgPoint = point.matrixTransform(
-      svgElement.getScreenCTM()?.inverse() || new DOMMatrix()
-    );
-
-    const canvasSize = svgElement.width.animVal.value;
-    let segment;
-    if (svgPoint.x < canvasSize / 2) {
-      svgPoint.y < canvasSize / 2 ? (segment = 1) : (segment = 2);
-    } else {
-      svgPoint.y < canvasSize / 2 ? (segment = 0) : (segment = 3);
-    }
-    setSelectedType(segment);
-    rerenderRadar(segment);
-  };
-
-  const expandRadar = () => {
-    const updatedData = {
-      elements: initialTechs,
-      levels: mockLevels,
-      types: mockTypes,
-    };
-
-    const newOptions = { ...options };
-    newOptions.totalAngle = Math.PI * 2;
-    setOptions(newOptions);
-    setSelectedType(-1);
-    setIsExpanded(true);
-    setRadarDiagram(new CustomRadar(newOptions, updatedData));
-  };
-
   return (
     <>
-      {!isExpanded && (
-        <div className="back" onClick={expandRadar}>
-          Развернуть радар
-        </div>
-      )}
-
       <div className="radar">
         <div className="radar-container">
           <svg
@@ -209,11 +121,15 @@ const Radar = () => {
           </svg>
         </div>
         <div className="list">
-          <TechnologiesList type={selectedType} />
+          <TechnologiesList
+            isTechsPassed={true}
+            passedTechs={initialTechs}
+            type={-1}
+          />
         </div>
       </div>
     </>
   );
 };
 
-export default Radar;
+export default SharedRadar;

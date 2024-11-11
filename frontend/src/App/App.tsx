@@ -3,7 +3,7 @@ import AuthPage from '@/pages/AuthPage/components/AuthPage/AuthPage';
 import RegistrationPage from '@/pages/RegistrationPage/components/RegistrationPage/RegistrationPage';
 import PrivateRoute from '@/utils/PrivateRoute';
 import Header from '@/components/Header/Header';
-import { Route, BrowserRouter, Routes } from 'react-router-dom';
+import { Route, BrowserRouter, Routes, Navigate } from 'react-router-dom';
 import MainPage from '@/pages/MainPage/MainPage';
 import AdminPage from '@/pages/AdminPage/components/AdminPage';
 import { ToastContainer } from 'react-toastify';
@@ -16,6 +16,7 @@ import TechnologiesChipper from '@/modules/TechnologiesChipper/components/Techno
 import StatsPage from '@/pages/StatsPage/components/StatsPage';
 import useGetAllTechnologiesRequest from '@/globalApi/getAllTechnologiesRequest';
 import PollsPage from '@/pages/PollsPage/components/PollsPage';
+import SharedPage from '@/pages/SharedPage/components/SharedPage';
 
 const App = () => {
   const chekUser = useCheckUser();
@@ -56,6 +57,7 @@ const App = () => {
           >
             <Route element={<MainPage />} path="/radar" />
             <Route element={<PollsPage />} path="/polls" />
+            <Route element={<SharedPage />} path="/share" />
           </Route>
 
           <Route
@@ -75,6 +77,7 @@ const App = () => {
             <Route element={<AuthPage />} path="/login" />
             <Route element={<RegistrationPage />} path="/reg" />
           </Route>
+          <Route path="*" element={<Navigate to="/radar" replace />} />
         </Routes>
       </BrowserRouter>
       <ModalWindow

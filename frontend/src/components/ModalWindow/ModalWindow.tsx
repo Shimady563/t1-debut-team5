@@ -4,7 +4,6 @@ import clsx from 'clsx';
 
 export type ModalProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   active: boolean;
-  // setActive: (value: boolean) => void;
   handleBackdropClick: () => void;
   children: React.ReactNode;
   className?: string;
