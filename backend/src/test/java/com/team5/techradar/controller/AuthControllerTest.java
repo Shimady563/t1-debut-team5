@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.BDDMockito.given;
@@ -35,6 +36,7 @@ public class AuthControllerTest {
     private UserService userService;
 
     @Test
+    @WithAnonymousUser
     public void shouldLoginUser() throws Exception {
         var request = new UserLoginRequest("test@mail.com", "password123");
         var response = new JwtResponse(request.getEmail(), "fakeToken");
@@ -49,6 +51,7 @@ public class AuthControllerTest {
     }
 
     @Test
+    @WithAnonymousUser
     public void shouldRegisterUser() throws Exception {
         var request = new UserRegistrationRequest();
         request.setSpecializationId(1L);
@@ -67,6 +70,7 @@ public class AuthControllerTest {
     }
 
     @Test
+    @WithAnonymousUser
     public void shouldThrowAnExceptionWhenEmailIsOccupied() throws Exception {
         var request = new UserRegistrationRequest();
         request.setSpecializationId(1L);

@@ -3,9 +3,11 @@ package com.team5.techradar.model.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @NoArgsConstructor
-public class TechnologyResponse {
+public class TechnologyResponse implements Serializable {
     private Long id;
     private String name;
     private Integer moved;

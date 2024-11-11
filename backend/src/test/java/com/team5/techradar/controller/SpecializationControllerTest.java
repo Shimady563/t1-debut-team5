@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -30,7 +31,7 @@ public class SpecializationControllerTest {
     private SpecializationService specializationService;
 
     @Test
-    @WithMockUser(roles = "ADMIN")
+    @WithAnonymousUser
     public void shouldGetAllSpecializations() throws Exception {
         mockMvc.perform(get("/specializations")
                         .accept(MediaType.APPLICATION_JSON))

@@ -37,6 +37,8 @@ public class TechnologyRepositoryTest {
     private final Technology technology2 = new Technology();
     private final Specialization specialization = new Specialization();
     private final User user = new User();
+    private final Vote vote1 = new Vote();
+    private final Vote vote2 = new Vote();
 
     @BeforeEach
     public void setUp() {
@@ -66,6 +68,16 @@ public class TechnologyRepositoryTest {
         entityManager.persist(technology1);
         entityManager.persist(technology2);
         entityManager.persist(user);
+
+        vote1.setLevel(Level.ADOPT);
+        vote1.setTechnology(technology1);
+        vote1.setUser(user);
+        entityManager.persist(vote1);
+
+        vote2.setLevel(Level.ASSESS);
+        vote2.setTechnology(technology2);
+        vote2.setUser(user);
+        entityManager.persist(vote2);
 
         entityManager.flush();
     }
@@ -133,5 +145,14 @@ public class TechnologyRepositoryTest {
         assertThat(foundTechnologies).hasSize(12)
                 .extracting(Technology::getUsers)
                 .contains(technology1.getUsers(), technology2.getUsers());
+    }
+
+    @Test
+    public void testFindAllFetchVotes() {
+        var foundTechnologies = technologyRepository.findAllFetchVotes();
+
+        assertThat(foundTechnologies).hasSize(12)
+                .extracting(Technology::getVotes)
+                .contains(technology1.getVotes(), technology2.getVotes());
     }
 }

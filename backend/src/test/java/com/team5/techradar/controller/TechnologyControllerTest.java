@@ -67,6 +67,16 @@ public class TechnologyControllerTest {
 
     @Test
     @WithMockUser(roles = "ADMIN")
+    public void shouldGetTechnologiesWithVoteStats() throws Exception {
+        mockMvc.perform(get("/technologies/vote-stats")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        then(technologyService).should().getAllTechnologiesWithVoteStats();
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
     public void shouldCreateTechnology() throws Exception {
         var request = new TechnologyCreationRequest();
         request.setName("Redis");

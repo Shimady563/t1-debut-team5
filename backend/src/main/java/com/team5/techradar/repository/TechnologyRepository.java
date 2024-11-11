@@ -17,4 +17,7 @@ public interface TechnologyRepository extends JpaRepository<Technology, Long> {
 
     @Query("select t from Technology t left join fetch t.users")
     List<Technology> findAllFetchUsers();
+
+    @Query("select t from Technology t left join fetch t.votes")
+    List<Technology> findAllFetchVotes();
 }
