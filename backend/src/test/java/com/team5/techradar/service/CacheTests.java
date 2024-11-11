@@ -50,4 +50,14 @@ public class CacheTests {
         assertThat(cacheManager.getCacheNames()).isNotEmpty();
         assertNotNull(cacheManager.getCache("technologyStats"));
     }
+
+    @Test
+    public void testVoteStatsCaching() {
+        technologyService.getAllTechnologiesWithVoteStats();
+        technologyService.getAllTechnologiesWithVoteStats();
+
+        then(technologyRepository).should(times(1)).findAllFetchVotes();
+        assertThat(cacheManager.getCacheNames()).isNotEmpty();
+        assertNotNull(cacheManager.getCache("voteStats"));
+    }
 }

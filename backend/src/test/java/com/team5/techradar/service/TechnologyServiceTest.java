@@ -4,10 +4,8 @@ import com.team5.techradar.exception.ResourceNotFoundException;
 import com.team5.techradar.model.Level;
 import com.team5.techradar.model.Technology;
 import com.team5.techradar.model.Type;
-import com.team5.techradar.model.dto.TechnologyCreationRequest;
-import com.team5.techradar.model.dto.TechnologyResponse;
-import com.team5.techradar.model.dto.TechnologyStatsResponse;
-import com.team5.techradar.model.dto.TechnologyUpdateRequest;
+import com.team5.techradar.model.Vote;
+import com.team5.techradar.model.dto.*;
 import com.team5.techradar.repository.TechnologyRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,8 +15,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -180,5 +181,35 @@ public class TechnologyServiceTest {
         technologyService.getAllTechnologiesWithUsageStats();
 
         then(technologyRepository).should().findAllFetchUsers();
+    }
+
+    @Test
+    public void shouldGetAllTechnologiesWithVoteStats() {
+        var vote1 = new Vote();
+        vote1.setLevel(Level.ADOPT);
+        var vote2 = new Vote();
+        vote2.setLevel(Level.ASSESS);
+        var technology1 = new Technology();
+        technology1.setVotes(List.of(vote1, vote2));
+        var technology2 = new Technology();
+        var technologyResponse1 = new TechnologyResponse();
+        var technologyResponse2 = new TechnologyResponse();
+        var voteMap = Map.of(Level.ADOPT.getValue(), 1L, Level.ASSESS.getValue(), 1L);
+        var response1 = new VoteStatsResponse();
+        response1.setTechnology(technologyResponse1);
+        response1.setVotes(voteMap);
+        var response2 = new VoteStatsResponse();
+        response2.setTechnology(technologyResponse2);
+        response2.setVotes(Map.of());
+
+        given(technologyRepository.findAllFetchVotes()).willReturn(List.of(technology1, technology2));
+        given(mapper.map(technology1, TechnologyResponse.class)).willReturn(technologyResponse1);
+        given(mapper.map(technology2, TechnologyResponse.class)).willReturn(technologyResponse2);
+
+        var result = technologyService.getAllTechnologiesWithVoteStats();
+
+        then(technologyRepository).should().findAllFetchVotes();
+        assertThat(result).hasSize(2)
+                .contains(response1, response2);
     }
 }

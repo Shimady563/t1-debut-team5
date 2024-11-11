@@ -68,7 +68,7 @@ public class TechnologyService {
 
     @Transactional(readOnly = true)
     @Cacheable(value = "voteStats")
-    public List<VoteStatsResponse> getVoteStats() {
+    public List<VoteStatsResponse> getAllTechnologiesWithVoteStats() {
         log.info("Getting vote stats");
         List<Technology> technologies = technologyRepository.findAllFetchVotes();
         List<VoteStatsResponse> stats = new ArrayList<>();

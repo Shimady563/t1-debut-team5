@@ -38,7 +38,7 @@ public class TechnologyController {
     @GetMapping("/vote-stats")
     @Secured("ROLE_ADMIN")
     public List<VoteStatsResponse> getTechnologiesWithVoteStats() {
-        return technologyService.getVoteStats();
+        return technologyService.getAllTechnologiesWithVoteStats();
     }
 
     @PostMapping("")
