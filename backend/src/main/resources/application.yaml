@@ -31,11 +31,8 @@ spring:
           json:
             trusted:
               packages: "*"
-#            type:
-#              mapping: <other service producer dto>:com.team5.techradar.model.dto.TechnologyPayload
-
-#            type:
-#              mapping: com.team5.techradar.model.dto.TechnologyPayloadResponse:<other service consumer dto>
+            type:
+              mapping: TechnologyPayload:com.team5.techradar.model.dto.TechnologyPayload
 logging:
   level:
     root: info

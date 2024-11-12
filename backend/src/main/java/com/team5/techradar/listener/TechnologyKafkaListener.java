@@ -19,10 +19,10 @@ public class TechnologyKafkaListener {
     private final IntegrationService integrationService;
 
     @KafkaListener(topics = "externalTechnologyTopic", groupId = "technology")
-    public void listenTechnologiesMessage(
+    public void listenTechnologyMessage(
             @Header(KafkaHeaders.RECEIVED_KEY) String key,
             @Payload @Valid TechnologyPayload message,
-            @Header(KafkaHeaders.PARTITION) Integer partition
+            @Header(KafkaHeaders.RECEIVED_PARTITION) Integer partition
     ) {
         log.info("Received technology message with name: {}, from partition: {}", message.getName(), partition);
         integrationService.mapTechnology(key, message);

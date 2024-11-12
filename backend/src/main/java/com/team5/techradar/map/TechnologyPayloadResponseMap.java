@@ -17,8 +17,8 @@ public class TechnologyPayloadResponseMap extends PropertyMap<TechnologyPayload,
     private final static Converter<String, Integer> categoryConverter = (context) -> {
         // will be replaced with values from other service
         return switch (context.getSource()) {
-            case "Platform" -> 0;
-            case "Laguages" -> 1;
+            case "Platforms" -> 0;
+            case "Languages" -> 1;
             case "Databases" -> 2;
             default -> 3;
         };
