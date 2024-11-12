@@ -1,4 +1,3 @@
-import React from 'react';
 import './PollsPage.scss';
 import PollsList from '@/modules/PollsList/components/PollsList';
 
