@@ -30,14 +30,14 @@ const TechnologiesList: React.FC<TechnologiesListProps> = ({
   return (
     <div className="tech-list">
       {groupedTechnologies &&
-        Object.entries(groupedTechnologies).map(([key, techs]) => (
-          <div key={key} className="tech-list__group">
+        Object.entries(groupedTechnologies).map(([key, techs], i) => (
+          <div key={i} className="tech-list__group">
             <h3 className="tech-list__group_title">
               {typesList[parseInt(key)].label}
             </h3>
             <ul className="tech-list__group_list" key={key}>
-              {techs.map((tech) => (
-                <li key={tech.id} className="tech-list__group_list_item">
+              {techs.map((tech, i) => (
+                <li key={i} className="tech-list__group_list_item">
                   {tech.name}
                 </li>
               ))}

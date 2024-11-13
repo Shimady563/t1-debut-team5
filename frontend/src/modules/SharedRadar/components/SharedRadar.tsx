@@ -21,8 +21,7 @@ const SharedRadar = () => {
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       if (event.data && event.data.type === 'setData') {
-        console.log(event.data.data);
-        setInitialTechs((prevState) => [...prevState, ...event.data.data]);
+        setInitialTechs(event.data.data);
       }
     };
 
@@ -102,21 +101,7 @@ const SharedRadar = () => {
                 className="radar__dot"
                 style={{ transform: `translate(${dot.x}px, ${dot.y}px)` }}
               >
-                {dot.moved === 0 ? (
-                  <circle r={10} stroke={'#aaa'} fill={dot.color}></circle>
-                ) : dot.moved === 1 ? (
-                  <polygon
-                    stroke={'#aaa'}
-                    points="-10,10 10,10 0,-7.32"
-                    fill={dot.color}
-                  />
-                ) : (
-                  <polygon
-                    stroke={'#aaa'}
-                    points="-10,-10 10,-10 0,7.32"
-                    fill={dot.color}
-                  />
-                )}
+                <circle r={10} stroke={'#aaa'} fill={dot.color}></circle>
 
                 <text textAnchor="middle" className="radar__dot__label">
                   {dot.name.substr(0, 15)}
@@ -130,7 +115,7 @@ const SharedRadar = () => {
             isTechsPassed={true}
             passedTechs={initialTechs}
             type={-1}
-            typesList={mockShareTypes}
+            typesList={mockTypes}
           />
         </div>
       </div>
