@@ -77,6 +77,7 @@ const App = () => {
             <Route element={<AuthPage />} path="/login" />
             <Route element={<RegistrationPage />} path="/reg" />
           </Route>
+
           <Route path="*" element={<Navigate to="/radar" replace />} />
         </Routes>
       </BrowserRouter>
