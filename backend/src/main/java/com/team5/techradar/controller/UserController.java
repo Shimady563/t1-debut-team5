@@ -3,6 +3,8 @@ package com.team5.techradar.controller;
 import com.team5.techradar.model.dto.UserResponse;
 import com.team5.techradar.model.dto.UserTechnologyResponse;
 import com.team5.techradar.service.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
@@ -16,6 +18,8 @@ import java.util.List;
 @RequestMapping("/users")
 @RequiredArgsConstructor
 @Secured({"ROLE_USER", "ROLE_ADMIN"})
+@SecurityRequirement(name = "JWT")
+@Tag(name = "User controller", description = "Позволяет получить информацию о текущем пользователе, а также изменить его технологии")
 public class UserController {
 
     private final UserService userService;

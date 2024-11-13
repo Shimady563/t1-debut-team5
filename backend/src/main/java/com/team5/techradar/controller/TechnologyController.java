@@ -2,6 +2,8 @@ package com.team5.techradar.controller;
 
 import com.team5.techradar.model.dto.*;
 import com.team5.techradar.service.TechnologyService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
@@ -12,6 +14,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/technologies")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "JWT")
+@Tag(name = "Technology controller",
+        description = "Позволяет получить список всех технологий, создать, обновить и удалить технологии, " +
+                "а также получать статистику использования и голосов")
 public class TechnologyController {
 
     private final TechnologyService technologyService;

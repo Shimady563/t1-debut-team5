@@ -7,6 +7,7 @@ import com.team5.techradar.model.dto.UserLoginRequest;
 import com.team5.techradar.model.dto.UserRegistrationRequest;
 import com.team5.techradar.service.AuthService;
 import com.team5.techradar.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 @AllArgsConstructor
 @Slf4j
+@Tag(name = "Auth controller", description = "Позволяет зарегистрироваться в сервисе, войти и получить JWT токен")
 public class AuthController {
     private final AuthService authService;
     private final UserService userService;

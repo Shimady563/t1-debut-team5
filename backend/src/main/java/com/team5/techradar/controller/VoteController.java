@@ -4,6 +4,8 @@ import com.team5.techradar.model.dto.UserVoteResponse;
 import com.team5.techradar.model.dto.VoteCreationRequest;
 import com.team5.techradar.model.dto.VoteResponse;
 import com.team5.techradar.service.VoteService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
@@ -14,6 +16,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/votes")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "JWT")
+@Tag(name = "Vote controller",
+        description = "Позволяет получать список всех голосов, создавать голоса, получать голоса текущего пользователя, " +
+                "получать голоса по технологиям, удалять голоса")
 public class VoteController {
 
     private final VoteService voteService;
