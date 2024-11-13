@@ -15,8 +15,8 @@ import java.util.List;
 public class KafkaTestConfig {
 
     @Bean
-    public NewTopic externalTechnologyTopic() {
-        return TopicBuilder.name("externalTechnologyTopic")
+    public NewTopic skillTopic() {
+        return TopicBuilder.name("skillTopic")
                 .partitions(4)
                 .replicas(1)
                 .build();

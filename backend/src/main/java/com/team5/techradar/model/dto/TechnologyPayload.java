@@ -9,5 +9,5 @@ public class TechnologyPayload {
     private Long id;
     private String name;
     private String category;
-    private Long usage;
+    private Double usageLevel;
 }

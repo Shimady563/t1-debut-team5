@@ -13,7 +13,7 @@ services:
       - SPRING_DATA_REDIS_HOST=redis
       - SPRING_DATA_REDIS_PORT=6379
       - SPRING_DATA_REDIS_PASSWORD=redis
-      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:29093
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
     depends_on:
       postgres:
         condition: service_healthy
@@ -24,7 +24,7 @@ services:
 
   profile:
     container_name: profile
-    image: abrodep/t1-it-profile:latest
+    image: abrodep/t1-it-profile-backend:latest
     ports:
       - '8090:8080'
     depends_on:
@@ -90,16 +90,16 @@ services:
     image: confluentinc/cp-kafka:latest
     restart: always
     expose:
-      - 29093
+      - 9092
     environment:
       - KAFKA_BROKER_ID=1
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:22181
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:29093
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
       - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT
       - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
       - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
     healthcheck:
-      test: [ "CMD", "nc", "-z", "localhost", "29093" ]
+      test: [ "CMD", "nc", "-z", "localhost", "9092" ]
       interval: 10s
       timeout: 5s
       retries: 5

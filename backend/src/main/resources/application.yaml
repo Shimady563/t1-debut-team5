@@ -32,7 +32,7 @@ spring:
             trusted:
               packages: "*"
             type:
-              mapping: TechnologyPayload:com.team5.techradar.model.dto.TechnologyPayload
+              mapping: com.it.backend.dto.request.SkillTechRadarRequest:com.team5.techradar.model.dto.TechnologyPayload
 logging:
   level:
     root: info

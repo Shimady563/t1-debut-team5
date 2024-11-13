@@ -18,7 +18,7 @@ public class TechnologyKafkaListener {
 
     private final IntegrationService integrationService;
 
-    @KafkaListener(topics = "externalTechnologyTopic", groupId = "technology")
+    @KafkaListener(topics = "skillTopic", groupId = "technology")
     public void listenTechnologyMessage(
             @Header(KafkaHeaders.RECEIVED_KEY) String key,
             @Payload @Valid TechnologyPayload message,

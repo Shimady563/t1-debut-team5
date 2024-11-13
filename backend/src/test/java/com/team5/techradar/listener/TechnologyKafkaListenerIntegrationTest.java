@@ -3,9 +3,7 @@ package com.team5.techradar.listener;
 import com.redis.testcontainers.RedisContainer;
 import com.team5.techradar.config.KafkaTestConfig;
 import com.team5.techradar.model.dto.TechnologyPayload;
-import com.team5.techradar.model.dto.TechnologyPayloadResponse;
 import com.team5.techradar.service.IntegrationService;
-import org.apache.kafka.clients.consumer.Consumer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +15,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.test.utils.ContainerTestUtils;
-import org.springframework.kafka.test.utils.KafkaTestUtils;
 import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.time.Duration;
-import java.util.stream.StreamSupport;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.after;
 
@@ -75,15 +68,10 @@ public class TechnologyKafkaListenerIntegrationTest {
         var message = new TechnologyPayload();
         message.setName("Java");
         message.setId(1L);
-        message.setCategory("Laguages");
-        message.setUsage(300L);
-        var receivedMessage = new TechnologyPayloadResponse();
-        receivedMessage.setId(message.getId());
-        receivedMessage.setName(message.getName());
-        receivedMessage.setLevel("Adopt");
-        receivedMessage.setType(1);
+        message.setCategory("Languages");
+        message.setUsageLevel(0.6);
 
-        kafkaTemplate.send("externalTechnologyTopic", partition, key, message);
+        kafkaTemplate.send("skillTopic", partition, key, message);
 
         then(listener).should(after(5000)).listenTechnologyMessage(key, message, partition);
         then(integrationService).should().mapTechnology(key, message);
