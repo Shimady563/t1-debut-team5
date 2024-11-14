@@ -20,7 +20,8 @@ const useCheckUser = () => {
       localStorage.setItem('isAuth', 'true');
       localStorage.setItem('isAdmin', response.data.admin);
     } catch (error) {
-      console.log('Не авторизован(');
+      // localStorage.setItem('isAuth', 'false');
+      // localStorage.setItem('isAdmin', 'false');
     }
   };
 

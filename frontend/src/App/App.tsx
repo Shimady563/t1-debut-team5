@@ -50,6 +50,7 @@ const App = () => {
       <BrowserRouter>
         <Header onModalClick={() => setModalOpen(true)} />
         <Routes>
+          <Route element={<SharedPage />} path="/share" />
           <Route
             element={
               <PrivateRoute navPath="login" isAllowed={isAuth == 'true'} />
@@ -57,7 +58,6 @@ const App = () => {
           >
             <Route element={<MainPage />} path="/radar" />
             <Route element={<PollsPage />} path="/polls" />
-            <Route element={<SharedPage />} path="/share" />
           </Route>
 
           <Route
@@ -77,6 +77,7 @@ const App = () => {
             <Route element={<AuthPage />} path="/login" />
             <Route element={<RegistrationPage />} path="/reg" />
           </Route>
+
           <Route path="*" element={<Navigate to="/radar" replace />} />
         </Routes>
       </BrowserRouter>
