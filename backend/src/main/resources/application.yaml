@@ -18,6 +18,21 @@ spring:
       cache-null-values: false
   liquibase:
     change-log: classpath:/db/changelog/db-changelog-master.xml
+  kafka:
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: technology
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: "*"
+            type:
+              mapping: com.it.backend.dto.request.SkillTechRadarRequest:com.team5.techradar.model.dto.TechnologyPayload
 logging:
   level:
     root: info
